@@ -1,0 +1,19 @@
+.tag-type {
+    background-color: rgb(216, 55, 55);
+    font-size: 10px;
+    font-weight: 500;
+    border-radius: 4px;
+    padding: 2px;
+    color: var(--blanco);
+}
+
+.btn:focus,
+.btn:hover {
+    outline:1px solid  transparent;
+    border: 1px solid transparent;
+}
+.card-header{
+    background-color: #345B63;
+    /* background-color: #152D35; */
+    color: var(--blanco);
+}

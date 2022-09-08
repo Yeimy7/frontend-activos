@@ -1,0 +1,16 @@
+:root {
+    --font-size-h2: calc(1em + 1vw);
+    --blanco: #ffffff;
+    --negro: #000000;
+    --gray: #EDE6DB;
+    --gray2: #bdbfc4;
+    --gray3: #7a7c7d;
+    --gray4: #d4d4d4c4;
+    --gray5: #EEEEEE;
+    --cerceta: #417D7A;
+    --cerceta2: #1D5C63;
+    --cerceta3: #1A3C40;
+    --blue: #2CB4FF;
+    --headingFont: 'Raleway', sans-serif;
+    --textFont: 'Roboto', sans-serif;
+}

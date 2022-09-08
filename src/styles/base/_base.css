@@ -1,0 +1,43 @@
+* {
+    padding: 0;
+}
+
+*,
+*::before,
+::after {
+    box-sizing: border-box;
+    margin: 0;
+}
+
+html {
+    box-sizing: border-box;
+    height: 100%;
+    /* // font-size: 62.5%;  */
+}
+
+body {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+    background-color: var(--gray5);
+    font-size: 16px;
+    /* // font-size: 1.6rem; */
+    font-family: var(--textFont);
+    overflow-x: hidden;
+}
+
+button,
+button:focus,
+button:hover {
+    outline: none;
+    border: transparent;
+}
+
+ul {
+    list-style: none;
+}
+
+a:link,
+a:visited,
+a:active {
+    text-decoration: none;
+}
