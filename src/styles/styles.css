@@ -2,8 +2,9 @@
 @import './base/_base.css';
 
 
-@import './pages/_login.css';
 @import './components/ui/_navbar.css';
 @import './components/ui/_sidebar.css';
 @import './components/ui/_pageContainer.css';
+@import './pages/_login.css';
 @import './pages/_personalData.css';
+@import './components/_modal.css';

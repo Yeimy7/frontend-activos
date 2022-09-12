@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { FaSearch } from "react-icons/fa";
 import { CardUser } from "../components/CardUser";
+import { ModalUserRegister } from "../components/modals/ModalUserRegister";
 
 export const UserManagment = () => {
+  const [modalCreateUser, setModalCreateUser] = useState(false);
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -14,9 +16,8 @@ export const UserManagment = () => {
                 Gestion usuarios
                 <button
                   type="button"
-                  data-toggle="modal"
-                  data-target="#crearusuario"
                   className="btn btn-primary mx-4"
+                  onClick={() => setModalCreateUser(true)}
                 >
                   Crear usuario
                 </button>
@@ -26,20 +27,24 @@ export const UserManagment = () => {
         </div>
         {/* /.container-fluid */}
       </section>
+      <ModalUserRegister
+        stateModal={modalCreateUser}
+        setStateModal={setModalCreateUser}
+      />
       <section>
         <div className="container-fluid">
           <div className="card card-success">
             <div className="card-header">
               <h3 className="card-title">Buscar usuario</h3>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3">
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Ingrese nombre de usuario"
                   aria-label="Buscador de usuario"
                   aria-describedby="button-addon2"
                 />
-                <button class="btn btn-light" type="button" id="button-addon2">
+                <button className="btn btn-light" type="button" id="button-addon2">
                   <i className="">
                     <FaSearch />
                   </i>
@@ -47,7 +52,7 @@ export const UserManagment = () => {
               </div>
             </div>
             <div className="card-body">
-              <div id="usuarios" class="row d-flex align-items-stretch" >
+              <div id="usuarios" className="row d-flex align-items-stretch">
                 <CardUser />
                 <CardUser />
                 <CardUser />

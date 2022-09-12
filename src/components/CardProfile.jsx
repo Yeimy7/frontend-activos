@@ -1,7 +1,7 @@
 import React from "react";
 import user from "../assets/user.jpg";
 
-export const CardProfile = () => {
+export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
   return (
     <div className="card card-success card-outline mb-3">
       <div className="card-body box-profile">
@@ -20,6 +20,7 @@ export const CardProfile = () => {
             data-toggle="modal"
             data-target="#cambiofoto"
             className="btn btn-primary btn-small"
+            onClick={() => setStateModalAvatar(true)}
           >
             Cambiar avatar
           </button>
@@ -57,7 +58,11 @@ export const CardProfile = () => {
               Administrador
             </span>
           </li>
-          <button type="button" className="btn btn-outline-warning btn-sm">
+          <button
+            type="button"
+            className="btn btn-outline-warning btn-sm"
+            onClick={() => setStateModalPassword(true)}
+          >
             Cambiar password
           </button>
         </ul>

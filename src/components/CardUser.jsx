@@ -7,7 +7,7 @@ export const CardUser = () => {
       <div className="col-12 col-sm-6 col-md-4 d-flex align-items-stretch p-1">
         <div className="card text-bg-light">
           <div className="card-header text-muted border-bottom-0 text-bg-light">
-            <span class="badge text-bg-primary">Tecnico</span>
+            <span className="badge text-bg-primary">Tecnico</span>
           </div>
           <div className="card-body pt-0">
             <div className="row">
@@ -46,7 +46,7 @@ export const CardUser = () => {
                 </ul>
               </div>
               <div className="col-5 text-center">
-                <img src={user} alt className="img-fluid img-thumbnail" />
+                <img src={user} alt='picture-profile' className="img-fluid img-thumbnail" />
               </div>
             </div>
           </div>

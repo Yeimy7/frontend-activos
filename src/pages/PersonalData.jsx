@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { CardDataUser } from "../components/CardDataUser";
 import { CardEditDataUser } from "../components/CardEditDataUser";
 import { CardProfile } from "../components/CardProfile";
+import { ModalChangeAvatar } from "../components/modals/ModalChangeAvatar";
+import { ModalChangePassword } from "../components/modals/ModalChangePassword";
 
 export const PersonalData = () => {
+  const [modalChangeAvatar, setModalChangeAvatar] = useState(false);
+  const [modalChangePassword, setModalChangePassword] = useState(false);
+
   return (
     <div className="content-wrapper">
       {/* Content Header (Page header) */}
@@ -15,16 +20,24 @@ export const PersonalData = () => {
           </div>
         </div>
       </section>
+      <ModalChangeAvatar
+        stateModal={modalChangeAvatar}
+        setStateModal={setModalChangeAvatar}
+      />
+      <ModalChangePassword
+        stateModal={modalChangePassword}
+        setStateModal={setModalChangePassword}
+      />
       <section>
         <div className="content">
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-3">
-                <CardProfile/>
-                <CardDataUser/>
+                <CardProfile setStateModalAvatar={setModalChangeAvatar} setStateModalPassword={setModalChangePassword} />
+                <CardDataUser />
               </div>
               <div className="col-md-9">
-               <CardEditDataUser/>
+                <CardEditDataUser />
               </div>
             </div>
           </div>
