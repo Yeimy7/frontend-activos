@@ -5,12 +5,12 @@ import { Login } from "../../pages/Login";
 import { ResetPassword } from "../../pages/ResetPassword";
 import { publicRoutes } from "../routes";
 
-export const AuthRoutes = ({ stateUser, setStateUser }) => {
+export const AuthRoutes = () => {
   return (
     <NotFoundComponent>
       <Route
         path={publicRoutes.LOGIN}
-        element={<Login setStateUser={setStateUser} stateUser={stateUser} />}
+        element={<Login />}
       />
       <Route path={publicRoutes.RESET_PASSWORD} element={<ResetPassword />} />
     </NotFoundComponent>

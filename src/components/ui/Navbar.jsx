@@ -1,19 +1,24 @@
-import React, { useContext } from "react";
-import { FaBars } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import sidebarContext from "../../context/sidebar/sidebarContext";
+import React, { useContext, useEffect } from 'react';
+import { FaBars } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import AuthContext from '../../context/autentication/authContext';
+import sidebarContext from '../../context/sidebar/sidebarContext';
 
 export const Navbar = () => {
   //Obtener el state de sidebar
   const sidebarsContext = useContext(sidebarContext);
   const { extended, changeSidebarMode } = sidebarsContext;
 
+  // Extraer informacin de autenticacion
+  const authContext = useContext(AuthContext);
+  const { logout } = authContext;
+
   const toogleMenu = () => {
     changeSidebarMode();
   };
   return (
     <nav
-      className={`navbar navbar-expand-lg  p-0 ${!extended ? "nav-close" : ""}`}
+      className={`navbar navbar-expand-lg  p-0 ${!extended ? 'nav-close' : ''}`}
     >
       <div className="container-fluid py-3">
         <button className="btn p-1 me-3" onClick={toogleMenu}>
@@ -29,9 +34,9 @@ export const Navbar = () => {
           </ul>
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <Link className="nav-link" to="/auth/login">
+              <button className="btn btn-nav-link" onClick={() => logout()}>
                 Cerrar Sesión
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

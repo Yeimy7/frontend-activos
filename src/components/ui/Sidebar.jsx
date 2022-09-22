@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
-import { Link } from "react-router-dom";
-import logo from "../../assets/logo.jpg";
-import user from "../../assets/user.jpg";
+import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
+import logo from '../../assets/logo.jpg';
+import imageUser from '../../assets/user.jpg';
 import {
   FaBook,
   FaBuilding,
@@ -16,28 +16,37 @@ import {
   FaUsers,
   FaUserTie,
   FaWarehouse,
-} from "react-icons/fa";
+} from 'react-icons/fa';
 import {
   RiBarChartFill,
   RiCommunityFill,
   RiFileChartFill,
   RiFileHistoryFill,
   RiArrowDownSLine,
-} from "react-icons/ri";
+} from 'react-icons/ri';
 import {
   MdAssignmentInd,
   MdAssignmentReturn,
   MdAssignmentReturned,
   MdAssignmentTurnedIn,
-} from "react-icons/md";
-import sidebarContext from "../../context/sidebar/sidebarContext";
-import { privateRoutes } from "../../routers/routes";
+} from 'react-icons/md';
+import sidebarContext from '../../context/sidebar/sidebarContext';
+import AuthContext from '../../context/autentication/authContext';
+import { privateRoutes } from '../../routers/routes';
+import { useEffect } from 'react';
 
 export const Sidebar = () => {
   //Obtener el state de sidebar
   const sidebarsContext = useContext(sidebarContext);
   const { extended } = sidebarsContext;
 
+  // Extraer informacin de autenticacion
+  const authContext = useContext(AuthContext);
+  const { user, loggedIn } = authContext;
+
+  useEffect(() => {
+    loggedIn();
+  }, []);
   const [arrows, setArrows] = useState({
     arrow0: false,
     arrow1: false,
@@ -49,7 +58,7 @@ export const Sidebar = () => {
   });
   return (
     <aside>
-      <div className={`sidebar ${!extended ? "close" : ""}`}>
+      <div className={`sidebar ${!extended ? 'close' : ''}`}>
         <div className="logo-details">
           <div className="badgee__logo">
             <img alt="logo-institucion" src={logo} />
@@ -59,7 +68,7 @@ export const Sidebar = () => {
           </span>
         </div>
         <ul className="nav-links">
-          <li className={arrows.arrow0 ? "showMenu" : ""}>
+          <li className={arrows.arrow0 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -91,7 +100,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow1 ? "showMenu" : ""}>
+          <li className={arrows.arrow1 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -141,7 +150,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow2 ? "showMenu" : ""}>
+          <li className={arrows.arrow2 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -167,7 +176,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow3 ? "showMenu" : ""}>
+          <li className={arrows.arrow3 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -199,7 +208,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow4 ? "showMenu" : ""}>
+          <li className={arrows.arrow4 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -225,7 +234,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow5 ? "showMenu" : ""}>
+          <li className={arrows.arrow5 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -263,7 +272,7 @@ export const Sidebar = () => {
             </ul>
           </li>
 
-          <li className={arrows.arrow6 ? "showMenu" : ""}>
+          <li className={arrows.arrow6 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">
                 <i>
@@ -291,11 +300,19 @@ export const Sidebar = () => {
           <li>
             <div className="profile-details">
               <div className="profile-content">
-                <img src={user} alt="profileImg" />
+                <img
+                  src={
+                    user?.usuario[0]?.avatar ? user?.usuario[0]?.avatar : imageUser
+                  }
+                  alt="profileImg"
+                />
               </div>
               <div className="name-job">
-                <div className="profile_name"> Gabriela Limachi</div>
-                <div className="job">Administrador</div>
+                <div className="profile_name">
+                  {' '}
+                  {`${user?.persona[0]?.nombres} ${user?.persona[0]?.apellidos}`}
+                </div>
+                <div className="job">{user?.usuario[0]?.rol.nombre_rol}</div>
               </div>
             </div>
           </li>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { NotFoundComponent } from "../../components/NotFoundComponent";
 import { Home } from "../../pages/Home";
@@ -8,12 +8,6 @@ import { PrivateRouter } from "./PrivateRouter";
 import { PublicRouter } from "./PublicRouter";
 
 export const MainRouter = () => {
-  const [stateUser, setStateUser] = useState({
-    isLogged: true,
-    isVerified: true,
-  });
-  const { isLogged } = stateUser;
-
   return (
     <BrowserRouter>
       <NotFoundComponent>
@@ -22,16 +16,16 @@ export const MainRouter = () => {
         <Route
           path="/auth/*"
           element={
-            <PublicRouter isLogged={isLogged}>
-              <AuthRoutes setStateUser={setStateUser} stateUser={stateUser} />
+            <PublicRouter>
+              <AuthRoutes />
             </PublicRouter>
           }
         />
         <Route
           path="/*"
           element={
-            <PrivateRouter isLogged={isLogged}>
-              <AppRoutes isLogged={isLogged} />
+            <PrivateRouter>
+              <AppRoutes />
             </PrivateRouter>
           }
         />

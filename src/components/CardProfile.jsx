@@ -1,7 +1,15 @@
-import React from "react";
-import user from "../assets/user.jpg";
+import React, { useContext, useEffect } from 'react';
+import iamgeUser from '../assets/user.jpg';
+import AuthContext from '../context/autentication/authContext';
 
 export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
+  // Extraer informacin de autenticacion
+  const authContext = useContext(AuthContext);
+  const { user, loggedIn } = authContext;
+
+  useEffect(() => {
+    loggedIn();
+  }, []);
   return (
     <div className="card card-success card-outline mb-3">
       <div className="card-body box-profile">
@@ -9,8 +17,10 @@ export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
           <img
             id="avatar2"
             className="img-fluid img-thumbnail mw-50"
-            style={{ width: "200px" }}
-            src={user}
+            style={{ width: '200px' }}
+            src={
+              user?.usuario[0]?.avatar ? user?.usuario[0]?.avatar : imageUser
+            }
             alt="profile-picture"
           />
         </div>
@@ -34,28 +44,22 @@ export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
           id="nombre_us"
           className="profile-username text-center text-success"
         >
-          Nombre
+          {user?.persona[0]?.nombres}
         </h3>
         <p id="apellidos_us" className="text-muted text-center">
-          Apellidos
+          {user?.persona[0]?.apellidos}
         </p>
         <ul className="list-group list-group-unbordered mb-3">
           <li className="list-group-item">
-            <b style={{ color: "#0B7300" }}>Edad</b>
-            <p id="edad" className="float-end d-inline-block">
-              20
+            <b style={{ color: '#0B7300' }}>CI</b>
+            <p id="ci" className="float-end d-inline-block">
+              {user?.persona[0]?.ci}
             </p>
           </li>
           <li className="list-group-item">
-            <b style={{ color: "#0B7300" }}>DNI</b>
-            <p id="dni_us" className="float-end d-inline-block">
-              000000
-            </p>
-          </li>
-          <li className="list-group-item">
-            <b style={{ color: "#0B7300" }}>Tipo Usuario</b>
+            <b style={{ color: '#0B7300' }}>Tipo Usuario</b>
             <span id="us_tipo" className="float-end d-inline-block tag-type">
-              Administrador
+              {user?.usuario[0]?.rol.nombre_rol}
             </span>
           </li>
           <button

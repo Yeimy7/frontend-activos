@@ -1,14 +1,26 @@
 // import "./App.css";
-import * as bootstrap from 'bootstrap'
-import 'bootstrap/dist/css/bootstrap.min.css'
+import * as bootstrap from 'bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import tokenAuth from './config/token';
+import AlertaState from './context/alertas/alertaState';
+import AuthState from './context/autentication/authState';
 import SidebarState from './context/sidebar/sidebarState';
-import { MainRouter } from "./routers/routing/MainRouter";
+import { MainRouter } from './routers/routing/MainRouter';
+//Revisar si tenemos un token
+const token = localStorage.getItem('token');
+if (token) {
+  tokenAuth(token);
+}
 
 function App() {
   return (
-    <SidebarState>
-      <MainRouter />
-    </SidebarState>
+    <AlertaState>
+      <AuthState>
+        <SidebarState>
+          <MainRouter />
+        </SidebarState>
+      </AuthState>
+    </AlertaState>
   );
 }
 

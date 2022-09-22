@@ -11,11 +11,13 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.6",
+    "axios": "^0.27.2",
     "bootstrap": "^5.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.4.0",
-    "react-router-dom": "^6.3.0"
+    "react-router-dom": "^6.3.0",
+    "sweetalert2": "^11.4.32"
   },
   "devDependencies": {
     "@types/react": "^18.0.17",
