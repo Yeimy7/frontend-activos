@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import iamgeUser from '../assets/user.jpg';
+import imageUser from '../assets/user.jpg';
 import AuthContext from '../context/autentication/authContext';
 
 export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {

@@ -5,12 +5,9 @@ import { publicRoutes } from '../routes';
 
 export const PrivateRouter = ({ children }) => {
   const AuthContext = useContext(authContext);
-  const { autenticate, loading, loggedIn } = AuthContext;
+  const { autenticate, loading } = AuthContext;
 
-  useEffect(() => {
-    loggedIn();
-  }, []);
-  return autenticate && !loading ? (
+  return autenticate && loading === false ? (
     children
   ) : (
     <Navigate replace to={`/auth/${publicRoutes.LOGIN}`} />

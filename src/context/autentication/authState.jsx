@@ -1,11 +1,9 @@
 import { useReducer } from 'react';
-import { authReducer } from './authReducer';
-import authContext from './authContext';
 import clienteAxios from '../../config/axios';
+import authContext from './authContext';
+import { authReducer } from './authReducer';
 import tokenAuth from '../../config/token';
 import {
-  REGISTRO_EXITOSO,
-  REGISTRO_ERROR,
   OBTENER_USUARIO,
   LOGIN_EXITOSO,
   LOGIN_ERROR,
@@ -22,20 +20,6 @@ const AuthState = (props) => {
   };
 
   // Funciones
-  const registerUser = async (datos) => {
-    try {
-      const response = await clienteAxios.post('/api/users', datos);
-      console.log(response);
-      dispatch({
-        type: REGISTRO_EXITOSO,
-      });
-    } catch (error) {
-      console.log(error);
-      dispatch({
-        type: REGISTRO_ERROR,
-      });
-    }
-  };
 
   //Retorna el usuario autenticado
   const loggedIn = async () => {
@@ -50,7 +34,6 @@ const AuthState = (props) => {
         payload: respuesta.data.user,
       });
     } catch (error) {
-      console.log(error);
       dispatch({
         type: LOGIN_ERROR,
       });
@@ -95,7 +78,6 @@ const AuthState = (props) => {
         user: state.user,
         message: state.message,
         loading: state.loading,
-        registerUser,
         loggedIn,
         login,
         logout

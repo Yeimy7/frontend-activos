@@ -5,13 +5,9 @@ import { privateRoutes } from '../routes';
 
 export const PublicRouter = ({ children }) => {
   const AuthContext = useContext(authContext);
-  const { autenticate, loading, loggedIn } = AuthContext;
+  const { autenticate, loading } = AuthContext;
 
-  useEffect(() => {
-    loggedIn;
-  }, []);
-
-  return !autenticate && !loading ? (
+  return !autenticate? (
     children
   ) : (
     <Navigate replace to={`/${privateRoutes.APP_HOME}`} />

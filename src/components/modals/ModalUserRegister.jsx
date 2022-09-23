@@ -1,7 +1,8 @@
 import React from 'react';
+import { useEffect } from 'react';
 import { useContext } from 'react';
 import AlertaContext from '../../context/alertas/alertaContext';
-import AuthContext from '../../context/autentication/authContext';
+import UserContext from '../../context/users/userContext';
 import { useForm } from '../../hooks/useForm';
 import { Modal } from './Modal';
 
@@ -10,8 +11,14 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const authContext = useContext(AuthContext);
-  const { registerUser } = authContext;
+  const userContext = useContext(UserContext);
+  const { message, addUser } = userContext;
+
+  useEffect(() => {
+    if (message) {
+      mostrarAlerta(message.msg, message.categoria);
+    }
+  }, [message]);
 
   // State para registrar usuario
   const initialForm = {
@@ -44,14 +51,8 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
       return;
     }
     // Pasarlo al action
-    registerUser({
-      nombres,
-      apellidos,
-      ci,
-      telefono,
-      email,
-      password,
-    });
+    addUser({ nombres, apellidos, ci, telefono, email, password });
+    reset();
   };
   return (
     <Modal
@@ -151,7 +152,7 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
                 onChange={handleInputChange}
               />
             </div>
-            <div className="col-12">
+            <div className="col-12 my-3">
               <div className="text-end">
                 <button
                   className="btn btn-outline-secondary"

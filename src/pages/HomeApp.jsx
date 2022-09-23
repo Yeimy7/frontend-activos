@@ -3,13 +3,6 @@ import { Link } from 'react-router-dom';
 import AuthContext from '../context/autentication/authContext';
 
 export const HomeApp = () => {
-  // Extraer informacin de autenticacion
-  const authContext = useContext(AuthContext);
-  const { loggedIn } = authContext;
-
-  useEffect(() => {
-    loggedIn();
-  }, []);
   return (
     <div>
       <h1>BIENVENIDO A HomeApp</h1>
