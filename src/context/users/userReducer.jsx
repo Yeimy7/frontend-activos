@@ -60,7 +60,7 @@ export const userReducer = (state = {}, action) => {
     case ELIMINAR_USUARIO:
       return {
         ...state,
-        users: state.users.filter((user) => user.id !== action.payload),
+        users: state.users.filter((user) => user.id_persona !== action.payload),
         user: null,
       };
     case USUARIO_ERROR:

@@ -10,7 +10,7 @@ import UserContext from '../context/users/userContext';
 
 export const CardUser = ({ userData }) => {
   const userContext = useContext(UserContext);
-  const { message, ascendUser, descendUser } = userContext;
+  const { ascendUser, descendUser, deleteUser } = userContext;
 
   const { nombres, apellidos, ci, telefono, email, adicional, avatar } =
     userData;
@@ -42,6 +42,21 @@ export const CardUser = ({ userData }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         descendUser(userData.id_persona);
+      }
+    });
+  };
+  const handleDeleteUser = () => {
+    Swal.fire({
+      icon: 'warning',
+      html: `<p>¿Está seguro que desea eliminar al usuario? </p>`,
+      showDenyButton: true,
+      denyButtonText: 'Cancelar',
+      showConfirmButton: true,
+      confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#0D6EFD',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteUser(userData.id_persona);
       }
     });
   };
@@ -94,10 +109,10 @@ export const CardUser = ({ userData }) => {
           {userData['rol.nombre_rol'] !== 'Super-admin' ? (
             <div className="text-center">
               <button
-                className="borrar-usuario btn btn-danger me-1"
-                type="button"
-                data-toggle="modal"
-                data-target="#confirmar"
+                className="btn btn-danger me-1"
+                onClick={() => {
+                  handleDeleteUser();
+                }}
               >
                 <i className=" me-1">
                   <FaWindowClose />
@@ -107,9 +122,6 @@ export const CardUser = ({ userData }) => {
               {userData['rol.nombre_rol'] === 'Usuario' ? (
                 <button
                   className="btn btn-primary ms-1"
-                  type="button"
-                  data-toggle="modal"
-                  data-target="#confirmar"
                   onClick={() => handleAscend()}
                 >
                   <i className=" me-1">
@@ -120,9 +132,6 @@ export const CardUser = ({ userData }) => {
               ) : (
                 <button
                   className="btn btn-secondary ms-1"
-                  type="button"
-                  data-toggle="modal"
-                  data-target="#confirmar"
                   onClick={() => handleDescend()}
                 >
                   <i className=" me-1">

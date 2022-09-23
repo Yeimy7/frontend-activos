@@ -138,7 +138,7 @@ const userState = (props) => {
       });
     } catch (error) {
       const alerta = {
-        msg: 'Hubo un error',
+        msg: error.response.data.msg,
         categoria: 'danger',
       };
       dispatch({

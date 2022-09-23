@@ -13,14 +13,26 @@ export const UserManagment = () => {
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
+  const [userList, setUserList] = useState([]);
+
   useEffect(() => {
     // Si hay un error
     if (message) {
       mostrarAlerta(message.msg, message.categoria);
     }
     getUsers();
+    setUserList(users);
   }, [message]);
   const [modalCreateUser, setModalCreateUser] = useState(false);
+
+  //State para Proyecto
+  const [searchUser, setSearchUser] = useState('');
+  // const { nombre } = searchUser;
+
+  const handleInputChange = (e) => {
+    setSearchUser(e.target.value);
+  };
+
   if (users.length === 0) return <p>No hay usuarios, comienza creando uno.</p>;
 
   return (
@@ -62,7 +74,10 @@ export const UserManagment = () => {
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Ingrese nombre de usuario"
+                  placeholder="Ingrese el nombre de usuario"
+                  name="searchUser"
+                  value={searchUser}
+                  onChange={handleInputChange}
                   aria-label="Buscador de usuario"
                   aria-describedby="button-addon2"
                 />
@@ -79,11 +94,15 @@ export const UserManagment = () => {
             </div>
             <div className="card-body">
               <div id="usuarios" className="row d-flex align-items-stretch">
-                {
-                users.map((item) => (
-                  <CardUser key={item.id_persona} userData={item} />
-                ))
-                }
+                {users
+                  .filter((user) =>
+                    user.nombres
+                      .toLowerCase()
+                      .includes(searchUser.toLowerCase())
+                  )
+                  .map((item) => (
+                    <CardUser key={item.id_persona} userData={item} />
+                  ))}
               </div>
             </div>
             <div className="card-footer"></div>
