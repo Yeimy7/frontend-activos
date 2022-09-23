@@ -1,23 +1,47 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import imageUser from '../assets/user.jpg';
 import Swal from 'sweetalert2';
-import { FaSortAmountDown, FaSortAmountUp, FaWindowClose } from 'react-icons/fa';
+import {
+  FaSortAmountDown,
+  FaSortAmountUp,
+  FaWindowClose,
+} from 'react-icons/fa';
+import UserContext from '../context/users/userContext';
 
 export const CardUser = ({ userData }) => {
+  const userContext = useContext(UserContext);
+  const { message, ascendUser, descendUser } = userContext;
+
   const { nombres, apellidos, ci, telefono, email, adicional, avatar } =
     userData;
-  const handleModal = () => {
+  const handleAscend = () => {
     Swal.fire({
       icon: 'question',
-      title: 'Advertencia',
-      text: 'Está seguro que desea realizar esta acción?',
+      html: `<p>Está seguro que desea cambiar el rol a <b>Administrador</b>? </p>`,
       showDenyButton: true,
       denyButtonText: 'Cancelar',
       showConfirmButton: true,
       confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#0D6EFD',
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log('usted confirmó la accion');
+        ascendUser(userData.id_persona);
+      }
+    });
+  };
+
+  const handleDescend = () => {
+    Swal.fire({
+      icon: 'question',
+      html: `<p>Está seguro que desea cambiar el rol a <b>Usuario</b>? </p>`,
+      showDenyButton: true,
+      denyButtonText: 'Cancelar',
+      showConfirmButton: true,
+      confirmButtonText: 'Confirmar',
+      confirmButtonColor: '#0D6EFD',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        descendUser(userData.id_persona);
       }
     });
   };
@@ -86,7 +110,7 @@ export const CardUser = ({ userData }) => {
                   type="button"
                   data-toggle="modal"
                   data-target="#confirmar"
-                  onClick={() => handleModal()}
+                  onClick={() => handleAscend()}
                 >
                   <i className=" me-1">
                     <FaSortAmountUp />
@@ -99,7 +123,7 @@ export const CardUser = ({ userData }) => {
                   type="button"
                   data-toggle="modal"
                   data-target="#confirmar"
-                  onClick={() => handleModal()}
+                  onClick={() => handleDescend()}
                 >
                   <i className=" me-1">
                     <FaSortAmountDown />

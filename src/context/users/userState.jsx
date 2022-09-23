@@ -9,6 +9,8 @@ import {
   USUARIO_ERROR,
   USUARIO_ACTUAL,
   OBTENER_USUARIOS,
+  ASCENDER_USUARIO,
+  DESCENDER_USUARIO,
 } from '../../types';
 
 const userState = (props) => {
@@ -30,7 +32,7 @@ const userState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const alerta = {
         msg: 'Hubo un error',
         categoria: 'danger',
@@ -52,7 +54,7 @@ const userState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       const alerta = {
         msg: error.response.data.msg,
         categoria: 'danger',
@@ -64,14 +66,7 @@ const userState = (props) => {
     }
   };
 
-  //Validar formulario por errores
-  // const showError = () => {
-  //     dispatch({
-  //         type: VALIDAR_FORMULARIO
-  //     })
-  // }
-
-  //Selecciona el proyecto que el usuario dio click
+  // Selecciona el proyecto que el usuario dio click
 
   const currentUser = (userId) => {
     dispatch({
@@ -80,7 +75,59 @@ const userState = (props) => {
     });
   };
 
-  //Elimina proyecto
+  // Ascender usurio
+  const ascendUser = async (userId) => {
+    try {
+      const resultado = await clienteAxios.put(`/api/users/up/${userId}`);
+      //insertar el proyecto en el state
+      const alerta = {
+        msg: resultado.data.msg,
+        categoria: 'success',
+      };
+      dispatch({
+        type: ASCENDER_USUARIO,
+        payload: {userId, alerta},
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: USUARIO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  // Descender usurio
+  const descendUser = async (userId) => {
+    try {
+      const resultado = await clienteAxios.put(`/api/users/down/${userId}`);
+      //insertar el proyecto en el state
+      const alerta = {
+        msg: resultado.data.msg,
+        categoria: 'success',
+      };
+      dispatch({
+        type: DESCENDER_USUARIO,
+        payload: {userId, alerta},
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: USUARIO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  // Elimina proyecto
 
   const deleteUser = async (userId) => {
     try {
@@ -109,6 +156,8 @@ const userState = (props) => {
         getUsers,
         addUser,
         currentUser,
+        ascendUser,
+        descendUser,
         deleteUser,
       }}
     >
