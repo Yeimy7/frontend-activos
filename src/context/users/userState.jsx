@@ -30,6 +30,7 @@ const userState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
+      console.log(error)
       const alerta = {
         msg: 'Hubo un error',
         categoria: 'danger',
