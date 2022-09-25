@@ -13,7 +13,7 @@ export const ModalChangePassword = ({ stateModal, setStateModal }) => {
         <div className="container-fluid">
           <div className="row g-3">
             <div className="col-12">
-              <label for="currentPassword" className="form-label">
+              <label htmlFor="currentPassword" className="form-label">
                 Contraseña actual:
               </label>
               <input
@@ -24,7 +24,7 @@ export const ModalChangePassword = ({ stateModal, setStateModal }) => {
               />
             </div>
             <div class="col-12">
-              <label for="newPassword" className="form-label">
+              <label htmlFor="newPassword" className="form-label">
                 Contraseña nueva:
               </label>
               <input

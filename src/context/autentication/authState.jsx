@@ -8,6 +8,8 @@ import {
   LOGIN_EXITOSO,
   LOGIN_ERROR,
   CERRAR_SESION,
+  EDITAR_USUARIO,
+  HABILITAR_EDICION_USUARIO,
 } from '../../types';
 
 const AuthState = (props) => {
@@ -16,7 +18,8 @@ const AuthState = (props) => {
     autenticate: null,
     user: null,
     message: null,
-    loading: true
+    loading: true,
+    edit: false,
   };
 
   // Funciones
@@ -64,11 +67,41 @@ const AuthState = (props) => {
   };
 
   // Cerrar sesion de usuario
-  const logout = ()=>{
+  const logout = () => {
     dispatch({
-      type: CERRAR_SESION
-    })
-  }
+      type: CERRAR_SESION,
+    });
+  };
+
+  const enableEdit = () => {
+    dispatch({
+      type: HABILITAR_EDICION_USUARIO,
+    });
+  };
+  const editUser = async (data) => {
+    try {
+      await clienteAxios.put(`/api/auth/profile`, data);
+      loggedIn();
+      const alerta = {
+        msg: 'Datos de usuario actualizados correctamente',
+        categoria: 'success',
+      };
+      dispatch({
+        type: EDITAR_USUARIO,
+        payload: alerta,
+      });
+    } catch (error) {
+      console.log(error.response.data.msg);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: LOGIN_ERROR,
+        payload: alerta,
+      });
+    }
+  };
   const [state, dispatch] = useReducer(authReducer, initialState);
   return (
     <authContext.Provider
@@ -78,9 +111,12 @@ const AuthState = (props) => {
         user: state.user,
         message: state.message,
         loading: state.loading,
+        edit: state.edit,
         loggedIn,
         login,
-        logout
+        logout,
+        enableEdit,
+        editUser,
       }}
     >
       {props.children}

@@ -1,12 +1,19 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 
-import { CardDataUser } from "../components/CardDataUser";
-import { CardEditDataUser } from "../components/CardEditDataUser";
-import { CardProfile } from "../components/CardProfile";
-import { ModalChangeAvatar } from "../components/modals/ModalChangeAvatar";
-import { ModalChangePassword } from "../components/modals/ModalChangePassword";
+import { CardDataUser } from '../components/CardDataUser';
+import { CardEditDataUser } from '../components/CardEditDataUser';
+import { CardProfile } from '../components/CardProfile';
+import { ModalChangeAvatar } from '../components/modals/ModalChangeAvatar';
+import { ModalChangePassword } from '../components/modals/ModalChangePassword';
+import AuthContext from '../context/autentication/authContext';
 
 export const PersonalData = () => {
+  const authContext = useContext(AuthContext);
+  const { loggedIn } = authContext;
+
+  useEffect(() => {
+    loggedIn();
+  }, []);
   const [modalChangeAvatar, setModalChangeAvatar] = useState(false);
   const [modalChangePassword, setModalChangePassword] = useState(false);
 
@@ -33,7 +40,10 @@ export const PersonalData = () => {
           <div className="container-fluid">
             <div className="row">
               <div className="col-md-3">
-                <CardProfile setStateModalAvatar={setModalChangeAvatar} setStateModalPassword={setModalChangePassword} />
+                <CardProfile
+                  setStateModalAvatar={setModalChangeAvatar}
+                  setStateModalPassword={setModalChangePassword}
+                />
                 <CardDataUser />
               </div>
               <div className="col-md-9">

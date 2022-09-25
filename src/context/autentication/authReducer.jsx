@@ -5,26 +5,39 @@ import {
   LOGIN_EXITOSO,
   LOGIN_ERROR,
   CERRAR_SESION,
+  EDITAR_USUARIO,
+  HABILITAR_EDICION_USUARIO,
 } from '../../types';
 
 export const authReducer = (state = {}, action) => {
   switch (action.type) {
     case REGISTRO_EXITOSO:
     case LOGIN_EXITOSO:
-      localStorage.setItem('token', action.payload.token)
+      localStorage.setItem('token', action.payload.token);
       return {
         ...state,
         // token:action.payload.token,
         autenticate: true,
         message: null,
-        loading: false
+        loading: false,
       };
     case OBTENER_USUARIO:
       return {
         ...state,
         autenticate: true,
         user: action.payload,
-        loading: false
+        loading: false,
+      };
+    case HABILITAR_EDICION_USUARIO:
+      return {
+        ...state,
+        edit: true,
+      };
+    case EDITAR_USUARIO:
+      return {
+        ...state,
+        edit: false,
+        message: action.payload,
       };
     case CERRAR_SESION:
     case LOGIN_ERROR:
@@ -36,7 +49,8 @@ export const authReducer = (state = {}, action) => {
         user: null,
         autenticate: false,
         message: action.payload,
-        loading: false
+        loading: false,
+        edit: false,
       };
     default:
       return state;

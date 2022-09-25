@@ -6,11 +6,11 @@ import AuthContext from '../context/autentication/authContext';
 export const CardDataUser = () => {
   // Extraer informacin de autenticacion
   const authContext = useContext(AuthContext);
-  const { user, loggedIn } = authContext;
+  const { user, enableEdit } = authContext;
 
-  useEffect(() => {
-    loggedIn();
-  }, []);
+  const handleEdit = () => {
+    enableEdit();
+  };
   return (
     <div className="card card-success mb-3">
       <div className="card-header">
@@ -33,7 +33,7 @@ export const CardDataUser = () => {
           Correo
         </strong>
         <p id="correo_us" className="text-muted">
-        {user?.usuario[0]?.email}
+          {user?.usuario[0]?.email}
         </p>
         <strong style={{ color: '#0B7300' }}>
           <i className="me-1">
@@ -42,11 +42,11 @@ export const CardDataUser = () => {
           Información adicional
         </strong>
         <p id="adicional_us" className="text-muted">
-        {user?.usuario[0]?.adicional}
+          {user?.usuario[0]?.adicional}
         </p>
 
         <div className="d-grid gap-2">
-          <button type="button" className="btn btn-danger">
+          <button type="button" className="btn btn-danger" onClick={handleEdit}>
             Editar
           </button>
         </div>
