@@ -9,16 +9,10 @@ import Swal from 'sweetalert2';
 
 export const ModalChangePassword = ({ stateModal, setStateModal }) => {
   const authContext = useContext(AuthContext);
-  const { message, editPassword } = authContext;
+  const { editPassword } = authContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
-
-  useEffect(() => {
-    if (message) {
-      mostrarAlerta(message.msg, message.categoria);
-    }
-  }, [message]);
 
   // State para registrar usuario
   const initialForm = {

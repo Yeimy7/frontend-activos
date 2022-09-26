@@ -12,6 +12,7 @@ import {
   HABILITAR_EDICION_USUARIO,
   CAMBIAR_PASSWORD,
   EDIT_ERROR,
+  CAMBIAR_IMAGEN_PERFIL,
 } from '../../types';
 
 const AuthState = (props) => {
@@ -108,9 +109,30 @@ const AuthState = (props) => {
   const editPassword = async (data) => {
     try {
       const respuesta = await clienteAxios.put(`/api/auth/profile/pwd`, data);
-      console.log(respuesta)
+      console.log(respuesta);
       dispatch({
         type: CAMBIAR_PASSWORD,
+        payload: respuesta.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: EDIT_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  const uploadProfileImage = async (data) => {
+    try {
+      const respuesta = await clienteAxios.put(`/api/auth/profile/img`, data);
+      loggedIn();
+      dispatch({
+        type: CAMBIAR_IMAGEN_PERFIL,
         payload: respuesta.data,
       });
     } catch (error) {
@@ -141,7 +163,8 @@ const AuthState = (props) => {
         logout,
         enableEdit,
         editUser,
-        editPassword
+        editPassword,
+        uploadProfileImage,
       }}
     >
       {props.children}

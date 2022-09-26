@@ -9,6 +9,7 @@ import {
   HABILITAR_EDICION_USUARIO,
   CAMBIAR_PASSWORD,
   EDIT_ERROR,
+  CAMBIAR_IMAGEN_PERFIL,
 } from '../../types';
 
 export const authReducer = (state = {}, action) => {
@@ -41,6 +42,7 @@ export const authReducer = (state = {}, action) => {
         edit: false,
         message: action.payload,
       };
+    case CAMBIAR_IMAGEN_PERFIL:
     case CAMBIAR_PASSWORD:
       return {
         ...state,
@@ -50,7 +52,7 @@ export const authReducer = (state = {}, action) => {
       return {
         ...state,
         message: action.payload,
-      }  
+      };
     case CERRAR_SESION:
     case LOGIN_ERROR:
     case REGISTRO_ERROR:

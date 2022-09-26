@@ -8,10 +8,10 @@ import AlertaContext from '../context/alertas/alertaContext';
 
 export const CardEditDataUser = () => {
   const authContext = useContext(AuthContext);
-  const { edit, user, message, editUser } = authContext;
+  const { edit, user, editUser } = authContext;
 
   const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { alerta } = alertaContext;
 
   const [form, setForm] = useState({
     telefono: '',
@@ -28,10 +28,8 @@ export const CardEditDataUser = () => {
       });
       setDisabled(false);
     }
-    if (message) {
-      mostrarAlerta(message.msg, message.categoria);
-    }
-  }, [edit, message]);
+
+  }, [edit]);
 
   const handleInputChange = ({ target }) => {
     setForm({

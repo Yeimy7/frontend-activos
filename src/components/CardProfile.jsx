@@ -1,15 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import imageUser from '../assets/user.jpg';
 import AuthContext from '../context/autentication/authContext';
+import { formatImageFromDB } from '../helpers/formatImage';
 
 export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
   // Extraer informacin de autenticacion
   const authContext = useContext(AuthContext);
-  const { user, loggedIn } = authContext;
-
-  useEffect(() => {
-    loggedIn();
-  }, []);
+  const { user } = authContext;
   return (
     <div className="card card-success card-outline mb-3">
       <div className="card-body box-profile">
@@ -19,7 +16,9 @@ export const CardProfile = ({ setStateModalAvatar, setStateModalPassword }) => {
             className="img-fluid img-thumbnail mw-50"
             style={{ width: '200px' }}
             src={
-              user?.usuario[0]?.avatar ? user?.usuario[0]?.avatar : imageUser
+              user?.usuario[0]?.avatar
+                ? formatImageFromDB(user?.usuario[0].avatar)
+                : imageUser
             }
             alt="profile-picture"
           />

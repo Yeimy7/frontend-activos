@@ -34,6 +34,7 @@ import sidebarContext from '../../context/sidebar/sidebarContext';
 import AuthContext from '../../context/autentication/authContext';
 import { privateRoutes } from '../../routers/routes';
 import { useEffect } from 'react';
+import { formatImageFromDB } from '../../helpers/formatImage';
 
 export const Sidebar = () => {
   //Obtener el state de sidebar
@@ -302,14 +303,15 @@ export const Sidebar = () => {
               <div className="profile-content">
                 <img
                   src={
-                    user?.usuario[0]?.avatar ? user?.usuario[0]?.avatar : imageUser
+                    user?.usuario[0]?.avatar
+                      ? formatImageFromDB(user?.usuario[0].avatar)
+                      : imageUser
                   }
                   alt="profileImg"
                 />
               </div>
               <div className="name-job">
                 <div className="profile_name">
-                  {' '}
                   {`${user?.persona[0]?.nombres} ${user?.persona[0]?.apellidos}`}
                 </div>
                 <div className="job">{user?.usuario[0]?.rol.nombre_rol}</div>
