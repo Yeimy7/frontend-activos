@@ -10,6 +10,8 @@ import {
   CERRAR_SESION,
   EDITAR_USUARIO,
   HABILITAR_EDICION_USUARIO,
+  CAMBIAR_PASSWORD,
+  EDIT_ERROR,
 } from '../../types';
 
 const AuthState = (props) => {
@@ -97,11 +99,33 @@ const AuthState = (props) => {
         categoria: 'danger',
       };
       dispatch({
-        type: LOGIN_ERROR,
+        type: EDIT_ERROR,
         payload: alerta,
       });
     }
   };
+
+  const editPassword = async (data) => {
+    try {
+      const respuesta = await clienteAxios.put(`/api/auth/profile/pwd`, data);
+      console.log(respuesta)
+      dispatch({
+        type: CAMBIAR_PASSWORD,
+        payload: respuesta.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: EDIT_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
   const [state, dispatch] = useReducer(authReducer, initialState);
   return (
     <authContext.Provider
@@ -117,6 +141,7 @@ const AuthState = (props) => {
         logout,
         enableEdit,
         editUser,
+        editPassword
       }}
     >
       {props.children}

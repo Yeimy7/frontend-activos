@@ -7,6 +7,8 @@ import {
   CERRAR_SESION,
   EDITAR_USUARIO,
   HABILITAR_EDICION_USUARIO,
+  CAMBIAR_PASSWORD,
+  EDIT_ERROR,
 } from '../../types';
 
 export const authReducer = (state = {}, action) => {
@@ -39,6 +41,16 @@ export const authReducer = (state = {}, action) => {
         edit: false,
         message: action.payload,
       };
+    case CAMBIAR_PASSWORD:
+      return {
+        ...state,
+        message: action.payload,
+      };
+    case EDIT_ERROR:
+      return {
+        ...state,
+        message: action.payload,
+      }  
     case CERRAR_SESION:
     case LOGIN_ERROR:
     case REGISTRO_ERROR:

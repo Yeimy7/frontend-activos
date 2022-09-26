@@ -34,7 +34,7 @@ const userState = (props) => {
     } catch (error) {
       console.log(error);
       const alerta = {
-        msg: 'Hubo un error',
+        msg: error.response.data.msg,
         categoria: 'danger',
       };
       dispatch({

@@ -50,8 +50,12 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
       mostrarAlerta('El password debe ser de al menos 6 caracteres', 'danger');
       return;
     }
+    if (!telefono) {
+      addUser({ nombres, apellidos, ci, email, password });
+    } else {
+      addUser({ nombres, apellidos, ci, telefono, email, password });
+    }
     // Pasarlo al action
-    addUser({ nombres, apellidos, ci, telefono, email, password });
     reset();
   };
   return (

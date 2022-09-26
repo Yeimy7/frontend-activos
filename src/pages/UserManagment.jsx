@@ -13,15 +13,12 @@ export const UserManagment = () => {
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const [userList, setUserList] = useState([]);
-
   useEffect(() => {
     // Si hay un error
     if (message) {
       mostrarAlerta(message.msg, message.categoria);
     }
     getUsers();
-    setUserList(users);
   }, [message]);
   const [modalCreateUser, setModalCreateUser] = useState(false);
 
@@ -94,8 +91,7 @@ export const UserManagment = () => {
             </div>
             <div className="card-body">
               <div id="usuarios" className="row d-flex align-items-stretch">
-                {users
-                  .filter((user) =>
+                {users?.filter((user) =>
                     user.nombres
                       .toLowerCase()
                       .includes(searchUser.toLowerCase())
