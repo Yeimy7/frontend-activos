@@ -7,6 +7,7 @@ import {
   FaWindowClose,
 } from 'react-icons/fa';
 import UserContext from '../context/users/userContext';
+import { formatImageFromDB } from '../helpers/formatImage';
 
 export const CardUser = ({ userData }) => {
   const userContext = useContext(UserContext);
@@ -98,7 +99,7 @@ export const CardUser = ({ userData }) => {
             </div>
             <div className="col-5 text-center">
               <img
-                src={avatar ? avatar : imageUser}
+                src={avatar ? formatImageFromDB(avatar) : imageUser}
                 alt="picture-profile"
                 className="img-fluid img-thumbnail"
               />
