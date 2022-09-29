@@ -291,9 +291,9 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Proveedores</li>
               <li>
-                <Link to="/asignar">
+                <Link to={`/${privateRoutes.PROVIDER_MANAGMENT}`}>
                   <FaClipboardList />
-                  <span>Registrar</span>
+                  <span>Gestión proveedor</span>
                 </Link>
               </li>
             </ul>

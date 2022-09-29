@@ -8,5 +8,6 @@ export const privateRoutes = {
     APP_HOME: 'homeApp',
     PERSONAL_DATA: 'personalData',
     USER_MANAGMENT: 'userManagment',
+    PROVIDER_MANAGMENT: 'providerManagment',
     CONFIGURATIONS: 'configApp',
 }

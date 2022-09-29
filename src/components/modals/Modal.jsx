@@ -1,12 +1,13 @@
-import React from "react";
-import { FaTimes } from "react-icons/fa";
+import React from 'react';
+import { FaTimes } from 'react-icons/fa';
 
 export const Modal = ({
   children,
   stateModal,
   setStateModal,
-  title = "",
-  size='',
+  title = '',
+  size = '',
+  btnClose = true,
 }) => {
   return (
     <>
@@ -18,23 +19,25 @@ export const Modal = ({
             }`}
           >
             <div className="container-fluid p-3">
-              {title !== "" ? (
+              {title !== '' ? (
                 <div className="row border-bottom">
                   <div className="col-md-9 mb-2 ">
                     <h3 className="fw-bold">{title}</h3>
                   </div>
                 </div>
               ) : (
-                ""
+                ''
               )}
-              <div className="col-md-3">
-                <button
-                  className="btn btn-light position-absolute top-0 end-0 m-2"
-                  onClick={() => setStateModal(false)}
-                >
-                  <FaTimes />
-                </button>
-              </div>
+              {btnClose ? (
+                <div className="col-md-3">
+                  <button
+                    className="btn btn-light position-absolute top-0 end-0 m-2"
+                    onClick={() => setStateModal(false)}
+                  >
+                    <FaTimes />
+                  </button>
+                </div>
+              ) : null}
               {children}
             </div>
           </div>
