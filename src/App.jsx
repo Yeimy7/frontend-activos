@@ -7,6 +7,7 @@ import AuthState from './context/autentication/authState';
 import SidebarState from './context/sidebar/sidebarState';
 import UserState from './context/users/userState';
 import ProveedorState from './context/proveedores/proveedorState';
+import AreaState from './context/areas/areaState';
 import { MainRouter } from './routers/routing/MainRouter';
 //Revisar si tenemos un token
 const token = localStorage.getItem('token');
@@ -20,9 +21,11 @@ function App() {
       <AuthState>
         <SidebarState>
           <UserState>
-            <ProveedorState>
-              <MainRouter />
-            </ProveedorState>
+            <AreaState>
+              <ProveedorState>
+                <MainRouter />
+              </ProveedorState>
+            </AreaState>
           </UserState>
         </SidebarState>
       </AuthState>

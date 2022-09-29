@@ -59,8 +59,8 @@ export const proveedorReducer = (state = {}, action) => {
       return {
         ...state,
         proveedor: null,
+        mensaje: null
       };
-      mensaje: null;
     default:
       return state;
   }

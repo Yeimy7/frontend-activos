@@ -253,9 +253,9 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Institución</li>
               <li>
-                <Link to="/altas">
+                <Link to={`/${privateRoutes.ADM_AREA}`}>
                   <RiCommunityFill />
-                  <span>Unidades</span>
+                  <span>Áreas</span>
                 </Link>
               </li>
               <li>
