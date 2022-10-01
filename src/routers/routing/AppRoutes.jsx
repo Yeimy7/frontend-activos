@@ -10,6 +10,7 @@ import { PersonalData } from '../../pages/PersonalData';
 import { UserManagment } from '../../pages/UserManagment';
 import { ProviderManagment } from '../../pages/ProviderManagment';
 import { AdmArea } from '../../pages/AdmArea';
+import { AdmCargo } from '../../pages/AdmCargo';
 import { privateRoutes } from '../routes';
 
 export const AppRoutes = () => {
@@ -32,10 +33,8 @@ export const AppRoutes = () => {
             path={privateRoutes.PROVIDER_MANAGMENT}
             element={<ProviderManagment />}
           />
-                    <Route
-            path={privateRoutes.ADM_AREA}
-            element={<AdmArea />}
-          />
+          <Route path={privateRoutes.ADM_AREA} element={<AdmArea />} />
+          <Route path={privateRoutes.ADM_CARGO} element={<AdmCargo />} />
           <Route
             path={privateRoutes.CONFIGURATIONS}
             element={<Configurations />}

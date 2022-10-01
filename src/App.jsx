@@ -8,6 +8,7 @@ import SidebarState from './context/sidebar/sidebarState';
 import UserState from './context/users/userState';
 import ProveedorState from './context/proveedores/proveedorState';
 import AreaState from './context/areas/areaState';
+import CargoState from './context/cargos/cargoState';
 import { MainRouter } from './routers/routing/MainRouter';
 //Revisar si tenemos un token
 const token = localStorage.getItem('token');
@@ -22,9 +23,11 @@ function App() {
         <SidebarState>
           <UserState>
             <AreaState>
-              <ProveedorState>
-                <MainRouter />
-              </ProveedorState>
+              <CargoState>
+                <ProveedorState>
+                  <MainRouter />
+                </ProveedorState>
+              </CargoState>
             </AreaState>
           </UserState>
         </SidebarState>

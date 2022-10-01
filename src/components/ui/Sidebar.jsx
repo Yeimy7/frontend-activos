@@ -259,7 +259,7 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/bajas">
+                <Link to={`/${privateRoutes.ADM_CARGO}`}>
                   <FaUserTie />
                   <span>Cargos</span>
                 </Link>
