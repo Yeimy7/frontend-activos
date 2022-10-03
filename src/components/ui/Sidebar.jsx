@@ -265,7 +265,7 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/grupos">
+                <Link to={`/${privateRoutes.ADM_EMPLEADO}`}>
                   <FaUserFriends />
                   <span>Empleados</span>
                 </Link>

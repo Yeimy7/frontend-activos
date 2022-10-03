@@ -23,7 +23,7 @@ export const Tabla = ({ title, columns, data }) => {
     },
     rows: {
       style: {
-       fontSize: '15px',
+       fontSize: '14px',
       },
     },
   };

@@ -11,6 +11,7 @@ import { UserManagment } from '../../pages/UserManagment';
 import { ProviderManagment } from '../../pages/ProviderManagment';
 import { AdmArea } from '../../pages/AdmArea';
 import { AdmCargo } from '../../pages/AdmCargo';
+import { AdmEmpleado } from '../../pages/AdmEmpleado';
 import { privateRoutes } from '../routes';
 
 export const AppRoutes = () => {
@@ -35,6 +36,7 @@ export const AppRoutes = () => {
           />
           <Route path={privateRoutes.ADM_AREA} element={<AdmArea />} />
           <Route path={privateRoutes.ADM_CARGO} element={<AdmCargo />} />
+          <Route path={privateRoutes.ADM_EMPLEADO} element={<AdmEmpleado />} />
           <Route
             path={privateRoutes.CONFIGURATIONS}
             element={<Configurations />}

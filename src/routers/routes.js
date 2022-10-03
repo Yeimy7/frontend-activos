@@ -11,5 +11,6 @@ export const privateRoutes = {
     PROVIDER_MANAGMENT: 'providerManagment',
     ADM_AREA: 'admArea',
     ADM_CARGO: 'admCargo',
+    ADM_EMPLEADO: 'admEmpleado',
     CONFIGURATIONS: 'configApp',
 }

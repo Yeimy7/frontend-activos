@@ -1,4 +1,5 @@
 import { CargoControllers } from '../controllers/CargoControllers';
+import { EmpleadoControllers } from '../controllers/EmpleadoControllers';
 
 export const releasedColumns = [
   {
@@ -79,5 +80,50 @@ export const cargoColumns = [
     button: true,
     width: '170px',
     cell: (row) => <CargoControllers datosCargo={row} />,
+  },
+];
+
+export const empleadoColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Nombre',
+    selector: (row) => row.nombres,
+    sortable: false,
+  },
+  {
+    name: 'Apellidos',
+    selector: (row) => row.apellidos,
+    sortable: false,
+  },
+  {
+    name: 'CI',
+    selector: (row) => row.ci,
+    sortable: false,
+  },
+  {
+    name: 'Incorporación',
+    selector: (row) => row.fecha_incorporacion,
+    sortable: false,
+  },
+  {
+    name: 'Cargo',
+    selector: (row) => row["cargo.descripcion_cargo"],
+    sortable: false,
+  },
+  {
+    name: 'Área',
+    selector: (row) => row["cargo.area.nombre_area"],
+    sortable: false,
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <EmpleadoControllers datosEmpleado={row} />,
   },
 ];
