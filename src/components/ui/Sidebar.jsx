@@ -119,7 +119,7 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Activos</li>
               <li>
-                <Link to="/activos/altas">
+                <Link to={`/${privateRoutes.ADM_ACTIVO}`}>
                   <FaBook />
                   <span>Altas</span>
                 </Link>

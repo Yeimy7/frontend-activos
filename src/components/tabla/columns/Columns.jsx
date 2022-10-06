@@ -1,5 +1,8 @@
+import { formatImageFromDB } from '../../../helpers/formatImage';
+import { ActivoControllers } from '../controllers/ActivoControllers';
 import { CargoControllers } from '../controllers/CargoControllers';
 import { EmpleadoControllers } from '../controllers/EmpleadoControllers';
+import not_image from '../../../assets/not_image.jpg';
 
 export const releasedColumns = [
   {
@@ -72,7 +75,7 @@ export const cargoColumns = [
   },
   {
     name: 'Área',
-    selector: (row) => row["area.nombre_area"],
+    selector: (row) => row['area.nombre_area'],
     sortable: false,
   },
   {
@@ -112,12 +115,12 @@ export const empleadoColumns = [
   },
   {
     name: 'Cargo',
-    selector: (row) => row["cargo.descripcion_cargo"],
+    selector: (row) => row['cargo.descripcion_cargo'],
     sortable: false,
   },
   {
     name: 'Área',
-    selector: (row) => row["cargo.area.nombre_area"],
+    selector: (row) => row['cargo.area.nombre_area'],
     sortable: false,
   },
   {
@@ -125,5 +128,65 @@ export const empleadoColumns = [
     button: true,
     width: '170px',
     cell: (row) => <EmpleadoControllers datosEmpleado={row} />,
+  },
+];
+
+export const activoColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Código',
+    selector: (row) => row.codigo_activo,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row.descripcion_activo,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Fecha ingreso',
+    selector: (row) => row.fecha_ingreso,
+    sortable: false,
+  },
+  {
+    name: 'Cod ambiente',
+    selector: (row) => row['ambiente.codigo_ambiente'],
+    sortable: false,
+  },
+  {
+    name: 'Tipo ambiente',
+    selector: (row) => row['ambiente.tipo_ambiente'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Proveedor',
+    selector: (row) => row['proveedor.razon_social'],
+    sortable: false,
+  },
+  {
+    name: 'Imagen',
+    grow: 0,
+    cell: (row) => (
+      <img
+        height="80px"
+        width="80px"
+        alt={row['auxiliar.descripcion_aux']}
+        src={row.img_activo ? formatImageFromDB(row.img_activo) : not_image}
+      />
+    ),
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '200px',
+    cell: (row) => <ActivoControllers datosActivo={row} />,
   },
 ];
