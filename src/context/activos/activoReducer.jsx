@@ -11,6 +11,10 @@ import {
   ACTIVO_OBTENER_GRUPOS,
   ACTIVO_OBTENER_AMBIENTES,
   EDITAR_IMAGEN_ACTIVO,
+  OBTENER_ACTIVOS_ASIGNADOS,
+  OBTENER_ACTIVOS_NO_ASIGNADOS,
+  ASIGNAR_ACTIVO,
+  DESVINCULAR_ACTIVO,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -18,6 +22,16 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         activos: action.payload,
+      };
+    case OBTENER_ACTIVOS_ASIGNADOS:
+      return {
+        ...state,
+        activosAsignados: action.payload,
+      };
+    case OBTENER_ACTIVOS_NO_ASIGNADOS:
+      return {
+        ...state,
+        activosNoAsignados: action.payload,
       };
     case ACTIVO_OBTENER_AUXILIARES:
       return {
@@ -121,8 +135,24 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         activo: null,
-        imagenActivo:false,
+        imagenActivo: false,
         mensaje: null,
+      };
+    case ASIGNAR_ACTIVO:
+      return {
+        ...state,
+        activosAsignados: [action.payload, ...state.activosAsignados],
+        activosNoAsignados: state.activosNoAsignados.filter(
+          (activo) => activo.id_activo !== action.payload.id_activo
+        ),
+      };
+    case DESVINCULAR_ACTIVO:
+      return {
+        ...state,
+        activosNoAsignados: [action.payload, ...state.activosNoAsignados],
+        activosAsignados: state.activosAsignados.filter(
+          (activo) => activo.id_activo !== action.payload.id_activo
+        ),
       };
     default:
       return state;

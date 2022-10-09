@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { NotFoundComponent } from '../../components/NotFoundComponent';
+import { privateRoutes } from '../routes';
 import { Navbar } from '../../components/ui/Navbar';
 import { PageContainer } from '../../components/ui/PageContainer';
 import { Sidebar } from '../../components/ui/Sidebar';
@@ -13,7 +14,7 @@ import { AdmArea } from '../../pages/AdmArea';
 import { AdmCargo } from '../../pages/AdmCargo';
 import { AdmEmpleado } from '../../pages/AdmEmpleado';
 import { AdmActivo } from '../../pages/AdmActivos';
-import { privateRoutes } from '../routes';
+import { AdmAsignacion } from '../../pages/AdmAsignacion';
 
 export const AppRoutes = () => {
   return (
@@ -39,6 +40,7 @@ export const AppRoutes = () => {
           <Route path={privateRoutes.ADM_CARGO} element={<AdmCargo />} />
           <Route path={privateRoutes.ADM_EMPLEADO} element={<AdmEmpleado />} />
           <Route path={privateRoutes.ADM_ACTIVO} element={<AdmActivo />} />
+          <Route path={privateRoutes.ADM_ASIGNACION} element={<AdmAsignacion />} />
           <Route
             path={privateRoutes.CONFIGURATIONS}
             element={<Configurations />}

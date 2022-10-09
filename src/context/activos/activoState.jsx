@@ -15,12 +15,18 @@ import {
   ACTIVO_OBTENER_GRUPOS,
   ACTIVO_OBTENER_AMBIENTES,
   EDITAR_IMAGEN_ACTIVO,
+  OBTENER_ACTIVOS_ASIGNADOS,
+  OBTENER_ACTIVOS_NO_ASIGNADOS,
+  ASIGNAR_ACTIVO,
+  DESVINCULAR_ACTIVO,
 } from '../../types';
 
 const activoState = (props) => {
   const initialState = {
-    activos: [],
     activo: null,
+    activos: [],
+    activosAsignados: [],
+    activosNoAsignados: [],
     imagenActivo: false,
     mensaje: null,
     auxiliares: [],
@@ -214,12 +220,91 @@ const activoState = (props) => {
       });
     }
   };
+  const obtenerActivosAsignados = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/asignados');
+      dispatch({
+        type: OBTENER_ACTIVOS_ASIGNADOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
 
+  const obtenerActivosNoAsignados = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/asignados/no');
+      dispatch({
+        type: OBTENER_ACTIVOS_NO_ASIGNADOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+  const asignarActivo = async (data) => {
+    try {
+      const resultado = await clienteAxios.put(`/api/asignados`, data);
+      dispatch({
+        type: ASIGNAR_ACTIVO,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  const desvincularActivo = async (id_activo) => {
+    try {
+      const resultado = await clienteAxios.put(`/api/desvincular`, id_activo);
+      dispatch({
+        type: DESVINCULAR_ACTIVO,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
   return (
     <activoContext.Provider
       value={{
-        activos: state.activos,
         activo: state.activo,
+        activos: state.activos,
+        activosAsignados: state.activosAsignados,
+        activosNoAsignados: state.activosNoAsignados,
         imagenActivo: state.imagenActivo,
         mensaje: state.mensaje,
         auxiliares: state.auxiliares,
@@ -236,6 +321,10 @@ const activoState = (props) => {
         eliminarActivo,
         seleccionarActivo,
         limpiarActivo,
+        obtenerActivosAsignados,
+        obtenerActivosNoAsignados,
+        asignarActivo,
+        desvincularActivo,
       }}
     >
       {props.children}

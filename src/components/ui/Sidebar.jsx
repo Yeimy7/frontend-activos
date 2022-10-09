@@ -169,7 +169,7 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Asignación</li>
               <li>
-                <Link to="/asignar">
+                <Link to={`/${privateRoutes.ADM_ASIGNACION}`}>
                   <MdAssignmentTurnedIn />
                   <span>Asignar</span>
                 </Link>
