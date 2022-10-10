@@ -5,6 +5,7 @@ import { EmpleadoControllers } from '../controllers/EmpleadoControllers';
 import not_image from '../../../assets/not_image.jpg';
 import { AsignacionControllers } from '../controllers/AsignacionControllers';
 import { DevolucionControllers } from '../controllers/DevolucionControllers';
+import { HistorialDevolucionControllers } from '../controllers/HistorialDevolucionControllers';
 
 export const releasedColumns = [
   {
@@ -204,11 +205,13 @@ export const asignacionColumns = [
     name: 'Descripción',
     selector: (row) => row.descripcion_activo,
     sortable: false,
+    wrap: true,
   },
   {
     name: 'Empleado',
     selector: (row) => `${row.nombres} ${row.apellidos}`,
     sortable: false,
+    wrap: true,
   },
   {
     name: 'Fecha de asignación',
@@ -234,11 +237,13 @@ export const devolucionColumns = [
     name: 'Descripción',
     selector: (row) => row.descripcion_activo,
     sortable: false,
+    wrap: true,
   },
   {
     name: 'Empleado',
     selector: (row) => `${row.nombres} ${row.apellidos}`,
     sortable: false,
+    wrap: true,
   },
   {
     name: 'Fecha de asignación',
@@ -250,5 +255,48 @@ export const devolucionColumns = [
     button: true,
     width: '170px',
     cell: (row) => <DevolucionControllers datosDevolucion={row} />,
+  },
+];
+
+export const historialDevolucionColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row['activo.descripcion_activo'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Empleado',
+    selector: (row) => `${row['empleado.nombres']} ${row['empleado.apellidos']}`,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Motivo',
+    selector: (row) => row.motivo_devolucion,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Fecha de asignación',
+    selector: (row) => row.fecha_asignacion,
+    sortable: false,
+  },
+  {
+    name: 'Fecha de devolución',
+    selector: (row) => row.fecha_devolucion,
+    sortable: false,
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <HistorialDevolucionControllers datosDevolucion={row} />,
   },
 ];

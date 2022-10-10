@@ -16,6 +16,7 @@ import { AdmEmpleado } from '../../pages/AdmEmpleado';
 import { AdmActivo } from '../../pages/AdmActivos';
 import { AdmAsignacion } from '../../pages/AdmAsignacion';
 import { AdmDevolucion } from '../../pages/AdmDevolucion';
+import { AdmHistorialDevolucion } from '../../pages/AdmHistorialDevolucion';
 
 export const AppRoutes = () => {
   return (
@@ -41,8 +42,18 @@ export const AppRoutes = () => {
           <Route path={privateRoutes.ADM_CARGO} element={<AdmCargo />} />
           <Route path={privateRoutes.ADM_EMPLEADO} element={<AdmEmpleado />} />
           <Route path={privateRoutes.ADM_ACTIVO} element={<AdmActivo />} />
-          <Route path={privateRoutes.ADM_ASIGNACION} element={<AdmAsignacion />} />
-          <Route path={privateRoutes.ADM_DEVOLUCION} element={<AdmDevolucion />} />
+          <Route
+            path={privateRoutes.ADM_ASIGNACION}
+            element={<AdmAsignacion />}
+          />
+          <Route
+            path={privateRoutes.ADM_DEVOLUCION}
+            element={<AdmDevolucion />}
+          />
+          <Route
+            path={privateRoutes.ADM_HISTORIAL_DEVOLUCION}
+            element={<AdmHistorialDevolucion />}
+          />
           <Route
             path={privateRoutes.CONFIGURATIONS}
             element={<Configurations />}

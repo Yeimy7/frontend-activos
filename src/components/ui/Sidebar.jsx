@@ -201,7 +201,7 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/bajas">
+                <Link to={`/${privateRoutes.ADM_HISTORIAL_DEVOLUCION}`}>
                   <RiFileHistoryFill />
                   <span>Historial</span>
                 </Link>
