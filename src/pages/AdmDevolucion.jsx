@@ -1,20 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
-import { asignacionColumns } from '../components/tabla/columns/Columns';
-import { ModalRegistrarAsignacion } from '../components/modals/ModalRegistrarAsignacion';
+import { ModalRegistrarDevolucion } from '../components/modals/ModalRegistrarDevolucion';
+import { devolucionColumns } from '../components/tabla/columns/Columns';
 import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import { useLayoutEffect } from 'react';
 
-export const AdmAsignacion = () => {
+export const AdmDevolucion = () => {
   const activoContext = useContext(ActivoContext);
-  const { activosAsignados, mensaje, obtenerActivosAsignados } = activoContext;
+  const {
+    activosAsignados,
+    mensaje,
+    obtenerActivosAsignados,
+    activoADevolver,
+  } = activoContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const [modalCrearAsignacion, setModalCrearAsignacion] = useState(false);
+  const [modalCrearDevolucion, setModalCrearDevolucion] = useState(false);
   const [itemsAsignacion, setItemsAsignacion] = useState([]);
 
   useEffect(() => {
@@ -22,8 +27,11 @@ export const AdmAsignacion = () => {
     if (mensaje) {
       mostrarAlerta(mensaje.msg, mensaje.categoria);
     }
+    if (activoADevolver) {
+      setModalCrearDevolucion(true);
+    }
     obtenerActivosAsignados();
-  }, [mensaje]);
+  }, [mensaje, activoADevolver]);
 
   useLayoutEffect(() => {
     setItemsAsignacion(activosAsignados);
@@ -55,23 +63,16 @@ export const AdmAsignacion = () => {
           <div className="row mb-2">
             <div className="col">
               <h1>
-                Asignación de activos
-                <button
-                  type="button"
-                  className="btn btn-primary mx-4"
-                  onClick={() => setModalCrearAsignacion(true)}
-                >
-                  Asignar
-                </button>
+                Devolución de activos
               </h1>
             </div>
           </div>
         </div>
         {/* /.container-fluid */}
       </section>
-      <ModalRegistrarAsignacion
-        stateModal={modalCrearAsignacion}
-        setStateModal={setModalCrearAsignacion}
+      <ModalRegistrarDevolucion
+        stateModal={modalCrearDevolucion}
+        setStateModal={setModalCrearDevolucion}
       />
       <section>
         <div className="container-fluid">
@@ -104,7 +105,7 @@ export const AdmAsignacion = () => {
                   No existen asignaciones registradas
                 </p>
               ) : (
-                <Tabla data={itemsAsignacion} columns={asignacionColumns} />
+                <Tabla data={itemsAsignacion} columns={devolucionColumns} />
               )}
             </div>
           </div>

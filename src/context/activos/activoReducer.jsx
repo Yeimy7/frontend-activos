@@ -15,6 +15,8 @@ import {
   OBTENER_ACTIVOS_NO_ASIGNADOS,
   ASIGNAR_ACTIVO,
   DESVINCULAR_ACTIVO,
+  ACTIVO_A_DEVOLVER,
+  LIMPIAR_ACTIVO_A_DEVOLVER,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -119,6 +121,14 @@ export const activoReducer = (state = {}, action) => {
         ),
         mensaje: null,
       };
+    case ACTIVO_A_DEVOLVER:
+      return {
+        ...state,
+        activoADevolver: state.activosAsignados.filter(
+          (activo) => activo.id_activo === action.payload
+        ),
+        mensaje: null,
+      };
     case BAJA_ACTIVO:
       return {
         ...state,
@@ -136,6 +146,12 @@ export const activoReducer = (state = {}, action) => {
         ...state,
         activo: null,
         imagenActivo: false,
+        mensaje: null,
+      };
+    case LIMPIAR_ACTIVO_A_DEVOLVER:
+      return {
+        ...state,
+        activoADevolver: null,
         mensaje: null,
       };
     case ASIGNAR_ACTIVO:

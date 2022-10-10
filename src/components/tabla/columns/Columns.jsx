@@ -4,6 +4,7 @@ import { CargoControllers } from '../controllers/CargoControllers';
 import { EmpleadoControllers } from '../controllers/EmpleadoControllers';
 import not_image from '../../../assets/not_image.jpg';
 import { AsignacionControllers } from '../controllers/AsignacionControllers';
+import { DevolucionControllers } from '../controllers/DevolucionControllers';
 
 export const releasedColumns = [
   {
@@ -219,5 +220,35 @@ export const asignacionColumns = [
     button: true,
     width: '170px',
     cell: (row) => <AsignacionControllers datosAsignacion={row} />,
+  },
+];
+
+export const devolucionColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row.descripcion_activo,
+    sortable: false,
+  },
+  {
+    name: 'Empleado',
+    selector: (row) => `${row.nombres} ${row.apellidos}`,
+    sortable: false,
+  },
+  {
+    name: 'Fecha de asignación',
+    selector: (row) => row.fecha_asig_empleado,
+    sortable: false,
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <DevolucionControllers datosDevolucion={row} />,
   },
 ];

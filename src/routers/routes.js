@@ -14,5 +14,6 @@ export const privateRoutes = {
     ADM_EMPLEADO: 'admEmpleado',
     ADM_ACTIVO: 'admActivo',
     ADM_ASIGNACION: 'admAsignacion',
+    ADM_DEVOLUCION: 'admDevolucion',
     CONFIGURATIONS: 'configApp',
 }

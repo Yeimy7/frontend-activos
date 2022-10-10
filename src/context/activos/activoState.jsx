@@ -19,11 +19,14 @@ import {
   OBTENER_ACTIVOS_NO_ASIGNADOS,
   ASIGNAR_ACTIVO,
   DESVINCULAR_ACTIVO,
+  ACTIVO_A_DEVOLVER,
+  LIMPIAR_ACTIVO_A_DEVOLVER,
 } from '../../types';
 
 const activoState = (props) => {
   const initialState = {
     activo: null,
+    activoADevolver: null,
     activos: [],
     activosAsignados: [],
     activosNoAsignados: [],
@@ -281,7 +284,7 @@ const activoState = (props) => {
 
   const desvincularActivo = async (id_activo) => {
     try {
-      const resultado = await clienteAxios.put(`/api/desvincular`, id_activo);
+      const resultado = await clienteAxios.put(`/api/asignados/desvincular`, id_activo);
       dispatch({
         type: DESVINCULAR_ACTIVO,
         payload: resultado.data,
@@ -298,10 +301,24 @@ const activoState = (props) => {
       });
     }
   };
+
+  const seleccionarActivoADevolver = (id_activo) => {
+    dispatch({
+      type: ACTIVO_A_DEVOLVER,
+      payload: id_activo,
+    });
+  };
+  const limpiarActivoADevolver = () => {
+    dispatch({
+      type: LIMPIAR_ACTIVO_A_DEVOLVER,
+    });
+  };
+
   return (
     <activoContext.Provider
       value={{
         activo: state.activo,
+        activoADevolver: state.activoADevolver,
         activos: state.activos,
         activosAsignados: state.activosAsignados,
         activosNoAsignados: state.activosNoAsignados,
@@ -321,10 +338,12 @@ const activoState = (props) => {
         eliminarActivo,
         seleccionarActivo,
         limpiarActivo,
+        limpiarActivoADevolver,
         obtenerActivosAsignados,
         obtenerActivosNoAsignados,
         asignarActivo,
         desvincularActivo,
+        seleccionarActivoADevolver,
       }}
     >
       {props.children}

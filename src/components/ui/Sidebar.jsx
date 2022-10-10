@@ -195,7 +195,7 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Devolución</li>
               <li>
-                <Link to="/altas">
+                <Link to={`/${privateRoutes.ADM_DEVOLUCION}`}>
                   <MdAssignmentReturned />
                   <span>Devolver</span>
                 </Link>
