@@ -21,12 +21,15 @@ import {
   DESVINCULAR_ACTIVO,
   ACTIVO_A_DEVOLVER,
   LIMPIAR_ACTIVO_A_DEVOLVER,
+  ACTIVO_BAJA,
+  LIMPIAR_ACTIVO_BAJA,
 } from '../../types';
 
 const activoState = (props) => {
   const initialState = {
     activo: null,
     activoADevolver: null,
+    activoBaja: null,
     activos: [],
     activosAsignados: [],
     activosNoAsignados: [],
@@ -223,6 +226,17 @@ const activoState = (props) => {
       });
     }
   };
+  const seleccionarActivoBaja = (id_activo) => {
+    dispatch({
+      type: ACTIVO_BAJA,
+      payload: id_activo,
+    });
+  };
+  const limpiarActivoBaja = () => {
+    dispatch({
+      type: LIMPIAR_ACTIVO_BAJA,
+    });
+  };
   const obtenerActivosAsignados = async () => {
     try {
       const resultado = await clienteAxios.get('/api/asignados');
@@ -284,7 +298,10 @@ const activoState = (props) => {
 
   const desvincularActivo = async (id_activo) => {
     try {
-      const resultado = await clienteAxios.put(`/api/asignados/desvincular`, id_activo);
+      const resultado = await clienteAxios.put(
+        `/api/asignados/desvincular`,
+        id_activo
+      );
       dispatch({
         type: DESVINCULAR_ACTIVO,
         payload: resultado.data,
@@ -319,6 +336,7 @@ const activoState = (props) => {
       value={{
         activo: state.activo,
         activoADevolver: state.activoADevolver,
+        activoBaja: state.activoBaja,
         activos: state.activos,
         activosAsignados: state.activosAsignados,
         activosNoAsignados: state.activosNoAsignados,
@@ -337,13 +355,15 @@ const activoState = (props) => {
         actualizarImagenActivo,
         eliminarActivo,
         seleccionarActivo,
+        seleccionarActivoADevolver,
+        seleccionarActivoBaja,
         limpiarActivo,
         limpiarActivoADevolver,
+        limpiarActivoBaja,
         obtenerActivosAsignados,
         obtenerActivosNoAsignados,
         asignarActivo,
         desvincularActivo,
-        seleccionarActivoADevolver,
       }}
     >
       {props.children}

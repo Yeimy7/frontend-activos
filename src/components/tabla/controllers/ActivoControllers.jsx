@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import { BsImageFill } from 'react-icons/bs';
-import Swal from 'sweetalert2';
 import ActivoContext from '../../../context/activos/activoContext';
 
 export const ActivoControllers = ({ datosActivo }) => {
   const activoContext = useContext(ActivoContext);
-  const {  eliminarActivo, editarImagen, seleccionarActivo } =
+  const { seleccionarActivoBaja, editarImagen, seleccionarActivo } =
     activoContext;
 
   const { id_activo } = datosActivo;
@@ -18,26 +17,7 @@ export const ActivoControllers = ({ datosActivo }) => {
     editarImagen(id_activo);
   };
   const handleEliminarActivo = () => {
-    Swal.fire({
-      icon: 'warning',
-      html: `<h3>¿Desea eliminar el activo <b> ${datosActivo.descripcion_activo}</b>? </h3>
-      <p>No podrá revertir la acción</p>`,
-      showDenyButton: true,
-      denyButtonText: 'Cancelar',
-      showConfirmButton: true,
-      confirmButtonText: 'Eliminar',
-      confirmButtonColor: '#28A754',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        eliminarActivo(id_activo);
-        Swal.fire({
-          icon: 'success',
-          title: 'Activo eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
-      }
-    });
+    seleccionarActivoBaja(id_activo)
   };
   return (
     <div>
