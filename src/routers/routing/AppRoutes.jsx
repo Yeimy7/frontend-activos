@@ -17,6 +17,7 @@ import { AdmActivo } from '../../pages/AdmActivos';
 import { AdmAsignacion } from '../../pages/AdmAsignacion';
 import { AdmDevolucion } from '../../pages/AdmDevolucion';
 import { AdmHistorialDevolucion } from '../../pages/AdmHistorialDevolucion';
+import { AdmHistorialBaja } from '../../pages/AdmHistorialBaja';
 
 export const AppRoutes = () => {
   return (
@@ -53,6 +54,10 @@ export const AppRoutes = () => {
           <Route
             path={privateRoutes.ADM_HISTORIAL_DEVOLUCION}
             element={<AdmHistorialDevolucion />}
+          />
+           <Route
+            path={privateRoutes.ADM_HISTORIAL_BAJA}
+            element={<AdmHistorialBaja />}
           />
           <Route
             path={privateRoutes.CONFIGURATIONS}

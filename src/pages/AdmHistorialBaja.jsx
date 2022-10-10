@@ -1,44 +1,44 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useLayoutEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
-import { historialDevolucionColumns } from '../components/tabla/columns/Columns';
+import { historialBajaColumns } from '../components/tabla/columns/Columns';
 import AlertaContext from '../context/alertas/alertaContext';
-import { useLayoutEffect } from 'react';
-import DevolucionContext from '../context/devolucion/devolucionContext';
+import BajaContext from '../context/bajas/bajaContext';
 
-export const AdmHistorialDevolucion = () => {
-  const devolucionContext = useContext(DevolucionContext);
-  const { devoluciones, mensaje, obtenerDevoluciones} = devolucionContext;
+export const AdmHistorialBaja = () => {
+  const bajaContext = useContext(BajaContext);
+  const { bajas, mensaje, obtenerBajas} = bajaContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const [itemsHistorialDevolucion, setItemsHistorialDevolucion] = useState([]);
+  const [itemsHistorialBaja, setItemsHistorialBaja] = useState([]);
 
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
       mostrarAlerta(mensaje.msg, mensaje.categoria);
     }
-    obtenerDevoluciones();
+    obtenerBajas();
   }, [mensaje]);
 
   useLayoutEffect(() => {
-    setItemsHistorialDevolucion(devoluciones);
-  }, [devoluciones]);
+    setItemsHistorialBaja(bajas);
+  }, [bajas]);
 
-  const [buscarDevolucion, setBuscarDevolucion] = useState('');
+  const [buscarBaja, setBuscarBaja] = useState('');
 
   const handleInputChange = (e) => {
-    setBuscarDevolucion(e.target.value);
-    filtrarDevoluciones(e.target.value);
+    setBuscarBaja(e.target.value);
+    filtrarBajas(e.target.value);
   };
 
-  const filtrarDevoluciones = (val) => {
-    const items = devoluciones?.filter((devolucion) =>
-      devolucion['activo.descripcion_activo'].toLowerCase().includes(val.toLowerCase())
+  const filtrarBajas = (val) => {
+    const items = bajas?.filter((baja) =>
+      baja['activo.descripcion_activo'].toLowerCase().includes(val.toLowerCase())
     );
-    setItemsHistorialDevolucion(items);
+    setItemsHistorialBaja(items);
   };
 
   return (
@@ -52,7 +52,7 @@ export const AdmHistorialDevolucion = () => {
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">
-              <h1>Historial de devolución</h1>
+              <h1>Historial de bajas</h1>
             </div>
           </div>
         </div>
@@ -68,8 +68,8 @@ export const AdmHistorialDevolucion = () => {
                   type="text"
                   className="form-control"
                   placeholder="Ingrese la descripcion del activo"
-                  name="buscarDevolucion"
-                  value={buscarDevolucion}
+                  name="buscarBaja"
+                  value={buscarBaja}
                   onChange={handleInputChange}
                 />
                 <button
@@ -84,15 +84,15 @@ export const AdmHistorialDevolucion = () => {
               </div>
             </div>
             <div className="card-body table-responsive">
-              {!itemsHistorialDevolucion ||
-              itemsHistorialDevolucion.length === 0 ? (
+              {!itemsHistorialBaja ||
+              itemsHistorialBaja.length === 0 ? (
                 <p className="text-center fs-6 text-muted">
-                  No existen devoluciones registradas
+                  No existen bajas registradas
                 </p>
               ) : (
                 <Tabla
-                  data={itemsHistorialDevolucion}
-                  columns={historialDevolucionColumns}
+                  data={itemsHistorialBaja}
+                  columns={historialBajaColumns}
                 />
               )}
             </div>

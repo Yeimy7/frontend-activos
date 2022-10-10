@@ -125,7 +125,7 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/activos/bajas">
+              <Link to={`/${privateRoutes.ADM_HISTORIAL_BAJA}`}>
                   <FaClipboardList />
                   <span>Listado de bajas</span>
                 </Link>

@@ -6,6 +6,7 @@ import not_image from '../../../assets/not_image.jpg';
 import { AsignacionControllers } from '../controllers/AsignacionControllers';
 import { DevolucionControllers } from '../controllers/DevolucionControllers';
 import { HistorialDevolucionControllers } from '../controllers/HistorialDevolucionControllers';
+import { HistorialBajaControllers } from '../controllers/HistorialBajaControllers';
 
 export const releasedColumns = [
   {
@@ -298,5 +299,37 @@ export const historialDevolucionColumns = [
     button: true,
     width: '170px',
     cell: (row) => <HistorialDevolucionControllers datosDevolucion={row} />,
+  },
+];
+
+export const historialBajaColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row['activo.descripcion_activo'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Motivo',
+    selector: (row) => row.motivo_baja,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Fecha de baja',
+    selector: (row) => row.fecha_baja,
+    sortable: false,
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <HistorialBajaControllers datosBaja={row} />,
   },
 ];
