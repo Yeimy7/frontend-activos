@@ -13,6 +13,7 @@ import EmpleadoState from './context/empleados/empleadoState';
 import ActivoState from './context/activos/activoState';
 import DevolucionState from './context/devolucion/devolucionState';
 import BajaState from './context/bajas/bajaState';
+import TrasladoState from './context/traslados/trasladoState';
 import { MainRouter } from './routers/routing/MainRouter';
 //Revisar si tenemos un token
 const token = localStorage.getItem('token');
@@ -33,7 +34,9 @@ function App() {
                     <ActivoState>
                       <DevolucionState>
                         <BajaState>
-                          <MainRouter />
+                          <TrasladoState>
+                            <MainRouter />
+                          </TrasladoState>
                         </BajaState>
                       </DevolucionState>
                     </ActivoState>

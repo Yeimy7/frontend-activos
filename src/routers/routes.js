@@ -17,5 +17,6 @@ export const privateRoutes = {
     ADM_DEVOLUCION: 'admDevolucion',
     ADM_HISTORIAL_DEVOLUCION: 'admHistorialDevolucion',
     ADM_HISTORIAL_BAJA: 'admHistorialBaja',
+    ADM_HISTORIAL_TRASLADO: 'admHistorialTraslado',
     CONFIGURATIONS: 'configApp',
 }

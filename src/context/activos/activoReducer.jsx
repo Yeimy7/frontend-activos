@@ -19,6 +19,9 @@ import {
   LIMPIAR_ACTIVO_A_DEVOLVER,
   ACTIVO_BAJA,
   LIMPIAR_ACTIVO_BAJA,
+  ACTIVO_A_TRASLADAR,
+  LIMPIAR_ACTIVO_A_TRASLADAR,
+  TRASLADO_ACTIVO,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -139,6 +142,14 @@ export const activoReducer = (state = {}, action) => {
         ),
         mensaje: null,
       };
+    case ACTIVO_A_TRASLADAR:
+      return {
+        ...state,
+        activoTraslado: state.activos.filter(
+          (activo) => activo.id_activo === action.payload
+        ),
+        mensaje: null,
+      };
     case BAJA_ACTIVO:
       return {
         ...state,
@@ -170,6 +181,12 @@ export const activoReducer = (state = {}, action) => {
         activoBaja: null,
         mensaje: null,
       };
+    case LIMPIAR_ACTIVO_A_TRASLADAR:
+      return {
+        ...state,
+        activoTraslado: null,
+        mensaje: null,
+      };
     case ASIGNAR_ACTIVO:
       return {
         ...state,
@@ -185,6 +202,26 @@ export const activoReducer = (state = {}, action) => {
         activosAsignados: state.activosAsignados.filter(
           (activo) => activo.id_activo !== action.payload.id_activo
         ),
+      };
+    case TRASLADO_ACTIVO:
+      return {
+        ...state,
+        activos: state.activos.map((activo) => {
+          if (activo.id_activo === action.payload.id_activo) {
+            const updActivo = {
+              ...activo,
+              fecha_asig_ambiente: action.payload.fecha_asig_ambiente,
+              'ambiente.codigo_ambiente':
+                action.payload.codigo_ambiente,
+              'ambiente.tipo_ambiente':
+                action.payload.tipo_ambiente,
+            };
+            return updActivo;
+          }
+          return activo;
+        }),
+        activoTraslado: null,
+        mensaje: null,
       };
     default:
       return state;

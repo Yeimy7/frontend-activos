@@ -7,6 +7,7 @@ import { AsignacionControllers } from '../controllers/AsignacionControllers';
 import { DevolucionControllers } from '../controllers/DevolucionControllers';
 import { HistorialDevolucionControllers } from '../controllers/HistorialDevolucionControllers';
 import { HistorialBajaControllers } from '../controllers/HistorialBajaControllers';
+import { HistorialTrasladoControllers } from '../controllers/HistorialTrasladoControllers';
 
 export const releasedColumns = [
   {
@@ -160,13 +161,8 @@ export const activoColumns = [
     sortable: false,
   },
   {
-    name: 'Cod ambiente',
-    selector: (row) => row['ambiente.codigo_ambiente'],
-    sortable: false,
-  },
-  {
-    name: 'Tipo ambiente',
-    selector: (row) => row['ambiente.tipo_ambiente'],
+    name: 'Ambiente',
+    selector: (row) => `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
     sortable: false,
     wrap: true,
   },
@@ -190,7 +186,8 @@ export const activoColumns = [
   {
     name: 'Acciones',
     button: true,
-    width: '200px',
+    width: '250px',
+    wrap: true,
     cell: (row) => <ActivoControllers datosActivo={row} />,
   },
 ];
@@ -331,5 +328,42 @@ export const historialBajaColumns = [
     button: true,
     width: '170px',
     cell: (row) => <HistorialBajaControllers datosBaja={row} />,
+  },
+];
+export const historialTrasladoColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row['activo.descripcion_activo'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Motivo',
+    selector: (row) => row.motivo_traslado,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Fecha de traslado',
+    selector: (row) => row.fecha_traslado,
+    sortable: false,
+  },
+  {
+    name: 'Ambiente anterior',
+    selector: (row) => `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <HistorialTrasladoControllers datosTraslado={row} />,
   },
 ];

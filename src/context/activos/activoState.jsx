@@ -23,6 +23,9 @@ import {
   LIMPIAR_ACTIVO_A_DEVOLVER,
   ACTIVO_BAJA,
   LIMPIAR_ACTIVO_BAJA,
+  ACTIVO_A_TRASLADAR,
+  LIMPIAR_ACTIVO_A_TRASLADAR,
+  TRASLADO_ACTIVO,
 } from '../../types';
 
 const activoState = (props) => {
@@ -30,6 +33,7 @@ const activoState = (props) => {
     activo: null,
     activoADevolver: null,
     activoBaja: null,
+    activoTraslado:null,
     activos: [],
     activosAsignados: [],
     activosNoAsignados: [],
@@ -331,12 +335,45 @@ const activoState = (props) => {
     });
   };
 
+  const trasladarActivo = async (data) => {
+    try {
+      const resultado = await clienteAxios.put(`/api/trasladar`, data);
+      console.log(resultado)
+      dispatch({
+        type: TRASLADO_ACTIVO,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+  const seleccionarActivoTraslado = (id_activo) => {
+    dispatch({
+      type: ACTIVO_A_TRASLADAR,
+      payload: id_activo,
+    });
+  };
+  const limpiarActivoTraslado = () => {
+    dispatch({
+      type: LIMPIAR_ACTIVO_A_TRASLADAR,
+    });
+  };
+
   return (
     <activoContext.Provider
       value={{
         activo: state.activo,
         activoADevolver: state.activoADevolver,
         activoBaja: state.activoBaja,
+        activoTraslado: state.activoTraslado,
         activos: state.activos,
         activosAsignados: state.activosAsignados,
         activosNoAsignados: state.activosNoAsignados,
@@ -357,13 +394,16 @@ const activoState = (props) => {
         seleccionarActivo,
         seleccionarActivoADevolver,
         seleccionarActivoBaja,
+        seleccionarActivoTraslado,
         limpiarActivo,
         limpiarActivoADevolver,
         limpiarActivoBaja,
+        limpiarActivoTraslado,
         obtenerActivosAsignados,
         obtenerActivosNoAsignados,
         asignarActivo,
         desvincularActivo,
+        trasladarActivo
       }}
     >
       {props.children}

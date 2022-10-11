@@ -8,11 +8,19 @@ import ActivoContext from '../context/activos/activoContext';
 import { useLayoutEffect } from 'react';
 import { ModalCambiarImagenActivo } from '../components/modals/ModalCambiarImagenActivo';
 import { ModalRegistrarBajaActivo } from '../components/modals/ModalRegistrarBajaActivo';
+import { ModalRegistrarTrasladoActivo } from '../components/modals/ModalRegistrarTrasladoActivo';
 
 export const AdmActivo = () => {
   const activoContext = useContext(ActivoContext);
-  const { activos, activo, imagenActivo, activoBaja, mensaje, obtenerActivos } =
-    activoContext;
+  const {
+    activos,
+    activo,
+    imagenActivo,
+    activoBaja,
+    activoTraslado,
+    mensaje,
+    obtenerActivos,
+  } = activoContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
@@ -20,6 +28,7 @@ export const AdmActivo = () => {
   const [modalCrearActivo, setModalCrearActivo] = useState(false);
   const [modalCambiarImagen, setModalCambiarImagen] = useState(false);
   const [modalRegistrarBaja, setModalRegistrarBaja] = useState(false);
+  const [modalRegistrarTraslado, setModalRegistrarTraslado] = useState(false);
 
   const [itemsActivo, setItemsActivo] = useState([]);
 
@@ -37,8 +46,11 @@ export const AdmActivo = () => {
     if (activoBaja) {
       setModalRegistrarBaja(true);
     }
+    if (activoTraslado) {
+      setModalRegistrarTraslado(true);
+    }
     obtenerActivos();
-  }, [mensaje, activo, activoBaja, imagenActivo]);
+  }, [mensaje, activo, activoBaja, activoTraslado, imagenActivo]);
 
   useLayoutEffect(() => {
     setItemsActivo(activos);
@@ -95,6 +107,10 @@ export const AdmActivo = () => {
       <ModalRegistrarBajaActivo
         stateModal={modalRegistrarBaja}
         setStateModal={setModalRegistrarBaja}
+      />
+      <ModalRegistrarTrasladoActivo
+        stateModal={modalRegistrarTraslado}
+        setStateModal={setModalRegistrarTraslado}
       />
       <section>
         <div className="container-fluid">
