@@ -56,23 +56,27 @@ export const activoReducer = (state = {}, action) => {
         ambientes: action.payload,
       };
     case AGREGAR_ACTIVO:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
+      const alertaCreado = {
+        msg: 'Activo creado exitosamente',
+        categoria: 'success',
+      };
       return {
         ...state,
         activos: [...state.activos, action.payload],
-        // mensaje: alerta,
+        mensaje: alertaCreado,
       };
     case ACTUALIZAR_ACTIVO:
+      const alerta = {
+        msg: 'Activo actualizado exitosamente',
+        categoria: 'success',
+      };
       return {
         ...state,
         activos: state.activos.map((activo) => {
           if (activo.id_activo === action.payload.id_activo) {
             const updActivo = {
               id_activo: activo.id_activo,
-              codigo_activo: activo.codigo_activo,
+              codigo_activo: action.payload.codigo_activo,
               fecha_ingreso: action.payload.fecha_ingreso,
               descripcion_activo: action.payload.descripcion_activo,
               img_activo: activo.img_activo,
@@ -88,8 +92,8 @@ export const activoReducer = (state = {}, action) => {
           }
           return activo;
         }),
+        mensaje: alerta,
         activo: null,
-        mensaje: null,
       };
     case ACTUALIZAR_IMAGEN_ACTIVO:
       console.log(action.payload);
@@ -211,10 +215,8 @@ export const activoReducer = (state = {}, action) => {
             const updActivo = {
               ...activo,
               fecha_asig_ambiente: action.payload.fecha_asig_ambiente,
-              'ambiente.codigo_ambiente':
-                action.payload.codigo_ambiente,
-              'ambiente.tipo_ambiente':
-                action.payload.tipo_ambiente,
+              'ambiente.codigo_ambiente': action.payload.codigo_ambiente,
+              'ambiente.tipo_ambiente': action.payload.tipo_ambiente,
             };
             return updActivo;
           }

@@ -57,7 +57,7 @@ const activoState = (props) => {
       console.log(error);
       const alerta = {
         msg: error.response.data.msg,
-        categoria: 'danger',
+        categoria: 'error',
       };
       dispatch({
         type: ACTIVO_ERROR,
@@ -160,7 +160,7 @@ const activoState = (props) => {
       console.log(error);
       const alerta = {
         msg: error.response.data.msg,
-        categoria: 'danger',
+        categoria: 'error',
       };
       dispatch({
         type: ACTIVO_ERROR,

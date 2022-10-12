@@ -9,6 +9,8 @@ import { useLayoutEffect } from 'react';
 import { ModalCambiarImagenActivo } from '../components/modals/ModalCambiarImagenActivo';
 import { ModalRegistrarBajaActivo } from '../components/modals/ModalRegistrarBajaActivo';
 import { ModalRegistrarTrasladoActivo } from '../components/modals/ModalRegistrarTrasladoActivo';
+import Swal from 'sweetalert2';
+
 
 export const AdmActivo = () => {
   const activoContext = useContext(ActivoContext);
@@ -35,7 +37,13 @@ export const AdmActivo = () => {
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      // mostrarAlerta(mensaje.msg, mensaje.categoria);
+      Swal.fire({
+        icon: mensaje.categoria,
+        title: mensaje.msg,
+        showConfirmButton: false,
+        timer: 2500,
+      });
     }
     if (activo && !imagenActivo) {
       setModalCrearActivo(true);
@@ -73,11 +81,11 @@ export const AdmActivo = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
+        {/* {alerta ? (
           <div className={`alert alert-${alerta.categoria}`} role="alert">
             {alerta.msg}
           </div>
-        ) : null}
+        ) : null} */}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

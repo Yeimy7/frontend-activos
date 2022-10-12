@@ -31,6 +31,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
 
   const [fecha_ingreso, setFecha_ingreso] = useState('');
   const [descripcion_activo, setDescripcion_activo] = useState('');
+  const [codigo_activo, setCodigo_activo] = useState('');
   const [codigo_ambiente, setCodigo_ambiente] = useState('');
   const [descripcion_aux, setDescripcion_aux] = useState('');
   const [descripcion_g, setDescripcion_g] = useState('');
@@ -42,6 +43,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
     }
     if (activo) {
       setFecha_ingreso(activo[0].fecha_ingreso);
+      setCodigo_activo(activo[0].codigo_activo);
       setDescripcion_activo(activo[0].descripcion_activo);
     }
     if (!activo) {
@@ -53,14 +55,16 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   }, [mensaje, activo]);
 
   const initialForm = {
-    codigo_activo: '',
     costo: '',
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-  const { codigo_activo, costo } = formValues;
+  const { costo } = formValues;
 
   const handleInputChangeFecha = ({ target }) => {
     setFecha_ingreso(target.value);
+  };
+  const handleInputChangeCodigoActivo = ({ target }) => {
+    setCodigo_activo(target.value);
   };
   const handleInputChangeDescripcionActivo = ({ target }) => {
     setDescripcion_activo(target.value);
@@ -68,6 +72,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   const resetForm = () => {
     setFecha_ingreso('');
     setDescripcion_activo('');
+    setCodigo_activo('');
     setCodigo_ambiente('');
     setDescripcion_aux('');
     setDescripcion_g('');
@@ -106,21 +111,6 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       descripcion_g,
       razon_social,
     });
-    if (!mensaje) {
-      Swal.fire({
-        icon: 'success',
-        title: 'Activo creado exitosamente',
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } else {
-      Swal.fire({
-        icon: 'error',
-        title: `${mensaje.msg}`,
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    }
     handleClose();
   };
 
@@ -130,27 +120,27 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       mostrarAlerta('Introduzca una fecha válida', 'danger');
       return;
     }
+    if (codigo_activo && codigo_activo.length < 2) {
+      mostrarAlerta('Introduzca una código de activo válido', 'danger');
+      return;
+    }
     if (descripcion_activo && descripcion_activo.length < 3) {
       mostrarAlerta('Introduzca una descripción válida', 'danger');
       return;
     }
     if (
       fecha_ingreso !== activo[0].fecha_ingreso ||
+      codigo_activo !== activo[0].codigo_activo ||
       descripcion_activo !== activo[0].descripcion_activo
     ) {
       actualizarActivo({
         id_activo: activo[0].id_activo,
+        codigo_activo: codigo_activo,
         fecha_ingreso: fecha_ingreso,
         descripcion_activo: descripcion_activo,
       });
     }
 
-    Swal.fire({
-      icon: 'success',
-      title: 'Activo editado correctamente',
-      showConfirmButton: false,
-      timer: 1500,
-    });
     handleClose();
   };
   const handleClose = () => {
@@ -179,6 +169,11 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
             className="row g-2"
             onSubmit={activo ? handleEditarActivo : handleCrearActivo}
           >
+            {activo && (
+              <p className="text-danger">
+                Deje llenos solo los campos que desea editar
+              </p>
+            )}
             {!activo ? (
               <>
                 <div className="row mb-3">
@@ -232,51 +227,53 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                     ) : null}
                   </div>
                 </div>
-                <div className="row mb-3">
-                  <div className="col">
-                    <label htmlFor="codigo_activo" className="form-label">
-                      Código: <span className="text-danger">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="codigo_activo"
-                      name="codigo_activo"
-                      placeholder="Ingrese código"
-                      autoComplete="off"
-                      value={codigo_activo}
-                      onChange={handleInputChange}
-                    />
-                  </div>
-                  <div className="col">
-                    <label htmlFor="ambiente" className="form-label">
-                      Ambiente: <span className="text-danger">*</span>
-                    </label>
-                    {ambientes ? (
-                      <select
-                        className="form-select"
-                        id="ambiente"
-                        name="ambiente"
-                        defaultValue={codigo_ambiente}
-                        onChange={(e) => {
-                          setCodigo_ambiente(e.target.value);
-                        }}
-                      >
-                        <option value="">Seleccione el ambiente</option>
-                        {ambientes.map((ambiente, index) => (
-                          <option
-                            key={10000 + index}
-                            value={ambiente.codigo_ambiente}
-                          >
-                            {`${ambiente.tipo_ambiente} ${ambiente.codigo_ambiente}`}
-                          </option>
-                        ))}
-                      </select>
-                    ) : null}
-                  </div>
-                </div>
               </>
             ) : null}
+            <div className="row mb-3">
+              <div className="col">
+                <label htmlFor="codigo_activo" className="form-label">
+                  Código: <span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="codigo_activo"
+                  name="codigo_activo"
+                  placeholder="Ingrese código"
+                  autoComplete="off"
+                  value={codigo_activo}
+                  onChange={handleInputChangeCodigoActivo}
+                />
+              </div>
+              {!activo ? (
+                <div className="col">
+                  <label htmlFor="ambiente" className="form-label">
+                    Ambiente: <span className="text-danger">*</span>
+                  </label>
+                  {ambientes ? (
+                    <select
+                      className="form-select"
+                      id="ambiente"
+                      name="ambiente"
+                      defaultValue={codigo_ambiente}
+                      onChange={(e) => {
+                        setCodigo_ambiente(e.target.value);
+                      }}
+                    >
+                      <option value="">Seleccione el ambiente</option>
+                      {ambientes.map((ambiente, index) => (
+                        <option
+                          key={10000 + index}
+                          value={ambiente.codigo_ambiente}
+                        >
+                          {`${ambiente.tipo_ambiente} ${ambiente.codigo_ambiente}`}
+                        </option>
+                      ))}
+                    </select>
+                  ) : null}
+                </div>
+              ) : null}
+            </div>
             <div className="row mb-3">
               <div className="col">
                 <label htmlFor="fecha_ingreso" className="form-label">
