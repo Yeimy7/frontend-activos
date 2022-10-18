@@ -1,15 +1,35 @@
 import React, { useContext } from 'react';
-import { FaFilePdf, FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
+import { FaFilePdf} from 'react-icons/fa';
 import Swal from 'sweetalert2';
-// import AsignacionContext from '../../../context/asignaciones/asignacionContext';
+import clienteAxios from '../../../config/axios';
 
 export const AsignacionControllers = ({ datosAsignacion }) => {
-  // const asignacionContext = useContext(AsignacionContext);
-  // const { eliminarAsignacion, seleccionarAsignacion } = asignacionContext;
-
   const { id_activo } = datosAsignacion;
-  const handleGenerarPdfAsignacion = () => {
-    console.log('aca el acta de asignacion')
+  const handleGenerarPdfAsignacion = async () => {
+    Swal.fire({
+      title: '<p></p>',
+      html: '<h2>Generando acta de Asignación de Activo...</h2>',
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    try {
+      const response = await clienteAxios.post(
+        '/api/asignados/pdf',
+        { id_activo },
+        { responseType: 'blob' }
+      );
+      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+      //PARA GUARDAR DIRECTAMENTE EL PDF (Pero antes debes instalar file-saver):
+      // saveAs(pdfBlob, 'listaActivos.pdf');
+      const fileURL = URL.createObjectURL(pdfBlob);
+      window.open(fileURL, '_blank');
+      Swal.close();
+    } catch (error) {
+      console.log(error);
+      Swal.close();
+    }
   };
   return (
     <div>

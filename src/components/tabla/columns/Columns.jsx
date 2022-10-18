@@ -326,12 +326,12 @@ export const historialBajaColumns = [
     selector: (row) => row.fecha_baja,
     sortable: false,
   },
-  {
-    name: 'Acciones',
-    button: true,
-    width: '170px',
-    cell: (row) => <HistorialBajaControllers datosBaja={row} />,
-  },
+  // {
+  //   name: 'Acciones',
+  //   button: true,
+  //   width: '170px',
+  //   cell: (row) => <HistorialBajaControllers datosBaja={row} />,
+  // },
 ];
 export const historialTrasladoColumns = [
   {
