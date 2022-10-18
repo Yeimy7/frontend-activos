@@ -125,27 +125,15 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-              <Link to={`/${privateRoutes.ADM_HISTORIAL_BAJA}`}>
+                <Link to={`/${privateRoutes.ADM_HISTORIAL_BAJA}`}>
                   <FaClipboardList />
                   <span>Lista de bajas</span>
                 </Link>
               </li>
               <li>
-              <Link to={`/${privateRoutes.ADM_HISTORIAL_TRASLADO}`}>
+                <Link to={`/${privateRoutes.ADM_HISTORIAL_TRASLADO}`}>
                   <FaListAlt />
                   <span>Lista de traslados</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/activos/grupos">
-                  <FaObjectGroup />
-                  <span>Grupos</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/activos/auxiliares" className="item">
-                  <FaChair />
-                  <span>Auxiliar</span>
                 </Link>
               </li>
               <li>
@@ -233,7 +221,7 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Depreciación</li>
               <li>
-                <Link to="/asignar">
+                <Link to={`/${privateRoutes.ADM_DEPRECIACION}`}>
                   <RiBarChartFill />
                   <span>Depreciar</span>
                 </Link>

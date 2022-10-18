@@ -8,6 +8,7 @@ import { DevolucionControllers } from '../controllers/DevolucionControllers';
 import { HistorialDevolucionControllers } from '../controllers/HistorialDevolucionControllers';
 import { HistorialBajaControllers } from '../controllers/HistorialBajaControllers';
 import { HistorialTrasladoControllers } from '../controllers/HistorialTrasladoControllers';
+import { calculoDepreciacionActivo } from '../../../helpers/calculoDepreciacion';
 
 export const releasedColumns = [
   {
@@ -162,7 +163,8 @@ export const activoColumns = [
   },
   {
     name: 'Ambiente',
-    selector: (row) => `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
+    selector: (row) =>
+      `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
     sortable: false,
     wrap: true,
   },
@@ -271,7 +273,8 @@ export const historialDevolucionColumns = [
   },
   {
     name: 'Empleado',
-    selector: (row) => `${row['empleado.nombres']} ${row['empleado.apellidos']}`,
+    selector: (row) =>
+      `${row['empleado.nombres']} ${row['empleado.apellidos']}`,
     sortable: false,
     wrap: true,
   },
@@ -356,7 +359,8 @@ export const historialTrasladoColumns = [
   },
   {
     name: 'Ambiente anterior',
-    selector: (row) => `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
+    selector: (row) =>
+      `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
     sortable: false,
     wrap: true,
   },
@@ -365,5 +369,61 @@ export const historialTrasladoColumns = [
     button: true,
     width: '170px',
     cell: (row) => <HistorialTrasladoControllers datosTraslado={row} />,
+  },
+];
+
+export const depreciacionColumns = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Código',
+    selector: (row) => row.codigo_activo,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row.descripcion_activo,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Precio Bs.',
+    selector: (row) => row.costo,
+    sortable: false,
+  },
+  {
+    name: 'Valor actual',
+    selector: (row) => {
+      return  calculoDepreciacionActivo({
+        precio: row.costo,
+        coeficiente: row['grupo_contable.coeficiente'],
+        vida_util: row['grupo_contable.vida_util'],
+        fecha: row.fecha_ingreso,
+      });
+    },
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Proveedor',
+    selector: (row) => row['proveedor.razon_social'],
+    sortable: false,
+  },
+  {
+    name: 'Imagen',
+    grow: 0,
+    cell: (row) => (
+      <img
+        height="80px"
+        width="80px"
+        alt={row['auxiliar.descripcion_aux']}
+        src={row.img_activo ? formatImageFromDB(row.img_activo) : not_image}
+      />
+    ),
   },
 ];
