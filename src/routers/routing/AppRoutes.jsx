@@ -20,6 +20,7 @@ import { AdmHistorialDevolucion } from '../../pages/AdmHistorialDevolucion';
 import { AdmHistorialBaja } from '../../pages/AdmHistorialBaja';
 import { AdmHistorialTraslado } from '../../pages/AdmHistorialTraslado';
 import { AdmDepreciacion } from '../../pages/AdmDepreciacion';
+import { EscanerCodigoBarra } from '../../pages/EscanerCodigoBarra';
 
 export const AppRoutes = () => {
   return (
@@ -68,6 +69,10 @@ export const AppRoutes = () => {
           <Route
             path={privateRoutes.ADM_DEPRECIACION}
             element={<AdmDepreciacion />}
+          />
+          <Route
+            path={privateRoutes.ESCANER_CODIGO_BARRA}
+            element={<EscanerCodigoBarra />}
           />
           <Route
             path={privateRoutes.CONFIGURATIONS}
