@@ -10,6 +10,7 @@ import {
   BsUpcScan,
 } from 'react-icons/bs';
 import { CardDashboard } from '../components/CardDashboard';
+import { GraficoPastel } from '../components/GraficoPastel';
 
 export const HomeApp = () => {
   return (
@@ -53,12 +54,9 @@ export const HomeApp = () => {
           />
         </div>
       </div>
-      <br />
-      <Link to="/configApp"> Ir a home de la app </Link>
-
-      <button type="button" className="btn btn-primary">
-        Primary
-      </button>
+      <div className="row d-flex justify-content-center">
+        <GraficoPastel />
+      </div>
     </div>
   );
 };
