@@ -7,4 +7,5 @@
 @import './components/ui/_pageContainer.css';
 @import './pages/_login.css';
 @import './pages/_personalData.css';
+@import './pages/_homeApp.css';
 @import './components/_modal.css';

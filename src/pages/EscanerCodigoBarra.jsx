@@ -1,27 +1,29 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { CardActivo } from '../components/CardActivo';
 import clienteAxios from '../config/axios';
-import image from '../assets/not_image.jpg';
-import { MdDescription, MdWork } from 'react-icons/md';
-import { BiCalendar } from 'react-icons/bi';
-import { FaTruck } from 'react-icons/fa';
-import { GiFlatPlatform } from 'react-icons/gi';
-import { BsBuilding } from 'react-icons/bs';
-import { HiOutlineOfficeBuilding, HiUser } from 'react-icons/hi';
 
 export const EscanerCodigoBarra = () => {
   const video = useRef(null);
   const canvas = useRef(null);
+
   const [barcode, setBarcode] = useState(null);
   const [activo, setActivo] = useState(null);
   const [noresult, setNoresult] = useState(null);
+
+  function deshabilitaRetroceso() {
+    window.location.hash = 'no-back-button';
+    window.location.hash = 'Again-No-back-button'; //chrome
+    window.onhashchange = function () {
+      window.location.hash = 'no-back-button';
+    };
+  }
   useEffect(() => {
-    // openCamara();
+    deshabilitaRetroceso();
     const getActivo = async () => {
       try {
         const response = await clienteAxios.get(
           `/api/activos/codigo/${barcode}`
         );
-        console.log(response);
         if (response.data) {
           setActivo(response.data);
           setNoresult(null);
@@ -39,20 +41,20 @@ export const EscanerCodigoBarra = () => {
     }
   }, [barcode]);
 
-  const openCamara = () => {
+  let openCamara = () => {
     navigator.mediaDevices
       .getUserMedia({ video: { facingMode: { exact: 'environment' } } })
       .then((stream) => {
         video.current.srcObject = stream;
         video.current.play();
-        // const canvas = canvas.current;
+        // const canvas2 = canvas.current;
         const ctx = canvas.current.getContext('2d');
         const barcodeDetector = new window.BarcodeDetector({
           formats: ['code_128', 'codabar', 'ean_13'],
         });
         setInterval(() => {
-          // canvas.current.width = 280;
-          // canvas.current.height = 300;
+          canvas.current.width = 280;
+          canvas.current.height = 300;
           ctx.drawImage(
             video.current,
             0,
@@ -73,17 +75,22 @@ export const EscanerCodigoBarra = () => {
       .catch((err) => console.log(err));
   };
 
+  console.log(window.location.pathname);
   return (
     <div className="container">
       <div className="row">
-        <div className="col-12 text-center py-3">
-          <button className="btn btn-primary" onClick={openCamara}>
-           Encender camara
+        <div className="col-6 text-center py-3">
+          <button className="btn btn-primary" onClick={openCamara} key={48}>
+            Encender camara
           </button>
         </div>
+        <div className="col-6 text-center py-3">
+          <a className="btn btn-primary" href="http://127.0.0.1:5173/homeApp">Volver</a>
+        </div>
         <div className="col-12">
-          <video ref={video} width="300px" autoPlay muted hidden />
+          <video key={153} ref={video} width="300px" autoPlay muted hidden />
           <canvas
+            key={8965}
             ref={canvas}
             // width="150px"
             // height="200px"
@@ -91,103 +98,12 @@ export const EscanerCodigoBarra = () => {
           />
         </div>
         {barcode && [
-          <div className="col-12 text-center py-4">
-            <b>Código escaneado:</b> {barcode}
+          <div className="col-12 text-center py-4" key={351}>
+            <b key={65}>Código escaneado:</b> {barcode}
           </div>,
         ]}
-        {activo && (
-          <div className="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
-            <div className="card bg-light p-3">
-              <div className="card-header p-2 bg-light">
-                <span
-                  className={`badge bg-${
-                    activo.estado === 'A' ? 'success' : 'danger'
-                  }`}
-                >
-                  {activo.estado === 'A' ? 'Activo' : 'Inactivo'}
-                </span>
-              </div>
-              <div className="card-body pt-0">
-                <div className="row">
-                  <div className="col-7 my-3">
-                    <h2 className="lead">
-                      <b>{activo['auxiliar.descripcion_aux']}</b>
-                    </h2>
-                    <h2 className="lead mt-2">
-                      <b>Código:</b>
-                      <span className="d-block">{activo.codigo_activo}</span>
-                    </h2>
-                  </div>
-                  <div className="col-5 text-center my-4">
-                    <img
-                      src={image}
-                      alt="activo"
-                      className="img-fluid rounded-circle"
-                    />
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-12">
-                    <ul className="ml-4 mb-0 fa-ul text-muted unstyled list-unstyled">
-                      <li className="small align-items-center" key={1}>
-                        <span className="me-2">
-                          <MdDescription />
-                        </span>
-                        Descripción: {activo.descripcion_activo}
-                      </li>
-                      <li className="small" key={2}>
-                        <span className="me-2">
-                          <BiCalendar />
-                        </span>
-                        fecha de ingreso: {activo.fecha_ingreso}
-                      </li>
-                      <li className="small" key={3}>
-                        <span className="me-2">
-                          <HiOutlineOfficeBuilding />
-                        </span>
-                        Ambiente:{' '}
-                        {`${activo['ambiente.tipo_ambiente']} ${activo['ambiente.codigo_ambiente']}`}
-                      </li>
-                      <li className="small" key={4}>
-                        <span className="me-2">
-                          <GiFlatPlatform />
-                        </span>
-                        Piso: {activo['ambiente.piso.codigo_piso']}
-                      </li>
-                      <li className="small" key={5}>
-                        <span className="me-2">
-                          <BsBuilding />
-                        </span>
-                        Edificio:{' '}
-                        {activo['ambiente.piso.edificio.nombre_edificio']}
-                      </li>
-                      <li className="small" key={6}>
-                        <span className="me-2">
-                          <HiUser />
-                        </span>
-                        Responsable: {activo.empleado || 'Sin asignar'}
-                      </li>
-                      <li className="small" key={7}>
-                        <span className="me-2">
-                          <MdWork />
-                        </span>
-                        Cargo del responsable:{' '}
-                        {activo['empleado.cargo.descripcion_cargo'] || '---'}
-                      </li>
-                      <li className="small" key={8}>
-                        <span className="me-2">
-                          <FaTruck />
-                        </span>
-                        Proveedor: {activo['proveedor.razon_social']}
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-        {noresult ? <p>{noresult}</p> : null}
+        {activo ? <CardActivo activo={activo} key={1654153} /> : null}
+        {noresult ? <p key={526}>{noresult}</p> : null}
       </div>
     </div>
   );

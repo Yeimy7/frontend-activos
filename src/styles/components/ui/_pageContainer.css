@@ -1,7 +1,7 @@
 .page-section {
     position: relative;
     background: var(--blanco);
-    border: 1px solid red;
+    /* border: 1px solid red; */
     /* max-height: auto; */
     /* height: 553px; */
     min-height: 553px;
