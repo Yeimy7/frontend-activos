@@ -55,8 +55,8 @@ export const Login = () => {
               {alerta.msg}
             </div>
           ) : null}
-          <div className="text-end">
-            <img src={logo} width="50" alt="logo" />
+          <div className="text-center">
+            <img src={logo} alt="logo" className='logo-institucion' />
           </div>
           <h2 className="fw-bold text-center py-4">Iniciar sesión</h2>
           <form onSubmit={onSubmit}>

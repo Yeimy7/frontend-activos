@@ -137,9 +137,9 @@ export const Sidebar = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/activos/lista-anio" className="item">
+                <Link to={`/${privateRoutes.LISTA_ACTIVOS}`}>
                   <FaListAlt />
-                  <span>Listar por año</span>
+                  <span>Listas filtradas</span>
                 </Link>
               </li>
             </ul>
@@ -273,7 +273,7 @@ export const Sidebar = () => {
                 <i>
                   <FaTruckLoading />
                 </i>
-                <span className="link_name">Proveedores</span>
+                <span className="link_name">Entidades</span>
               </div>
               <i
                 className="arrow"
@@ -283,11 +283,11 @@ export const Sidebar = () => {
               </i>
             </div>
             <ul className="sub-menu">
-              <li className="link_name">Proveedores</li>
+              <li className="link_name">Entidades</li>
               <li>
                 <Link to={`/${privateRoutes.PROVIDER_MANAGMENT}`}>
                   <FaClipboardList />
-                  <span>Gestión proveedor</span>
+                  <span>Gestión entidad</span>
                 </Link>
               </li>
             </ul>

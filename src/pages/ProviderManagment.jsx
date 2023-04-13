@@ -44,13 +44,13 @@ export const ProviderManagment = () => {
           <div className="row mb-2">
             <div className="col">
               <h1>
-                Gestión proveedor
+                Gestión entidad
                 <button
                   type="button"
                   className="btn btn-primary mx-4"
                   onClick={() => setModalCreateProvider(true)}
                 >
-                  Crear proveedor
+                  Crear entidad
                 </button>
               </h1>
             </div>
@@ -66,7 +66,7 @@ export const ProviderManagment = () => {
         <div className="container-fluid">
           <div className="card card-success">
             <div className="card-header">
-              <h3 className="card-title">Buscar proveedor</h3>
+              <h3 className="card-title">Buscar entidad</h3>
               <div className="input-group mb-3">
                 <input
                   type="text"
@@ -93,7 +93,7 @@ export const ProviderManagment = () => {
               <div id="proveedores" className="row d-flex align-items-stretch">
                 {!proveedores || proveedores.length === 0 ? (
                   <p className="text-center fs-6 text-muted">
-                    No existen proveedores registrados
+                    No existen entidades registradas
                   </p>
                 ) : (
                   proveedores

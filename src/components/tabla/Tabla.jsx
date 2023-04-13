@@ -15,7 +15,7 @@ export const Tabla = ({ title, columns, data }) => {
   const personalizacionTabla = {
     headCells: {
       style: {
-        backgroundColor: '#D1E7DD',
+        backgroundColor: '#d7c1c5c2',
         color: 'black',
         fontWeight: 'bold',
         fontSize: '16px',

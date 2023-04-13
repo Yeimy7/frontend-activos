@@ -141,7 +141,7 @@ export const AdmActivo = () => {
           <div className="row mb-5">
             <div className="col">
               <h1>
-                <span className='me-4'>Gestión activo</span>
+                <span className='me-4'>Gestión activos</span>
                 <button
                   type="button"
                   className="btn btn-primary mx-2"

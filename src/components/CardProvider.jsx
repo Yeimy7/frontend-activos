@@ -27,7 +27,7 @@ export const CardProvider = ({ providerData }) => {
         eliminarProveedor(providerData.id_proveedor);
         Swal.fire({
           icon: 'success',
-          title: 'Proveedor eliminado',
+          title: 'Entidad eliminado',
           showConfirmButton: false,
           timer: 1000,
         });
@@ -39,7 +39,7 @@ export const CardProvider = ({ providerData }) => {
     <div className="col-12 col-sm-12 col-md-4 d-flex align-items-stretch p-1">
       <div className="card text-bg-light">
         <div className="card-header text-muted border-bottom-0 text-bg-light">
-          <span className="badge text-bg-success">Proveedor</span>
+          <span className="badge text-bg-success">Entidad</span>
         </div>
         <div className="card-body pt-0">
           <div className="row">

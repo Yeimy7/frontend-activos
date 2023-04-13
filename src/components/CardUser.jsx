@@ -34,7 +34,7 @@ export const CardUser = ({ userData }) => {
   const handleDescend = () => {
     Swal.fire({
       icon: 'question',
-      html: `<p>Está seguro que desea cambiar el rol a <b>Usuario</b>? </p>`,
+      html: `<p>Está seguro que desea cambiar el rol a <b>Custodio</b>? </p>`,
       showDenyButton: true,
       denyButtonText: 'Cancelar',
       showConfirmButton: true,
@@ -120,7 +120,7 @@ export const CardUser = ({ userData }) => {
                 </i>
                 Eliminar
               </button>
-              {userData['rol.nombre_rol'] === 'Usuario' ? (
+              {userData['rol.nombre_rol'] === 'Custodio' ? (
                 <button
                   className="btn btn-primary ms-1"
                   onClick={() => handleAscend()}

@@ -102,7 +102,7 @@ export const empleadoColumns = [
   {
     name: 'Nombre',
     selector: (row) => row.nombres,
-    sortable: false,
+    sortable: true,
   },
   {
     name: 'Apellidos',
@@ -147,7 +147,7 @@ export const activoColumns = [
   {
     name: 'Código',
     selector: (row) => row.codigo_activo,
-    sortable: false,
+    sortable: true,
     wrap: true,
   },
   {
@@ -169,7 +169,7 @@ export const activoColumns = [
     wrap: true,
   },
   {
-    name: 'Proveedor',
+    name: 'Entidad',
     selector: (row) => row['proveedor.razon_social'],
     sortable: false,
   },
@@ -326,12 +326,12 @@ export const historialBajaColumns = [
     selector: (row) => row.fecha_baja,
     sortable: false,
   },
-  // {
-  //   name: 'Acciones',
-  //   button: true,
-  //   width: '170px',
-  //   cell: (row) => <HistorialBajaControllers datosBaja={row} />,
-  // },
+  {
+    name: 'Acciones',
+    button: true,
+    width: '170px',
+    cell: (row) => <HistorialBajaControllers datosBaja={row} />,
+  },
 ];
 export const historialTrasladoColumns = [
   {
@@ -410,7 +410,7 @@ export const depreciacionColumns = [
     wrap: true,
   },
   {
-    name: 'Proveedor',
+    name: 'Entidad',
     selector: (row) => row['proveedor.razon_social'],
     sortable: false,
   },
@@ -425,5 +425,64 @@ export const depreciacionColumns = [
         src={row.img_activo ? formatImageFromDB(row.img_activo) : not_image}
       />
     ),
+  },
+];
+
+export const porCustodios = [
+  {
+    name: 'Nro',
+    width: '60px',
+    cell: (_row, index) => index + 1,
+    grow: 0,
+  },
+  {
+    name: 'Código',
+    selector: (row) => row.codigo_activo,
+    sortable: true,
+    wrap: true,
+  },
+  {
+    name: 'Descripción',
+    selector: (row) => row.descripcion_activo,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Grupo contable',
+    selector: (row) =>  row['grupo_contable.descripcion_g'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Ambiente',
+    selector: (row) =>
+      `${row['ambiente.tipo_ambiente']} ${row['ambiente.codigo_ambiente']}`,
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Entidad',
+    selector: (row) => row['proveedor.razon_social'],
+    sortable: false,
+    wrap: true,
+  },
+  {
+    name: 'Imagen',
+    grow: 0,
+    cell: (row) => (
+      <img
+        height="80px"
+        width="80px"
+        alt={row['auxiliar.descripcion_aux']}
+        src={row.img_activo ? formatImageFromDB(row.img_activo) : not_image}
+      />
+    ),
+  },
+  {
+    name: 'Custodio',
+    selector: (row) =>
+      `${row.nombres} ${row.apellidos}`,
+    sortable: false,
+    wrap: true,
   },
 ];

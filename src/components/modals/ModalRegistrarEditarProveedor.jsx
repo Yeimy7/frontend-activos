@@ -114,7 +114,7 @@ export const ModalRegistrarEditarProveedor = ({
     <Modal
       stateModal={stateModal}
       setStateModal={setStateModal}
-      title={`${proveedor ? 'Editar proveedor' : 'Registrar proveedor'}`}
+      title={`${proveedor ? 'Editar entidad' : 'Registrar entidad'}`}
       size="50"
       btnClose={false}
     >

@@ -14,6 +14,7 @@ import ActivoState from './context/activos/activoState';
 import DevolucionState from './context/devolucion/devolucionState';
 import BajaState from './context/bajas/bajaState';
 import TrasladoState from './context/traslados/trasladoState';
+import ListaState from './context/listas/listaState';
 import { MainRouter } from './routers/routing/MainRouter';
 //Revisar si tenemos un token
 const token = localStorage.getItem('token');
@@ -29,19 +30,21 @@ function App() {
           <UserState>
             <AreaState>
               <CargoState>
-                <ProveedorState>
-                  <EmpleadoState>
-                    <ActivoState>
-                      <DevolucionState>
-                        <BajaState>
-                          <TrasladoState>
-                            <MainRouter />
-                          </TrasladoState>
-                        </BajaState>
-                      </DevolucionState>
-                    </ActivoState>
-                  </EmpleadoState>
-                </ProveedorState>
+                <ListaState>
+                  <ProveedorState>
+                    <EmpleadoState>
+                      <ActivoState>
+                        <DevolucionState>
+                          <BajaState>
+                            <TrasladoState>
+                              <MainRouter />
+                            </TrasladoState>
+                          </BajaState>
+                        </DevolucionState>
+                      </ActivoState>
+                    </EmpleadoState>
+                  </ProveedorState>
+                </ListaState>
               </CargoState>
             </AreaState>
           </UserState>

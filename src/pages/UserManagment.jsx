@@ -44,7 +44,7 @@ export const UserManagment = () => {
           <div className="row mb-2">
             <div className="col">
               <h1>
-                Gestion usuarios
+                Gestión usuarios
                 <button
                   type="button"
                   className="btn btn-primary mx-4"

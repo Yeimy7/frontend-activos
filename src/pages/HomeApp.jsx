@@ -32,25 +32,25 @@ export const HomeApp = () => {
             icono={<BsJournalText />}
             texto="Activos registrados"
             cantidad={1150}
-            color="azul"
+            color="registrados"
           />
           <CardDashboard
             icono={<BsJournalCheck />}
             texto="Activos asignados"
             cantidad={1100}
-            color="rojo"
+            color="asignados"
           />
           <CardDashboard
             icono={<BsJournalX />}
             texto="Activos con baja"
             cantidad={10}
-            color="celeste"
+            color="baja"
           />
           <CardDashboard
             icono={<BsPerson />}
-            texto="Empleados"
+            texto="Custodios"
             cantidad={50}
-            color="lila"
+            color="custodios"
           />
         </div>
       </div>
