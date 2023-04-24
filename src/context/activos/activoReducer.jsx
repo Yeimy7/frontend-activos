@@ -22,6 +22,9 @@ import {
   ACTIVO_A_TRASLADAR,
   LIMPIAR_ACTIVO_A_TRASLADAR,
   TRASLADO_ACTIVO,
+  OBTENER_TOTAL_ACTIVOS,
+  OBTENER_TOTAL_ASIGNADOS,
+  ACTIVO_OBTENER_TOTAL_GRUPOS,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -29,6 +32,16 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         activos: action.payload,
+      };
+    case OBTENER_TOTAL_ACTIVOS:
+      return {
+        ...state,
+        totalActivos: action.payload,
+      };
+    case OBTENER_TOTAL_ASIGNADOS:
+      return {
+        ...state,
+        totalActivosAsignados: action.payload,
       };
     case OBTENER_ACTIVOS_ASIGNADOS:
       return {
@@ -49,6 +62,11 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         grupos: action.payload,
+      };
+    case ACTIVO_OBTENER_TOTAL_GRUPOS:
+      return {
+        ...state,
+        totalGrupos: action.payload,
       };
     case ACTIVO_OBTENER_AMBIENTES:
       return {

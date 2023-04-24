@@ -26,6 +26,9 @@ import {
   ACTIVO_A_TRASLADAR,
   LIMPIAR_ACTIVO_A_TRASLADAR,
   TRASLADO_ACTIVO,
+  OBTENER_TOTAL_ACTIVOS,
+  OBTENER_TOTAL_ASIGNADOS,
+  ACTIVO_OBTENER_TOTAL_GRUPOS,
 } from '../../types';
 
 const activoState = (props) => {
@@ -35,12 +38,15 @@ const activoState = (props) => {
     activoBaja: null,
     activoTraslado:null,
     activos: [],
+    totalActivos:null,
+    totalActivosAsignados:null,
     activosAsignados: [],
     activosNoAsignados: [],
     imagenActivo: false,
     mensaje: null,
     auxiliares: [],
     grupos: [],
+    totalGrupos:[],
     ambientes: [],
   };
 
@@ -85,6 +91,25 @@ const activoState = (props) => {
       });
     }
   };
+  const obtenerTotalActivos = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/activos/total');
+      dispatch({
+        type: OBTENER_TOTAL_ACTIVOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
 
   const obtenerAuxiliares = async () => {
     try {
@@ -111,6 +136,26 @@ const activoState = (props) => {
       const resultado = await clienteAxios.get('/api/grupos');
       dispatch({
         type: ACTIVO_OBTENER_GRUPOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  const obtenerTotalGrupos = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/grupos/total');
+      dispatch({
+        type: ACTIVO_OBTENER_TOTAL_GRUPOS,
         payload: resultado.data,
       });
     } catch (error) {
@@ -240,6 +285,25 @@ const activoState = (props) => {
     dispatch({
       type: LIMPIAR_ACTIVO_BAJA,
     });
+  };
+  const obtenerTotalAsignados = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/asignados/total');
+      dispatch({
+        type: OBTENER_TOTAL_ASIGNADOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: ACTIVO_ERROR,
+        payload: alerta,
+      });
+    }
   };
   const obtenerActivosAsignados = async () => {
     try {
@@ -375,17 +439,22 @@ const activoState = (props) => {
         activoBaja: state.activoBaja,
         activoTraslado: state.activoTraslado,
         activos: state.activos,
+        totalActivos:state.totalActivos,
+        totalActivosAsignados:state.totalActivosAsignados,
         activosAsignados: state.activosAsignados,
         activosNoAsignados: state.activosNoAsignados,
         imagenActivo: state.imagenActivo,
         mensaje: state.mensaje,
         auxiliares: state.auxiliares,
         grupos: state.grupos,
+        totalGrupos:state.totalGrupos,
         ambientes: state.ambientes,
         registrarActivo,
         obtenerActivos,
+        obtenerTotalActivos,
         obtenerAuxiliares,
         obtenerGrupos,
+        obtenerTotalGrupos,
         obtenerAmbientes,
         actualizarActivo,
         editarImagen,
@@ -399,6 +468,7 @@ const activoState = (props) => {
         limpiarActivoADevolver,
         limpiarActivoBaja,
         limpiarActivoTraslado,
+        obtenerTotalAsignados,
         obtenerActivosAsignados,
         obtenerActivosNoAsignados,
         asignarActivo,

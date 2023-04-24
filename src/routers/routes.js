@@ -1,7 +1,8 @@
 export const publicRoutes = {
     LOGIN: 'login',
     REGISTER: 'register',
-    RESET_PASSWORD: 'resetPassword'
+    RESET_PASSWORD: 'resetPassword',
+    NEW_PASSWORD: 'new-password'
 }
 
 export const privateRoutes = {

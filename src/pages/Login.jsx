@@ -6,6 +6,7 @@ import { useForm } from '../hooks/useForm';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.jpg';
 import { useEffect } from 'react';
+import { publicRoutes } from '../routers/routes';
 
 export const Login = () => {
   const history = useNavigate();
@@ -56,7 +57,7 @@ export const Login = () => {
             </div>
           ) : null}
           <div className="text-center">
-            <img src={logo} alt="logo" className='logo-institucion' />
+            <img src={logo} alt="logo" className="logo-institucion" />
           </div>
           <h2 className="fw-bold text-center py-4">Iniciar sesión</h2>
           <form onSubmit={onSubmit}>
@@ -91,7 +92,9 @@ export const Login = () => {
             </div>
             <div className="my-3">
               <span>
-                <Link to={'/nueva-cuenta'}>Recuperar contraseña</Link>
+                <Link to={`/auth/${publicRoutes.RESET_PASSWORD}`}>
+                  Recuperar contraseña
+                </Link>
               </span>
             </div>
           </form>

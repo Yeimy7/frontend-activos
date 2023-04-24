@@ -13,6 +13,9 @@ import {
   CAMBIAR_PASSWORD,
   EDIT_ERROR,
   CAMBIAR_IMAGEN_PERFIL,
+  RECUPERAR_PASS,
+  RESET_MESSAGE,
+  NUEVO_PASSWORD,
 } from '../../types';
 
 const AuthState = (props) => {
@@ -31,7 +34,7 @@ const AuthState = (props) => {
   const loggedIn = async () => {
     const token = localStorage.getItem('token');
     if (token) {
-      tokenAuth(token);
+      tokenAuth(token, 'x-auth-token');
     }
     try {
       const respuesta = await clienteAxios.get('api/auth/profile');
@@ -126,6 +129,50 @@ const AuthState = (props) => {
       });
     }
   };
+  const recuperarPassword = async (data) => {
+    try {
+      const respuesta = await clienteAxios.put(
+        `/api/auth/forgot-password`,
+        data
+      );
+      dispatch({
+        type: RECUPERAR_PASS,
+        payload: respuesta.data,
+      });
+      resetMessage();
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: EDIT_ERROR,
+        payload: alerta,
+      });
+    }
+    resetMessage();
+  };
+  const nuevoPassword = async (data) => {
+    const { token, newPassword } = data;
+    if (token) {
+      tokenAuth(token, 'reset');
+    }
+    try {
+      const respuesta = await clienteAxios.put('api/auth/new-password', {
+        newPassword,
+      });
+      dispatch({
+        type: NUEVO_PASSWORD,
+        payload: respuesta.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: EDIT_ERROR,
+      });
+    }
+    resetMessage();
+  };
 
   const uploadProfileImage = async (data) => {
     try {
@@ -148,6 +195,14 @@ const AuthState = (props) => {
     }
   };
 
+  const resetMessage = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+
   const [state, dispatch] = useReducer(authReducer, initialState);
   return (
     <authContext.Provider
@@ -164,7 +219,10 @@ const AuthState = (props) => {
         enableEdit,
         editUser,
         editPassword,
+        recuperarPassword,
         uploadProfileImage,
+        resetMessage,
+        nuevoPassword,
       }}
     >
       {props.children}

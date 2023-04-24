@@ -10,11 +10,13 @@ import {
   EMPLEADO_ACTUAL,
   LIMPIAR_EMPLEADO,
   ACTUALIZAR_EMPLEADO,
+  OBTENER_TOTAL_EMPLEADOS,
 } from '../../types';
 
 const empleadoState = (props) => {
   const initialState = {
     empleados: [],
+    totalEmpleados:null,
     empleado: null,
     mensaje: null,
   };
@@ -46,6 +48,26 @@ const empleadoState = (props) => {
       const resultado = await clienteAxios.get('/api/empleados');
       dispatch({
         type: OBTENER_EMPLEADOS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: EMPLEADO_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  const obtenerTotalEmpleados = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/empleados/total');
+      dispatch({
+        type: OBTENER_TOTAL_EMPLEADOS,
         payload: resultado.data,
       });
     } catch (error) {
@@ -120,10 +142,12 @@ const empleadoState = (props) => {
     <empleadoContext.Provider
       value={{
         empleados: state.empleados,
+        totalEmpleados:state.totalEmpleados,
         empleado: state.empleado,
         mensaje: state.mensaje,
         registrarEmpleado,
         obtenerEmpleados,
+        obtenerTotalEmpleados,
         actualizarEmpleado,
         eliminarEmpleado,
         seleccionarEmpleado,

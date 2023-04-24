@@ -6,6 +6,7 @@ import {
   EMPLEADO_ACTUAL,
   LIMPIAR_EMPLEADO,
   ACTUALIZAR_EMPLEADO,
+  OBTENER_TOTAL_EMPLEADOS,
 } from '../../types';
 export const empleadoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -13,6 +14,11 @@ export const empleadoReducer = (state = {}, action) => {
       return {
         ...state,
         empleados: action.payload,
+      };
+    case OBTENER_TOTAL_EMPLEADOS:
+      return {
+        ...state,
+        totalEmpleados: action.payload,
       };
     case AGREGAR_EMPLEADO:
       // const alerta = {
@@ -25,7 +31,7 @@ export const empleadoReducer = (state = {}, action) => {
         // mensaje: alerta,
       };
     case ACTUALIZAR_EMPLEADO:
-      console.log(action.payload['cargo.descripcion_cargo'])
+      console.log(action.payload['cargo.descripcion_cargo']);
       return {
         ...state,
         empleados: state.empleados.map((empleado) => {
@@ -36,8 +42,10 @@ export const empleadoReducer = (state = {}, action) => {
               apellidos: empleado.apellidos,
               ci: empleado.ci,
               fecha_incorporacion: action.payload.fecha_incorporacion,
-              'cargo.descripcion_cargo': action.payload['cargo.descripcion_cargo'],
-              'cargo.area.nombre_area': action.payload['cargo.area.nombre_area'],
+              'cargo.descripcion_cargo':
+                action.payload['cargo.descripcion_cargo'],
+              'cargo.area.nombre_area':
+                action.payload['cargo.area.nombre_area'],
             };
             return updEmpleado;
           }

@@ -11,8 +11,32 @@ import {
 } from 'react-icons/bs';
 import { CardDashboard } from '../components/CardDashboard';
 import { GraficoPastel } from '../components/GraficoPastel';
+import ActivoContext from '../context/activos/activoContext';
+import BajaContext from '../context/bajas/bajaContext';
+import EmpleadoContext from '../context/empleados/empleadoContext';
 
 export const HomeApp = () => {
+  const activoContext = useContext(ActivoContext);
+  const {
+    obtenerTotalActivos,
+    obtenerTotalAsignados,
+    totalActivos,
+    totalActivosAsignados,
+  } = activoContext;
+
+  const bajaContext = useContext(BajaContext);
+  const { obtenerTotalBajas, totalBajas } = bajaContext;
+
+  const empleadoContext = useContext(EmpleadoContext);
+  const { obtenerTotalEmpleados, totalEmpleados } = empleadoContext;
+
+  useEffect(() => {
+    obtenerTotalActivos();
+    obtenerTotalAsignados();
+    obtenerTotalBajas();
+    obtenerTotalEmpleados();
+  }, []);
+
   return (
     <div className="container container-fluid">
       <div className="row d-flex justify-content-center">
@@ -31,25 +55,25 @@ export const HomeApp = () => {
           <CardDashboard
             icono={<BsJournalText />}
             texto="Activos registrados"
-            cantidad={1150}
+            cantidad={totalActivos}
             color="registrados"
           />
           <CardDashboard
             icono={<BsJournalCheck />}
             texto="Activos asignados"
-            cantidad={1100}
+            cantidad={totalActivosAsignados}
             color="asignados"
           />
           <CardDashboard
             icono={<BsJournalX />}
             texto="Activos con baja"
-            cantidad={10}
+            cantidad={totalBajas}
             color="baja"
           />
           <CardDashboard
             icono={<BsPerson />}
             texto="Custodios"
-            cantidad={50}
+            cantidad={totalEmpleados}
             color="custodios"
           />
         </div>

@@ -4,6 +4,7 @@ import {
   BAJA_ACTUAL,
   BAJA_ERROR,
   LIMPIAR_BAJA,
+  OBTENER_TOTAL_BAJAS,
 } from '../../types';
 export const bajaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -11,6 +12,11 @@ export const bajaReducer = (state = {}, action) => {
       return {
         ...state,
         bajas: action.payload,
+      };
+    case OBTENER_TOTAL_BAJAS:
+      return {
+        ...state,
+        totalBajas: action.payload,
       };
     case REGISTRAR_BAJA:
       // const alerta = {
@@ -25,9 +31,7 @@ export const bajaReducer = (state = {}, action) => {
     case BAJA_ACTUAL:
       return {
         ...state,
-        baja: state.bajas.filter(
-          (baja) => baja.id_baja === action.payload
-        ),
+        baja: state.bajas.filter((baja) => baja.id_baja === action.payload),
         mensaje_baja: null,
       };
 

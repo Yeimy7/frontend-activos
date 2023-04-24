@@ -10,6 +10,9 @@ import {
   CAMBIAR_PASSWORD,
   EDIT_ERROR,
   CAMBIAR_IMAGEN_PERFIL,
+  RECUPERAR_PASS,
+  RESET_MESSAGE,
+  NUEVO_PASSWORD,
 } from '../../types';
 
 export const authReducer = (state = {}, action) => {
@@ -44,6 +47,8 @@ export const authReducer = (state = {}, action) => {
       };
     case CAMBIAR_IMAGEN_PERFIL:
     case CAMBIAR_PASSWORD:
+    case RECUPERAR_PASS:
+    case NUEVO_PASSWORD:
       return {
         ...state,
         message: action.payload,
@@ -65,6 +70,11 @@ export const authReducer = (state = {}, action) => {
         message: action.payload,
         loading: false,
         edit: false,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        message: null,
       };
     default:
       return state;

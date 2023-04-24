@@ -8,11 +8,13 @@ import {
   OBTENER_BAJAS,
   BAJA_ACTUAL,
   LIMPIAR_BAJA,
+  OBTENER_TOTAL_BAJAS,
 } from '../../types';
 
 const bajaState = (props) => {
   const initialState = {
     bajas: [],
+    totalBajas:null,
     baja: null,
     mensaje_baja: null,
   };
@@ -58,6 +60,25 @@ const bajaState = (props) => {
       });
     }
   };
+  const obtenerTotalBajas = async () => {
+    try {
+      const resultado = await clienteAxios.get('/api/bajas/total');
+      dispatch({
+        type: OBTENER_TOTAL_BAJAS,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: BAJA_ERROR,
+        payload: alerta,
+      });
+    }
+  };
   // Actualizar baja
 
   const seleccionarBaja = (id_baja) => {
@@ -76,10 +97,12 @@ const bajaState = (props) => {
     <bajaContext.Provider
       value={{
         bajas: state.bajas,
+        totalBajas:state.totalBajas,
         baja: state.baja,
         mensaje_baja: state.mensaje_baja,
         registrarBaja,
         obtenerBajas,
+        obtenerTotalBajas,
         seleccionarBaja,
         limpiarBaja,
       }}

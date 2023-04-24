@@ -56,9 +56,12 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
 
   const initialForm = {
     costo: '',
+    dep_acumulada: '',
+    valor_residual: '',
+    indice_ufv: '',
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-  const { costo } = formValues;
+  const { costo, dep_acumulada, valor_residual, indice_ufv } = formValues;
 
   const handleInputChangeFecha = ({ target }) => {
     setFecha_ingreso(target.value);
@@ -86,6 +89,9 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       codigo_activo.trim() === '' ||
       fecha_ingreso.trim() === '' ||
       costo.trim() === '' ||
+      dep_acumulada.trim() === '' ||
+      valor_residual.trim() === '' ||
+      indice_ufv.trim() === '' ||
       descripcion_activo.trim() === '' ||
       codigo_ambiente.trim() === '' ||
       descripcion_aux.trim() === '' ||
@@ -106,6 +112,9 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       fecha_ingreso,
       descripcion_activo,
       costo,
+      dep_acumulada,
+      valor_residual,
+      indice_ufv,
       codigo_ambiente,
       descripcion_aux,
       descripcion_g,
@@ -307,7 +316,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                   </div>
                   <div className="col">
                     <label htmlFor="proveedor" className="form-label">
-                      Proveedor: <span className="text-danger">*</span>
+                      Entidad: <span className="text-danger">*</span>
                     </label>
                     {proveedores ? (
                       <select
@@ -319,7 +328,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                           setRazon_social(e.target.value);
                         }}
                       >
-                        <option value="">Seleccione proveedor</option>
+                        <option value="">Seleccione entidad</option>
                         {proveedores.map((proveedor, index) => (
                           <option
                             key={100000 + index}
@@ -334,6 +343,56 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                 </>
               ) : null}
             </div>
+            {!activo ? (
+              <div className="row mb-3">
+                <div className="col">
+                  <label htmlFor="dep_acumulada" className="form-label">
+                    Depreciación acumulada:
+                    <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="number"
+                    className="form-control"
+                    id="dep_acumulada"
+                    name="dep_acumulada"
+                    placeholder="Ingrese la dep acumulada"
+                    autoComplete="off"
+                    value={dep_acumulada}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col">
+                  <label htmlFor="valor_residual" className="form-label">
+                    Valor residual : <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="valor_residual"
+                    name="valor_residual"
+                    placeholder="Ingrese el valor residual"
+                    autoComplete="off"
+                    value={valor_residual}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="col">
+                  <label htmlFor="indice_ufv" className="form-label">
+                    Indice UFV: <span className="text-danger">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="form-control"
+                    id="indice_ufv"
+                    name="indice_ufv"
+                    placeholder="Ingrese el indice UFV"
+                    autoComplete="off"
+                    value={indice_ufv}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            ) : null}
             <div className="row mb-3">
               <div className="col">
                 <label htmlFor="descripcion" className="form-label">
