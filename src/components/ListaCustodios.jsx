@@ -13,12 +13,14 @@ export const ListaCustodios = () => {
     listaCustodios,
     mensaje,
     limpiarListaCustodios,
+    custodio,
+    establecerCustodio,
   } = listaContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const [id_custodio, setId_custodio] = useState('');
+  // const [id_custodio, setId_custodio] = useState('');
 
   const [listaDatos, setListaDatos] = useState([]);
 
@@ -27,12 +29,16 @@ export const ListaCustodios = () => {
       mostrarAlerta(mensaje.msg, mensaje.categoria);
     }
     obtenerCustodios();
-    obtenerPorCustodio(id_custodio);
-  }, [mensaje, id_custodio]);
+    obtenerPorCustodio(custodio);
+  }, [mensaje, custodio]);
 
   useLayoutEffect(() => {
     setListaDatos(listaCustodios);
   }, [listaCustodios]);
+
+  const handleEstablecerCustodio = (e) => {
+    establecerCustodio(e.target.value);
+  };
   return (
     <div>
       <div className="card card-success">
@@ -47,7 +53,7 @@ export const ListaCustodios = () => {
                   aria-label="Default select example"
                   defaultValue={'Seleccione custodio'}
                   onChange={(e) => {
-                    setId_custodio(e.target.value);
+                    handleEstablecerCustodio(e);
                   }}
                 >
                   <option value={'Seleccione custodio'}>

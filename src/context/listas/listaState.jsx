@@ -12,10 +12,16 @@ import {
   LIMPIAR_LISTA_CUSTODIOS,
   LIMPIAR_LISTA_GRUPOS,
   LIMPIAR_LISTA_ENTIDADES,
+  ESTABLECER_CUSTODIO,
+  ESTABLECER_ENTIDAD,
+  ESTABLECER_GRUPO,
 } from '../../types';
 
 const listaState = (props) => {
   const initialState = {
+    custodio: null,
+    entidad: null,
+    grupo: null,
     custodios: [],
     entidades: [],
     grupos: [],
@@ -87,7 +93,9 @@ const listaState = (props) => {
 
   const obtenerPorCustodio = async (id_persona) => {
     try {
-      const resultado = await clienteAxios.get(`/api/activos/custodio/${id_persona}`);
+      const resultado = await clienteAxios.get(
+        `/api/activos/custodio/${id_persona}`
+      );
       dispatch({
         type: OBTENER_POR_CUSTODIO,
         payload: resultado.data,
@@ -107,7 +115,9 @@ const listaState = (props) => {
 
   const obtenerPorGrupo = async (id_grupo) => {
     try {
-      const resultado = await clienteAxios.get(`/api/activos/grupo/${id_grupo}`);
+      const resultado = await clienteAxios.get(
+        `/api/activos/grupo/${id_grupo}`
+      );
       dispatch({
         type: OBTENER_POR_GRUPO,
         payload: resultado.data,
@@ -127,7 +137,9 @@ const listaState = (props) => {
 
   const obtenerPorEntidad = async (id_entidad) => {
     try {
-      const resultado = await clienteAxios.get(`/api/activos/entidad/${id_entidad}`);
+      const resultado = await clienteAxios.get(
+        `/api/activos/entidad/${id_entidad}`
+      );
       dispatch({
         type: OBTENER_POR_ENTIDAD,
         payload: resultado.data,
@@ -143,7 +155,7 @@ const listaState = (props) => {
         payload: alerta,
       });
     }
-  }
+  };
   const limpiarListaCustodios = () => {
     dispatch({
       type: LIMPIAR_LISTA_CUSTODIOS,
@@ -160,9 +172,31 @@ const listaState = (props) => {
     });
   };
 
+  const establecerCustodio = (id_custodio) => {
+    dispatch({
+      type: ESTABLECER_CUSTODIO,
+      payload: id_custodio,
+    });
+  };
+  const establecerEntidad = (id_entidad) => {
+    dispatch({
+      type: ESTABLECER_ENTIDAD,
+      payload: id_entidad,
+    });
+  };
+  const establecerGrupo = (id_grupo) => {
+    dispatch({
+      type: ESTABLECER_GRUPO,
+      payload: id_grupo,
+    });
+  };
+
   return (
     <listaContext.Provider
       value={{
+        custodio:state.custodio,
+        entidad:state.entidad,
+        grupo:state.grupo,
         custodios: state.custodios,
         grupos: state.grupos,
         entidades: state.entidades,
@@ -177,7 +211,10 @@ const listaState = (props) => {
         obtenerPorEntidad,
         limpiarListaCustodios,
         limpiarListaGrupos,
-        limpiarListaEntidades
+        limpiarListaEntidades,
+        establecerCustodio,
+        establecerEntidad,
+        establecerGrupo,
       }}
     >
       {props.children}

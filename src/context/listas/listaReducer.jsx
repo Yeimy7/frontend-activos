@@ -9,6 +9,9 @@ import {
   LIMPIAR_LISTA_CUSTODIOS,
   LIMPIAR_LISTA_GRUPOS,
   LIMPIAR_LISTA_ENTIDADES,
+  ESTABLECER_CUSTODIO,
+  ESTABLECER_ENTIDAD,
+  ESTABLECER_GRUPO,
 } from '../../types';
 export const listaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -64,6 +67,23 @@ export const listaReducer = (state = {}, action) => {
         ...state,
         listaEntidades: null,
         mensaje_lista: null,
+      };
+    case ESTABLECER_CUSTODIO:
+      return {
+        ...state,
+        custodio: action.payload,
+      };
+
+    case ESTABLECER_ENTIDAD:
+      return {
+        ...state,
+        entidad: action.payload,
+      };
+
+    case ESTABLECER_GRUPO:
+      return {
+        ...state,
+        grupo: action.payload,
       };
     default:
       return state;

@@ -13,12 +13,14 @@ export const ListaGrupos = () => {
     listaGrupos,
     mensaje,
     limpiarListaGrupos,
+    grupo,
+    establecerGrupo,
   } = listaContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
-  const [id_grupo, setId_grupo] = useState('');
+  // const [id_grupo, setId_grupo] = useState('');
 
   const [listaDatos, setListaDatos] = useState([]);
 
@@ -27,13 +29,16 @@ export const ListaGrupos = () => {
       mostrarAlerta(mensaje.msg, mensaje.categoria);
     }
     obtenerGrupos();
-    obtenerPorGrupo(id_grupo);
-  }, [mensaje, id_grupo]);
+    obtenerPorGrupo(grupo);
+  }, [mensaje, grupo]);
 
   useLayoutEffect(() => {
     setListaDatos(listaGrupos);
   }, [listaGrupos]);
 
+  const handleEstablecerGrupo = (e) => {
+    establecerGrupo(e.target.value);
+  };
   return (
     <div>
       <div className="card card-success">
@@ -48,7 +53,7 @@ export const ListaGrupos = () => {
                   aria-label="Default select example"
                   defaultValue={'Seleccione grupo'}
                   onChange={(e) => {
-                    setId_grupo(e.target.value);
+                    handleEstablecerGrupo(e);
                   }}
                 >
                   <option value={'Seleccione grupo'}>Seleccione grupo</option>

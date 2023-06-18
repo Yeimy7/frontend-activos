@@ -13,12 +13,12 @@ export const ListaEntidades = () => {
     listaEntidades,
     mensaje,
     limpiarListaEntidades,
+    entidad,
+    establecerEntidad,
   } = listaContext;
 
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
-
-  const [id_entidad, setId_entidad] = useState('');
 
   const [listaDatos, setListaDatos] = useState([]);
 
@@ -27,18 +27,21 @@ export const ListaEntidades = () => {
       mostrarAlerta(mensaje.msg, mensaje.categoria);
     }
     obtenerEntidades();
-    obtenerPorEntidad(id_entidad);
-  }, [mensaje, id_entidad]);
+    obtenerPorEntidad(entidad);
+  }, [mensaje, entidad]);
 
   useLayoutEffect(() => {
     setListaDatos(listaEntidades);
   }, [listaEntidades]);
 
+  const handleEstablecerEntidad = (e) => {
+    establecerEntidad(e.target.value);
+  };
   return (
     <div>
       <div className="card card-success">
         <div className="card-header">
-          <div className="card-title">Busca grupo contable</div>
+          <div className="card-title">Busca entidad</div>
           <div className="input-group">
             {entidades ? (
               <div className="col-12">
@@ -48,7 +51,7 @@ export const ListaEntidades = () => {
                   aria-label="Default select example"
                   defaultValue={'Seleccione entidad'}
                   onChange={(e) => {
-                    setId_entidad(e.target.value);
+                    handleEstablecerEntidad(e);
                   }}
                 >
                   <option value={'Seleccione entidad'}>
