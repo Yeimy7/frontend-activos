@@ -23,6 +23,7 @@ import {
   RiFileChartFill,
   RiFileHistoryFill,
   RiArrowDownSLine,
+  RiTableFill,
 } from 'react-icons/ri';
 import {
   MdAssignmentInd,
@@ -221,9 +222,15 @@ export const Sidebar = () => {
             <ul className="sub-menu">
               <li className="link_name">Depreciación</li>
               <li>
-                <Link to={`/${privateRoutes.ADM_DEPRECIACION}`}>
+                <Link to={`/${privateRoutes.ADM_DEPRECIAR}`}>
                   <RiBarChartFill />
                   <span>Depreciar</span>
+                </Link>
+              </li>
+              <li>
+                <Link to={`/${privateRoutes.ADM_DEPRECIACION}`}>
+                  <RiTableFill />
+                  <span>Cuadro Dep</span>
                 </Link>
               </li>
             </ul>

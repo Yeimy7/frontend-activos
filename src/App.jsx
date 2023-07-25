@@ -14,6 +14,7 @@ import ActivoState from './context/activos/activoState';
 import DevolucionState from './context/devolucion/devolucionState';
 import BajaState from './context/bajas/bajaState';
 import TrasladoState from './context/traslados/trasladoState';
+import DepreciacionState from './context/depreciacion/depreciacionState';
 import ListaState from './context/listas/listaState';
 import { MainRouter } from './routers/routing/MainRouter';
 //Revisar si tenemos un token
@@ -37,7 +38,9 @@ function App() {
                         <DevolucionState>
                           <BajaState>
                             <TrasladoState>
-                              <MainRouter />
+                              <DepreciacionState>
+                                <MainRouter />
+                              </DepreciacionState>
                             </TrasladoState>
                           </BajaState>
                         </DevolucionState>

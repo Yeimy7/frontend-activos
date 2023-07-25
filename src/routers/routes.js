@@ -20,6 +20,7 @@ export const privateRoutes = {
     ADM_HISTORIAL_BAJA: 'admHistorialBaja',
     ADM_HISTORIAL_TRASLADO: 'admHistorialTraslado',
     ADM_DEPRECIACION: 'admDepreciacion',
+    ADM_DEPRECIAR: 'admDepreciar',
     ESCANER_CODIGO_BARRA: 'escanerCodigoBarra',
     LISTA_ACTIVOS: 'listaActivos',
     CONFIGURATIONS: 'configApp',
