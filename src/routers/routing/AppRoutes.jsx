@@ -23,6 +23,7 @@ import { AdmHistorialTraslado } from '../../pages/AdmHistorialTraslado';
 import { AdmDepreciacion } from '../../pages/AdmDepreciacion';
 import { EscanerCodigoBarra } from '../../pages/EscanerCodigoBarra';
 import { AdmDepreciar } from '../../pages/AdmDepreciar';
+import { AdmEstructura } from '../../pages/AdmEstructura';
 
 export const AppRoutes = () => {
   return (
@@ -48,7 +49,10 @@ export const AppRoutes = () => {
           <Route path={privateRoutes.ADM_CARGO} element={<AdmCargo />} />
           <Route path={privateRoutes.ADM_EMPLEADO} element={<AdmEmpleado />} />
           <Route path={privateRoutes.ADM_ACTIVO} element={<AdmActivo />} />
-          <Route path={privateRoutes.LISTA_ACTIVOS} element={<ListarActivos />} />
+          <Route
+            path={privateRoutes.LISTA_ACTIVOS}
+            element={<ListarActivos />}
+          />
           <Route
             path={privateRoutes.ADM_ASIGNACION}
             element={<AdmAsignacion />}
@@ -73,9 +77,13 @@ export const AppRoutes = () => {
             path={privateRoutes.ADM_DEPRECIACION}
             element={<AdmDepreciacion />}
           />
-            <Route
+          <Route
             path={privateRoutes.ADM_DEPRECIAR}
             element={<AdmDepreciar />}
+          />
+          <Route
+            path={privateRoutes.ADM_ESTRUCTURA}
+            element={<AdmEstructura />}
           />
           <Route
             path={privateRoutes.ESCANER_CODIGO_BARRA}

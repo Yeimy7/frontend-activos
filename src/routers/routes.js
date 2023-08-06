@@ -21,6 +21,7 @@ export const privateRoutes = {
     ADM_HISTORIAL_TRASLADO: 'admHistorialTraslado',
     ADM_DEPRECIACION: 'admDepreciacion',
     ADM_DEPRECIAR: 'admDepreciar',
+    ADM_ESTRUCTURA: 'admEstructura',
     ESCANER_CODIGO_BARRA: 'escanerCodigoBarra',
     LISTA_ACTIVOS: 'listaActivos',
     CONFIGURATIONS: 'configApp',

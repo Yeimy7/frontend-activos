@@ -5,10 +5,8 @@ import imageUser from '../../assets/user.jpg';
 import {
   FaBook,
   FaBuilding,
-  FaChair,
   FaClipboardList,
   FaListAlt,
-  FaObjectGroup,
   FaTruckLoading,
   FaUserAlt,
   FaUserCog,
@@ -253,6 +251,12 @@ export const Sidebar = () => {
             </div>
             <ul className="sub-menu">
               <li className="link_name">Institución</li>
+              <li>
+                <Link to={`/${privateRoutes.ADM_ESTRUCTURA}`}>
+                  <FaBuilding />
+                  <span>Estructura</span>
+                </Link>
+              </li>
               <li>
                 <Link to={`/${privateRoutes.ADM_AREA}`}>
                   <RiCommunityFill />
