@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.jpg';
 import imageUser from '../../assets/user.jpg';
 import {
+  FaBarcode,
   FaBook,
   FaBuilding,
   FaClipboardList,
@@ -121,6 +122,12 @@ export const Sidebar = () => {
                 <Link to={`/${privateRoutes.ADM_ACTIVO}`}>
                   <FaBook />
                   <span>Altas</span>
+                </Link>
+              </li>
+              <li>
+                <Link to={`/${privateRoutes.ADM_CODIGO}`}>
+                  <FaBarcode />
+                  <span>Códigos</span>
                 </Link>
               </li>
               <li>

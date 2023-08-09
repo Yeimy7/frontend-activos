@@ -41,14 +41,28 @@ a:visited,
 a:active {
     text-decoration: none;
 }
-input[type=number]::-webkit-inner-spin-button, 
-input[type=number]::-webkit-outer-spin-button { 
-  -webkit-appearance: none; 
-  margin: 0; 
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-input[type=number] { -moz-appearance:textfield; }
+input[type=number] {
+    -moz-appearance: textfield;
+}
 
-.cursor{
+.cursor {
     cursor: pointer;
+}
+
+.sizee {
+    width: 250px;
+    text-overflow: clip;
+    overflow: hidden;
+}
+
+.tbodyDiv {
+    max-height: clamp(35em, 10vh, 250px);
+    overflow: auto;
 }

@@ -105,30 +105,6 @@ export const AdmActivo = () => {
     }
   };
 
-  const handleCodigosActivos = async () => {
-    Swal.fire({
-      title: '<p></p>',
-      html: '<h2>Generando Códigos de Activos...</h2>',
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-      },
-    });
-    try {
-      const response = await clienteAxios.post(
-        '/api/activos/codigos/pdf',
-        {},
-        { responseType: 'blob' }
-      );
-      const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
-      const fileURL = URL.createObjectURL(pdfBlob);
-      window.open(fileURL, '_blank');
-      Swal.close();
-    } catch (error) {
-      console.log(error);
-      Swal.close();
-    }
-  };
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -156,18 +132,10 @@ export const AdmActivo = () => {
                 >
                   Generar reporte
                 </button>
-                <button
-                  type="button"
-                  className="btn btn-success mx-2"
-                  onClick={handleCodigosActivos}
-                >
-                  Generar Códigos
-                </button>
               </h1>
             </div>
           </div>
         </div>
-        {/* /.container-fluid */}
       </section>
       <ModalRegistrarEditarActivo
         stateModal={modalCrearActivo}

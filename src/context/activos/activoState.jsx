@@ -29,6 +29,9 @@ import {
   OBTENER_TOTAL_ACTIVOS,
   OBTENER_TOTAL_ASIGNADOS,
   ACTIVO_OBTENER_TOTAL_GRUPOS,
+  AGREGAR_CODIGO_ACTIVOS,
+  ELIMINAR_CODIGO_ACTIVO,
+  LIMPIAR_CODIGO_ACTIVOS,
 } from '../../types';
 
 const activoState = (props) => {
@@ -36,18 +39,19 @@ const activoState = (props) => {
     activo: null,
     activoADevolver: null,
     activoBaja: null,
-    activoTraslado:null,
+    activoTraslado: null,
     activos: [],
-    totalActivos:null,
-    totalActivosAsignados:null,
+    totalActivos: null,
+    totalActivosAsignados: null,
     activosAsignados: [],
     activosNoAsignados: [],
     imagenActivo: false,
     mensaje: null,
     auxiliares: [],
     grupos: [],
-    totalGrupos:[],
+    totalGrupos: [],
     ambientes: [],
+    codigoActivos: [],
   };
 
   const [state, dispatch] = useReducer(activoReducer, initialState);
@@ -402,7 +406,7 @@ const activoState = (props) => {
   const trasladarActivo = async (data) => {
     try {
       const resultado = await clienteAxios.put(`/api/trasladar`, data);
-      console.log(resultado)
+      console.log(resultado);
       dispatch({
         type: TRASLADO_ACTIVO,
         payload: resultado.data,
@@ -431,6 +435,24 @@ const activoState = (props) => {
     });
   };
 
+  const agregarCodigoActivos = (activo) => {
+    dispatch({
+      type: AGREGAR_CODIGO_ACTIVOS,
+      payload: activo,
+    });
+  };
+  const eliminarCodigoActivo = (activo) => {
+    dispatch({
+      type: ELIMINAR_CODIGO_ACTIVO,
+      payload: activo,
+    });
+  };
+  const limpiarCodigoActivos = () => {
+    dispatch({
+      type: LIMPIAR_CODIGO_ACTIVOS,
+    });
+  };
+
   return (
     <activoContext.Provider
       value={{
@@ -439,16 +461,17 @@ const activoState = (props) => {
         activoBaja: state.activoBaja,
         activoTraslado: state.activoTraslado,
         activos: state.activos,
-        totalActivos:state.totalActivos,
-        totalActivosAsignados:state.totalActivosAsignados,
+        totalActivos: state.totalActivos,
+        totalActivosAsignados: state.totalActivosAsignados,
         activosAsignados: state.activosAsignados,
         activosNoAsignados: state.activosNoAsignados,
         imagenActivo: state.imagenActivo,
         mensaje: state.mensaje,
         auxiliares: state.auxiliares,
         grupos: state.grupos,
-        totalGrupos:state.totalGrupos,
+        totalGrupos: state.totalGrupos,
         ambientes: state.ambientes,
+        codigoActivos: state.codigoActivos,
         registrarActivo,
         obtenerActivos,
         obtenerTotalActivos,
@@ -473,7 +496,10 @@ const activoState = (props) => {
         obtenerActivosNoAsignados,
         asignarActivo,
         desvincularActivo,
-        trasladarActivo
+        trasladarActivo,
+        agregarCodigoActivos,
+        eliminarCodigoActivo,
+        limpiarCodigoActivos,
       }}
     >
       {props.children}

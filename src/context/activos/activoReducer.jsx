@@ -25,6 +25,9 @@ import {
   OBTENER_TOTAL_ACTIVOS,
   OBTENER_TOTAL_ASIGNADOS,
   ACTIVO_OBTENER_TOTAL_GRUPOS,
+  AGREGAR_CODIGO_ACTIVOS,
+  ELIMINAR_CODIGO_ACTIVO,
+  LIMPIAR_CODIGO_ACTIVOS,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -241,6 +244,28 @@ export const activoReducer = (state = {}, action) => {
           return activo;
         }),
         activoTraslado: null,
+        mensaje: null,
+      };
+    case AGREGAR_CODIGO_ACTIVOS:
+      return {
+        ...state,
+        codigoActivos: [...state.codigoActivos, action.payload],
+        activos: state.activos.filter(
+          (activo) => activo.id_activo !== action.payload.id_activo
+        ),
+      };
+    case ELIMINAR_CODIGO_ACTIVO:
+      return {
+        ...state,
+        codigoActivos: state.codigoActivos.filter(
+          (activo) => activo.id_activo !== action.payload.id_activo
+        ),
+        activos: [action.payload, ...state.activos],
+      };
+    case LIMPIAR_CODIGO_ACTIVOS:
+      return {
+        ...state,
+        codigoActivos: [],
         mensaje: null,
       };
     default:
