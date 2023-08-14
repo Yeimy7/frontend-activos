@@ -8,6 +8,7 @@ import { ListaGrupos } from '../components/ListaGrupos';
 import { ListaEntidades } from '../components/ListaEntidades';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
+import { FaFilePdf } from 'react-icons/fa';
 
 export const ListarActivos = () => {
   const listaContext = useContext(ListaContext);
@@ -151,6 +152,9 @@ export const ListarActivos = () => {
                         className="btn btn-danger me-3"
                         onClick={handleGenerarReporte}
                       >
+                        <i className=" me-1">
+                          <FaFilePdf />
+                        </i>
                         Generar reporte
                       </button>
                     </ul>

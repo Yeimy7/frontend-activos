@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FaSearch } from 'react-icons/fa';
+import { FaFileExcel, FaFilePdf, FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { ModalRegistrarEditarActivo } from '../components/modals/ModalRegistrarEditarActivo';
 import { activoColumns } from '../components/tabla/columns/Columns';
@@ -105,6 +105,41 @@ export const AdmActivo = () => {
     }
   };
 
+  const handleReporteActivosExcel = async () => {
+    Swal.fire({
+      title: '<p></p>',
+      html: '<h2>Generando lista de activos...</h2>',
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    try {
+      const response = await clienteAxios.post(
+        '/api/activos/excel',
+        {},
+        { responseType: 'arraybuffer' }
+      );
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      // Crea un enlace para descargar el archivo
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'listaActivos.xlsx';
+      link.click();
+
+      // Limpia el enlace después de la descarga
+      URL.revokeObjectURL(url);
+      Swal.close();
+    } catch (error) {
+      console.log(error);
+      Swal.close();
+    }
+  };
+
   return (
     <div className="content-wrapper">
       <section className="content-header">
@@ -117,20 +152,35 @@ export const AdmActivo = () => {
           <div className="row mb-5">
             <div className="col">
               <h1>
-                <span className='me-4'>Gestión activos</span>
+                <span className="me-4">Gestión activos</span>
                 <button
                   type="button"
                   className="btn btn-primary mx-2"
                   onClick={() => setModalCrearActivo(true)}
                 >
-                  Nuevo
+                  Registrar nuevo
                 </button>
                 <button
                   type="button"
                   className="btn btn-danger mx-2"
+                  title='Generar lista de activos en pdf'
                   onClick={handleReporteActivos}
                 >
-                  Generar reporte
+                  <i className=" me-1">
+                    <FaFilePdf />
+                  </i>
+                   Lista Activos
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-success mx-2"
+                  title='Generar lista de activos en excel'
+                  onClick={handleReporteActivosExcel}
+                >
+                  <i className=" me-1">
+                    <FaFileExcel/>
+                  </i>
+                  Lista Activos
                 </button>
               </h1>
             </div>
