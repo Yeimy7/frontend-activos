@@ -1,9 +1,10 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import clienteAxios from '../config/axios';
+import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
 import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import DepreciacionContext from '../context/depreciacion/depreciacionContext';
-import Swal from 'sweetalert2';
-import clienteAxios from '../config/axios';
 
 export const AdmDepreciacion = () => {
   const activoContext = useContext(ActivoContext);
@@ -36,9 +37,7 @@ export const AdmDepreciacion = () => {
       timer: 3000,
     });
   };
-  const handleSubmit = async (e) => {
-    console.log(id_grupo)
-    console.log(gestion)
+  const handleGenerarPdf = async (e) => {
     e.preventDefault();
     if (!id_grupo || !gestion) {
       msj('Todos los campos son obligatorios');
@@ -58,14 +57,57 @@ export const AdmDepreciacion = () => {
         {
           gestion,
           id_grupo,
+          isPdf: true,
         },
         { responseType: 'blob' }
       );
       const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
       const fileURL = URL.createObjectURL(pdfBlob);
       window.open(fileURL, '_blank');
-      // setId_grupo('');
-      // setGestion('Seleccione la gestión');
+      Swal.close();
+    } catch (error) {
+      console.log(error);
+      Swal.close();
+    }
+  };
+
+  const handleGenerarExcel = async (e) => {
+    e.preventDefault();
+    if (!id_grupo || !gestion) {
+      msj('Todos los campos son obligatorios');
+      return;
+    }
+    Swal.fire({
+      title: '<p></p>',
+      html: '<h2>Generando cuadro de depreciación...</h2>',
+      timerProgressBar: true,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+    try {
+      const response = await clienteAxios.post(
+        '/api/hdepreciacion/cuadro',
+        {
+          gestion,
+          id_grupo,
+          isPdf: false,
+        },
+        { responseType: 'arraybuffer' }
+      );
+      const blob = new Blob([response.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      // Crea un enlace para descargar el archivo
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'cuadroDepreciacion.xlsx';
+      link.click();
+
+      // Limpia el enlace después de la descarga
+      URL.revokeObjectURL(url);
       Swal.close();
     } catch (error) {
       console.log(error);
@@ -87,21 +129,23 @@ export const AdmDepreciacion = () => {
       </section>
       <section>
         <div className="container-fluid">
-          <div className="row">
-            <div className="col-sm-9">
-              <div className="card card-info mb-3 ">
+          <div className="row d-flex justify-content-center">
+            <div className="col-sm-6">
+              <div className="card card-info mb-3  ">
                 <div className="card-header">
-                  <h3>Generar cuadro de depreciación</h3>
+                  <h3 className="text-center">
+                    Generar cuadro de depreciación
+                  </h3>
                 </div>
                 <div className="card-body">
-                  <form className="px-3 py-5" onSubmit={handleSubmit}>
+                  <form className="px-3 py-5">
                     <div className="row g-3 align-items-center mb-2">
                       <div className="col-3">
                         <label htmlFor="gestion" className="col-form-label">
                           <b>Gestión:</b>
                         </label>
                       </div>
-                      <div className="col-md-6">
+                      <div className="col-md-9">
                         <select
                           className="form-select"
                           id="gestion"
@@ -129,7 +173,7 @@ export const AdmDepreciacion = () => {
                           <b>Grupo contable:</b>
                         </label>
                       </div>
-                      <div className="col-md-6 ">
+                      <div className="col-md-9">
                         {grupos ? (
                           <select
                             className="form-select"
@@ -153,14 +197,29 @@ export const AdmDepreciacion = () => {
                         ) : null}
                       </div>
                     </div>
-                    <div className="row g-3 align-items-center">
-                      <div className="d-grid gap-2">
-                        <button type="submit" className="btn btn-primary col-9">
-                          Generar
-                        </button>
-                      </div>
-                    </div>
                   </form>
+                </div>
+                <div className="card-footer">
+                  <div className="text-center">
+                    <button
+                      className="btn btn-danger m-1 "
+                      onClick={handleGenerarPdf}
+                    >
+                      <i className="me-1">
+                        <FaFilePdf />
+                      </i>
+                      Generar cuadro
+                    </button>
+                    <button
+                      className="btn btn-success m-1"
+                      onClick={handleGenerarExcel}
+                    >
+                      <i className="me-1">
+                        <FaFileExcel />
+                      </i>
+                      Generar cuadro
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
