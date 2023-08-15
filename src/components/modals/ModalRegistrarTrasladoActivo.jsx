@@ -5,19 +5,21 @@ import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ActivoContext from '../../context/activos/activoContext';
 import TrasladoContext from '../../context/traslados/trasladoContext';
+import AmbienteContext from '../../context/ambientes/ambienteContext';
 
 export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
   // Extraer los valores del context
   const alertaContext = useContext(AlertaContext);
   const { alerta, mostrarAlerta } = alertaContext;
 
+  const ambientesContext = useContext(AmbienteContext);
+  const { todosAmbientes, obtenerTodosAmbientes } = ambientesContext;
+
   const activoContext = useContext(ActivoContext);
   const {
-    ambientes,
     activoTraslado,
     mensaje,
     limpiarActivoTraslado,
-    obtenerAmbientes,
     trasladarActivo,
   } = activoContext;
 
@@ -33,7 +35,7 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
     if (activoTraslado) {
       setDescripcion_activo(activoTraslado[0].descripcion_activo);
     }
-    obtenerAmbientes();
+    obtenerTodosAmbientes();
   }, [mensaje, activoTraslado]);
 
   const initialForm = {
@@ -122,7 +124,7 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
                 </div>
               </>
             ) : null}
-            {ambientes ? (
+            {todosAmbientes ? (
               <div className="col-12">
                 <label htmlFor="ambiente" className="form-label">
                   Nuevo ambiente <span className="text-danger">*</span>
@@ -137,7 +139,7 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
                   }}
                 >
                   <option value={''}>Seleccione nuevo ambiente</option>
-                  {ambientes.map((ambiente, index) => (
+                  {todosAmbientes.map((ambiente, index) => (
                     <option key={index} value={ambiente.id_ambiente}>
                       {`${ambiente.tipo_ambiente} ${ambiente.codigo_ambiente}`}
                     </option>

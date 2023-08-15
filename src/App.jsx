@@ -37,23 +37,23 @@ function App() {
                 <ListaState>
                   <ProveedorState>
                     <EmpleadoState>
-                      <ActivoState>
-                        <DevolucionState>
-                          <BajaState>
-                            <TrasladoState>
-                              <DepreciacionState>
-                                <EdificioState>
-                                  <PisoState>
-                                    <AmbienteState>
+                      <AmbienteState>
+                        <ActivoState>
+                          <DevolucionState>
+                            <BajaState>
+                              <TrasladoState>
+                                <DepreciacionState>
+                                  <EdificioState>
+                                    <PisoState>
                                       <MainRouter />
-                                    </AmbienteState>
-                                  </PisoState>
-                                </EdificioState>
-                              </DepreciacionState>
-                            </TrasladoState>
-                          </BajaState>
-                        </DevolucionState>
-                      </ActivoState>
+                                    </PisoState>
+                                  </EdificioState>
+                                </DepreciacionState>
+                              </TrasladoState>
+                            </BajaState>
+                          </DevolucionState>
+                        </ActivoState>
+                      </AmbienteState>
                     </EmpleadoState>
                   </ProveedorState>
                 </ListaState>

@@ -11,11 +11,13 @@ import {
   LIMPIAR_AMBIENTE,
   ACTUALIZAR_AMBIENTE,
   FORMULARIO_AMBIENTE,
+  OBTENER_TODOS_AMBIENTES,
 } from '../../types';
 
 const ambienteState = (props) => {
   const initialState = {
     ambientes: [],
+    todosAmbientes:[],
     ambienteSeleccionado: null,
     formulario: false,
     mensaje: null,
@@ -50,6 +52,30 @@ const ambienteState = (props) => {
       );
       dispatch({
         type: OBTENER_AMBIENTES,
+        payload: resultado.data,
+      });
+    } catch (error) {
+      console.log(error);
+      const alerta = {
+        msg: error.response.data.msg,
+        categoria: 'danger',
+      };
+      dispatch({
+        type: AMBIENTE_ERROR,
+        payload: alerta,
+      });
+    }
+  };
+
+  //Obtener todos los ambientes
+
+  const obtenerTodosAmbientes = async () => {
+    try {
+      const resultado = await clienteAxios.get(
+        `/api/ambientes/`
+      );
+      dispatch({
+        type: OBTENER_TODOS_AMBIENTES,
         payload: resultado.data,
       });
     } catch (error) {
@@ -130,11 +156,13 @@ const ambienteState = (props) => {
     <ambienteContext.Provider
       value={{
         ambientes: state.ambientes,
+        todosAmbientes:state.todosAmbientes,
         ambienteSeleccionado: state.ambienteSeleccionado,
         formulario: state.formulario,
         mensaje: state.mensaje,
         registrarAmbiente,
         obtenerAmbientes,
+        obtenerTodosAmbientes,
         actualizarAmbiente,
         eliminarAmbiente,
         seleccionarAmbiente,

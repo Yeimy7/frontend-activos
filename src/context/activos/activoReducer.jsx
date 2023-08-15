@@ -9,7 +9,6 @@ import {
   ACTUALIZAR_IMAGEN_ACTIVO,
   ACTIVO_OBTENER_AUXILIARES,
   ACTIVO_OBTENER_GRUPOS,
-  ACTIVO_OBTENER_AMBIENTES,
   EDITAR_IMAGEN_ACTIVO,
   OBTENER_ACTIVOS_ASIGNADOS,
   OBTENER_ACTIVOS_NO_ASIGNADOS,
@@ -70,11 +69,6 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         totalGrupos: action.payload,
-      };
-    case ACTIVO_OBTENER_AMBIENTES:
-      return {
-        ...state,
-        ambientes: action.payload,
       };
     case AGREGAR_ACTIVO:
       const alertaCreado = {

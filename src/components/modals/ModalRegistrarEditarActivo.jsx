@@ -5,6 +5,7 @@ import ActivoContext from '../../context/activos/activoContext';
 import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ProveedorContext from '../../context/proveedores/proveedorContext';
+import AmbienteContext from '../../context/ambientes/ambienteContext';
 
 export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   // Extraer los valores del context
@@ -13,6 +14,9 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
 
   const proveedorContext = useContext(ProveedorContext);
   const { obtenerProveedores, proveedores } = proveedorContext;
+
+  const ambientesContext = useContext(AmbienteContext);
+  const { todosAmbientes, obtenerTodosAmbientes } = ambientesContext;
 
   const activoContext = useContext(ActivoContext);
   const {
@@ -23,10 +27,8 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
     actualizarActivo,
     obtenerAuxiliares,
     obtenerGrupos,
-    obtenerAmbientes,
     auxiliares,
     grupos,
-    ambientes,
   } = activoContext;
 
   const [fecha_ingreso, setFecha_ingreso] = useState('');
@@ -47,7 +49,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       setDescripcion_activo(activo[0].descripcion_activo);
     }
     if (!activo) {
-      obtenerAmbientes();
+      obtenerTodosAmbientes();
       obtenerAuxiliares();
       obtenerGrupos();
       obtenerProveedores();
@@ -259,7 +261,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                   <label htmlFor="ambiente" className="form-label">
                     Ambiente: <span className="text-danger">*</span>
                   </label>
-                  {ambientes ? (
+                  {todosAmbientes ? (
                     <select
                       className="form-select"
                       id="ambiente"
@@ -270,7 +272,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
                       }}
                     >
                       <option value="">Seleccione el ambiente</option>
-                      {ambientes.map((ambiente, index) => (
+                      {todosAmbientes.map((ambiente, index) => (
                         <option
                           key={10000 + index}
                           value={ambiente.codigo_ambiente}

@@ -95,7 +95,7 @@ export const ModalRegistrarAsignacion = ({ stateModal, setStateModal }) => {
                   <option value={''}>Seleccione activo</option>
                   {activosNoAsignados.map((activo, index) => (
                     <option key={index} value={activo.id_activo}>
-                      {activo.descripcion_activo}
+                      {`${activo.codigo_activo} ${activo.descripcion_activo}`}
                     </option>
                   ))}
                 </select>

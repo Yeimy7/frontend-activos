@@ -481,7 +481,7 @@ export const porCustodios = [
   {
     name: 'Custodio',
     selector: (row) =>
-      `${row.nombres} ${row.apellidos}`,
+      `${row.nombres||'--'} ${row.apellidos||'--'}`,
     sortable: false,
     wrap: true,
   },

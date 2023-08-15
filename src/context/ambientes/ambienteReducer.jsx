@@ -7,6 +7,7 @@ import {
   LIMPIAR_AMBIENTE,
   ACTUALIZAR_AMBIENTE,
   FORMULARIO_AMBIENTE,
+  OBTENER_TODOS_AMBIENTES,
 } from '../../types';
 export const ambienteReducer = (state = {}, action) => {
   switch (action.type) {
@@ -14,6 +15,11 @@ export const ambienteReducer = (state = {}, action) => {
       return {
         ...state,
         ambientes: action.payload,
+      };
+    case OBTENER_TODOS_AMBIENTES:
+      return {
+        ...state,
+        todosAmbientes: action.payload,
       };
     case AGREGAR_AMBIENTE:
       const alerta = {
@@ -24,13 +30,15 @@ export const ambienteReducer = (state = {}, action) => {
         ...state,
         ambientes: [action.payload, ...state.ambientes],
         mensaje: alerta,
-        formulario:false
+        formulario: false,
       };
     case ACTUALIZAR_AMBIENTE:
       return {
         ...state,
         ambientes: state.ambientes.map((ambiente) =>
-          ambiente.id_ambiente === action.payload.id_ambiente ? action.payload : ambiente
+          ambiente.id_ambiente === action.payload.id_ambiente
+            ? action.payload
+            : ambiente
         ),
         ambienteSeleccionado: null,
         mensaje: null,
@@ -46,7 +54,9 @@ export const ambienteReducer = (state = {}, action) => {
     case BAJA_AMBIENTE:
       return {
         ...state,
-        ambientes: state.ambientes.filter((ambiente) => ambiente.id_ambiente !== action.payload),
+        ambientes: state.ambientes.filter(
+          (ambiente) => ambiente.id_ambiente !== action.payload
+        ),
       };
     case AMBIENTE_ERROR:
       return {
@@ -58,7 +68,7 @@ export const ambienteReducer = (state = {}, action) => {
         ...state,
         ambienteSeleccionado: null,
         mensaje: null,
-        formulario:false
+        formulario: false,
       };
     case FORMULARIO_AMBIENTE:
       return {

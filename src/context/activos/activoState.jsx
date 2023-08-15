@@ -13,7 +13,6 @@ import {
   ACTUALIZAR_IMAGEN_ACTIVO,
   ACTIVO_OBTENER_AUXILIARES,
   ACTIVO_OBTENER_GRUPOS,
-  ACTIVO_OBTENER_AMBIENTES,
   EDITAR_IMAGEN_ACTIVO,
   OBTENER_ACTIVOS_ASIGNADOS,
   OBTENER_ACTIVOS_NO_ASIGNADOS,
@@ -175,25 +174,6 @@ const activoState = (props) => {
     }
   };
 
-  const obtenerAmbientes = async () => {
-    try {
-      const resultado = await clienteAxios.get('/api/ambientes');
-      dispatch({
-        type: ACTIVO_OBTENER_AMBIENTES,
-        payload: resultado.data,
-      });
-    } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
-      dispatch({
-        type: ACTIVO_ERROR,
-        payload: alerta,
-      });
-    }
-  };
   // Actualizar activo
   const actualizarActivo = async (activo) => {
     try {
@@ -470,7 +450,6 @@ const activoState = (props) => {
         auxiliares: state.auxiliares,
         grupos: state.grupos,
         totalGrupos: state.totalGrupos,
-        ambientes: state.ambientes,
         codigoActivos: state.codigoActivos,
         registrarActivo,
         obtenerActivos,
@@ -478,7 +457,6 @@ const activoState = (props) => {
         obtenerAuxiliares,
         obtenerGrupos,
         obtenerTotalGrupos,
-        obtenerAmbientes,
         actualizarActivo,
         editarImagen,
         actualizarImagenActivo,
