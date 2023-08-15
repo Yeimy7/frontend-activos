@@ -2,10 +2,12 @@ import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.jpg';
 import imageUser from '../../assets/user.jpg';
+import { BsCameraVideoFill, BsUpcScan } from 'react-icons/bs';
 import {
   FaBarcode,
   FaBook,
   FaBuilding,
+  FaCamera,
   FaClipboardList,
   FaListAlt,
   FaTruckLoading,
@@ -56,6 +58,7 @@ export const Sidebar = () => {
     arrow4: false,
     arrow5: false,
     arrow6: false,
+    arrow7: false,
   });
   return (
     <aside>
@@ -310,6 +313,34 @@ export const Sidebar = () => {
               </li>
             </ul>
           </li>
+
+          <li className={arrows.arrow7 ? 'showMenu' : ''}>
+            <div className="icon-link">
+              <div className="wrap-link_name">
+                <i>
+                  {/* <BiBarcodeReader /> */}
+                  <BsUpcScan />
+                </i>
+                <span className="link_name">Escaner</span>
+              </div>
+              <i
+                className="arrow"
+                onClick={() => setArrows({ ...arrows, arrow7: !arrows.arrow7 })}
+              >
+                <RiArrowDownSLine />
+              </i>
+            </div>
+            <ul className="sub-menu">
+              <li className="link_name">Escaner</li>
+              <li>
+                <Link to={`/${privateRoutes.ESCANER_CODIGO_BARRA}`}>
+                  <FaCamera />
+                  <span>Escaner código</span>
+                </Link>
+              </li>
+            </ul>
+          </li>
+
           <li>
             <div className="profile-details">
               <div className="profile-content">

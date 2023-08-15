@@ -43,14 +43,6 @@ export const HomeApp = () => {
         <header className="col-12">
           <h1>Página principal</h1>
         </header>
-        <div className="col-12 text-center">
-          <Link
-            to={`/${privateRoutes.ESCANER_CODIGO_BARRA}`}
-            className="btn btn-scanner"
-          >
-            <BsUpcScan />
-          </Link>
-        </div>
         <div className="row d-flex justify-content-center gap-3 my-4">
           <CardDashboard
             icono={<BsJournalText />}

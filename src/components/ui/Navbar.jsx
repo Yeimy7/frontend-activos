@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { FaBars } from 'react-icons/fa';
+import { FaBars, FaHome } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import AuthContext from '../../context/autentication/authContext';
 import sidebarContext from '../../context/sidebar/sidebarContext';
@@ -29,7 +29,9 @@ export const Navbar = () => {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <Link className="nav-link active" to="/homeApp">
-                  Home
+                  <i className='fs-4' title='Ir a la pagina principal'>
+                    <FaHome/>
+                  </i>
                 </Link>
               </li>
             </ul>
