@@ -95,12 +95,14 @@ export const Sidebar = () => {
                   <span>Datos personales</span>
                 </Link>
               </li>
-              <li>
-                <Link to={`/${privateRoutes.USER_MANAGMENT}`}>
-                  <FaUsers />
-                  <span>Gestión usuario</span>
-                </Link>
-              </li>
+              {user?.usuario[0].rol.nombre_rol !== 'Custodio' ? (
+                <li>
+                  <Link to={`/${privateRoutes.USER_MANAGMENT}`}>
+                    <FaUsers />
+                    <span>Gestión usuario</span>
+                  </Link>
+                </li>
+              ) : null}
             </ul>
           </li>
 
@@ -127,193 +129,210 @@ export const Sidebar = () => {
                   <span>Altas</span>
                 </Link>
               </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_CODIGO}`}>
-                  <FaBarcode />
-                  <span>Códigos</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_HISTORIAL_BAJA}`}>
-                  <FaClipboardList />
-                  <span>Lista de bajas</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_HISTORIAL_TRASLADO}`}>
-                  <FaListAlt />
-                  <span>Lista de traslados</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${privateRoutes.LISTA_ACTIVOS}`}>
-                  <FaListAlt />
-                  <span>Listas filtradas</span>
-                </Link>
-              </li>
+              {user?.usuario[0].rol.nombre_rol !== 'Custodio' ? (
+                <>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_CODIGO}`}>
+                      <FaBarcode />
+                      <span>Códigos</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_HISTORIAL_BAJA}`}>
+                      <FaClipboardList />
+                      <span>Lista de bajas</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_HISTORIAL_TRASLADO}`}>
+                      <FaListAlt />
+                      <span>Lista de traslados</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.LISTA_ACTIVOS}`}>
+                      <FaListAlt />
+                      <span>Listas filtradas</span>
+                    </Link>
+                  </li>
+                </>
+              ) : null}
             </ul>
           </li>
 
-          <li className={arrows.arrow2 ? 'showMenu' : ''}>
-            <div className="icon-link">
-              <div className="wrap-link_name">
-                <i>
-                  <MdAssignmentInd />
-                </i>
-                <span className="link_name">Asignación</span>
-              </div>
-              <i
-                className="arrow"
-                onClick={() => setArrows({ ...arrows, arrow2: !arrows.arrow2 })}
-              >
-                <RiArrowDownSLine />
-              </i>
-            </div>
-            <ul className="sub-menu">
-              <li className="link_name">Asignación</li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_ASIGNACION}`}>
-                  <MdAssignmentTurnedIn />
-                  <span>Asignar</span>
-                </Link>
+          {user?.usuario[0].rol.nombre_rol !== 'Custodio' ? (
+            <>
+              <li className={arrows.arrow2 ? 'showMenu' : ''}>
+                <div className="icon-link">
+                  <div className="wrap-link_name">
+                    <i>
+                      <MdAssignmentInd />
+                    </i>
+                    <span className="link_name">Asignación</span>
+                  </div>
+                  <i
+                    className="arrow"
+                    onClick={() =>
+                      setArrows({ ...arrows, arrow2: !arrows.arrow2 })
+                    }
+                  >
+                    <RiArrowDownSLine />
+                  </i>
+                </div>
+                <ul className="sub-menu">
+                  <li className="link_name">Asignación</li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_ASIGNACION}`}>
+                      <MdAssignmentTurnedIn />
+                      <span>Asignar</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
 
-          <li className={arrows.arrow3 ? 'showMenu' : ''}>
-            <div className="icon-link">
-              <div className="wrap-link_name">
-                <i>
-                  <MdAssignmentReturn className="icon" />
-                </i>
-                <span className="link_name">Devolución</span>
-              </div>
-              <i
-                className="arrow"
-                onClick={() => setArrows({ ...arrows, arrow3: !arrows.arrow3 })}
-              >
-                <RiArrowDownSLine />
-              </i>
-            </div>
-            <ul className="sub-menu">
-              <li className="link_name">Devolución</li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_DEVOLUCION}`}>
-                  <MdAssignmentReturned />
-                  <span>Devolver</span>
-                </Link>
+              <li className={arrows.arrow3 ? 'showMenu' : ''}>
+                <div className="icon-link">
+                  <div className="wrap-link_name">
+                    <i>
+                      <MdAssignmentReturn className="icon" />
+                    </i>
+                    <span className="link_name">Devolución</span>
+                  </div>
+                  <i
+                    className="arrow"
+                    onClick={() =>
+                      setArrows({ ...arrows, arrow3: !arrows.arrow3 })
+                    }
+                  >
+                    <RiArrowDownSLine />
+                  </i>
+                </div>
+                <ul className="sub-menu">
+                  <li className="link_name">Devolución</li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_DEVOLUCION}`}>
+                      <MdAssignmentReturned />
+                      <span>Devolver</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_HISTORIAL_DEVOLUCION}`}>
+                      <RiFileHistoryFill />
+                      <span>Historial</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_HISTORIAL_DEVOLUCION}`}>
-                  <RiFileHistoryFill />
-                  <span>Historial</span>
-                </Link>
-              </li>
-            </ul>
-          </li>
 
-          <li className={arrows.arrow4 ? 'showMenu' : ''}>
-            <div className="icon-link">
-              <div className="wrap-link_name">
-                <i>
-                  <RiFileChartFill />
-                </i>
-                <span className="link_name">Depreciación</span>
-              </div>
-              <i
-                className="arrow"
-                onClick={() => setArrows({ ...arrows, arrow4: !arrows.arrow4 })}
-              >
-                <RiArrowDownSLine />
-              </i>
-            </div>
-            <ul className="sub-menu">
-              <li className="link_name">Depreciación</li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_DEPRECIAR}`}>
-                  <RiBarChartFill />
-                  <span>Depreciar</span>
-                </Link>
+              <li className={arrows.arrow4 ? 'showMenu' : ''}>
+                <div className="icon-link">
+                  <div className="wrap-link_name">
+                    <i>
+                      <RiFileChartFill />
+                    </i>
+                    <span className="link_name">Depreciación</span>
+                  </div>
+                  <i
+                    className="arrow"
+                    onClick={() =>
+                      setArrows({ ...arrows, arrow4: !arrows.arrow4 })
+                    }
+                  >
+                    <RiArrowDownSLine />
+                  </i>
+                </div>
+                <ul className="sub-menu">
+                  <li className="link_name">Depreciación</li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_DEPRECIAR}`}>
+                      <RiBarChartFill />
+                      <span>Depreciar</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_DEPRECIACION}`}>
+                      <RiTableFill />
+                      <span>Cuadro Dep</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_DEPRECIACION}`}>
-                  <RiTableFill />
-                  <span>Cuadro Dep</span>
-                </Link>
-              </li>
-            </ul>
-          </li>
 
-          <li className={arrows.arrow5 ? 'showMenu' : ''}>
-            <div className="icon-link">
-              <div className="wrap-link_name">
-                <i>
-                  <FaBuilding />
-                </i>
-                <span className="link_name">Institución</span>
-              </div>
-              <i
-                className="arrow"
-                onClick={() => setArrows({ ...arrows, arrow5: !arrows.arrow5 })}
-              >
-                <RiArrowDownSLine />
-              </i>
-            </div>
-            <ul className="sub-menu">
-              <li className="link_name">Institución</li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_ESTRUCTURA}`}>
-                  <FaBuilding />
-                  <span>Estructura</span>
-                </Link>
+              <li className={arrows.arrow5 ? 'showMenu' : ''}>
+                <div className="icon-link">
+                  <div className="wrap-link_name">
+                    <i>
+                      <FaBuilding />
+                    </i>
+                    <span className="link_name">Institución</span>
+                  </div>
+                  <i
+                    className="arrow"
+                    onClick={() =>
+                      setArrows({ ...arrows, arrow5: !arrows.arrow5 })
+                    }
+                  >
+                    <RiArrowDownSLine />
+                  </i>
+                </div>
+                <ul className="sub-menu">
+                  <li className="link_name">Institución</li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_ESTRUCTURA}`}>
+                      <FaBuilding />
+                      <span>Estructura</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_AREA}`}>
+                      <RiCommunityFill />
+                      <span>Áreas</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_CARGO}`}>
+                      <FaUserTie />
+                      <span>Cargos</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to={`/${privateRoutes.ADM_EMPLEADO}`}>
+                      <FaUserFriends />
+                      <span>Empleados</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_AREA}`}>
-                  <RiCommunityFill />
-                  <span>Áreas</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_CARGO}`}>
-                  <FaUserTie />
-                  <span>Cargos</span>
-                </Link>
-              </li>
-              <li>
-                <Link to={`/${privateRoutes.ADM_EMPLEADO}`}>
-                  <FaUserFriends />
-                  <span>Empleados</span>
-                </Link>
-              </li>
-            </ul>
-          </li>
 
-          <li className={arrows.arrow6 ? 'showMenu' : ''}>
-            <div className="icon-link">
-              <div className="wrap-link_name">
-                <i>
-                  <FaTruckLoading />
-                </i>
-                <span className="link_name">Entidades</span>
-              </div>
-              <i
-                className="arrow"
-                onClick={() => setArrows({ ...arrows, arrow6: !arrows.arrow6 })}
-              >
-                <RiArrowDownSLine />
-              </i>
-            </div>
-            <ul className="sub-menu">
-              <li className="link_name">Entidades</li>
-              <li>
-                <Link to={`/${privateRoutes.PROVIDER_MANAGMENT}`}>
-                  <FaClipboardList />
-                  <span>Gestión entidad</span>
-                </Link>
+              <li className={arrows.arrow6 ? 'showMenu' : ''}>
+                <div className="icon-link">
+                  <div className="wrap-link_name">
+                    <i>
+                      <FaTruckLoading />
+                    </i>
+                    <span className="link_name">Entidades</span>
+                  </div>
+                  <i
+                    className="arrow"
+                    onClick={() =>
+                      setArrows({ ...arrows, arrow6: !arrows.arrow6 })
+                    }
+                  >
+                    <RiArrowDownSLine />
+                  </i>
+                </div>
+                <ul className="sub-menu">
+                  <li className="link_name">Entidades</li>
+                  <li>
+                    <Link to={`/${privateRoutes.PROVIDER_MANAGMENT}`}>
+                      <FaClipboardList />
+                      <span>Gestión entidad</span>
+                    </Link>
+                  </li>
+                </ul>
               </li>
-            </ul>
-          </li>
-
+            </>
+          ) : null}
           <li className={arrows.arrow7 ? 'showMenu' : ''}>
             <div className="icon-link">
               <div className="wrap-link_name">

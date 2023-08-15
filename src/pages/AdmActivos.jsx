@@ -11,8 +11,12 @@ import { ModalRegistrarBajaActivo } from '../components/modals/ModalRegistrarBaj
 import { ModalRegistrarTrasladoActivo } from '../components/modals/ModalRegistrarTrasladoActivo';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
+import AuthContext from '../context/autentication/authContext';
 
 export const AdmActivo = () => {
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+
   const activoContext = useContext(ActivoContext);
   const {
     activos,
@@ -153,35 +157,39 @@ export const AdmActivo = () => {
             <div className="col">
               <h1>
                 <span className="me-4">Gestión activos</span>
-                <button
-                  type="button"
-                  className="btn btn-primary mx-2"
-                  onClick={() => setModalCrearActivo(true)}
-                >
-                  Registrar nuevo
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger mx-2"
-                  title='Generar lista de activos en pdf'
-                  onClick={handleReporteActivos}
-                >
-                  <i className=" me-1">
-                    <FaFilePdf />
-                  </i>
-                   Lista Activos
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-success mx-2"
-                  title='Generar lista de activos en excel'
-                  onClick={handleReporteActivosExcel}
-                >
-                  <i className=" me-1">
-                    <FaFileExcel/>
-                  </i>
-                  Lista Activos
-                </button>
+                {user?.usuario[0].rol.nombre_rol !== 'Custodio' ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-primary mx-2"
+                      onClick={() => setModalCrearActivo(true)}
+                    >
+                      Registrar nuevo
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger mx-2"
+                      title="Generar lista de activos en pdf"
+                      onClick={handleReporteActivos}
+                    >
+                      <i className=" me-1">
+                        <FaFilePdf />
+                      </i>
+                      Lista Activos
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-success mx-2"
+                      title="Generar lista de activos en excel"
+                      onClick={handleReporteActivosExcel}
+                    >
+                      <i className=" me-1">
+                        <FaFileExcel />
+                      </i>
+                      Lista Activos
+                    </button>
+                  </>
+                ) : null}
               </h1>
             </div>
           </div>

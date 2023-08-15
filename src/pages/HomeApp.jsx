@@ -1,21 +1,23 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import AuthContext from '../context/autentication/authContext';
 import { privateRoutes } from '../routers/routes';
 import {
   BsJournalCheck,
   BsJournalText,
   BsJournalX,
   BsPerson,
-  BsUpcScan,
 } from 'react-icons/bs';
 import { CardDashboard } from '../components/CardDashboard';
 import { GraficoPastel } from '../components/GraficoPastel';
 import ActivoContext from '../context/activos/activoContext';
 import BajaContext from '../context/bajas/bajaContext';
 import EmpleadoContext from '../context/empleados/empleadoContext';
+import AuthContext from '../context/autentication/authContext';
 
 export const HomeApp = () => {
+  const authContext = useContext(AuthContext);
+  const { user } = authContext;
+
   const activoContext = useContext(ActivoContext);
   const {
     obtenerTotalActivos,
@@ -31,10 +33,12 @@ export const HomeApp = () => {
   const { obtenerTotalEmpleados, totalEmpleados } = empleadoContext;
 
   useEffect(() => {
+    if (user?.usuario[0].rol.nombre_rol !== 'Custodio') {
+      obtenerTotalBajas();
+      obtenerTotalEmpleados();
+      obtenerTotalAsignados();
+    }
     obtenerTotalActivos();
-    obtenerTotalAsignados();
-    obtenerTotalBajas();
-    obtenerTotalEmpleados();
   }, []);
 
   return (
@@ -50,24 +54,28 @@ export const HomeApp = () => {
             cantidad={totalActivos}
             color="registrados"
           />
-          <CardDashboard
-            icono={<BsJournalCheck />}
-            texto="Activos asignados"
-            cantidad={totalActivosAsignados}
-            color="asignados"
-          />
-          <CardDashboard
-            icono={<BsJournalX />}
-            texto="Activos con baja"
-            cantidad={totalBajas}
-            color="baja"
-          />
-          <CardDashboard
-            icono={<BsPerson />}
-            texto="Custodios"
-            cantidad={totalEmpleados}
-            color="custodios"
-          />
+          {user?.usuario[0].rol.nombre_rol !== 'Custodio' ? (
+            <>
+              <CardDashboard
+                icono={<BsJournalCheck />}
+                texto="Activos asignados"
+                cantidad={totalActivosAsignados}
+                color="asignados"
+              />
+              <CardDashboard
+                icono={<BsJournalX />}
+                texto="Activos con baja"
+                cantidad={totalBajas}
+                color="baja"
+              />
+              <CardDashboard
+                icono={<BsPerson />}
+                texto="Custodios"
+                cantidad={totalEmpleados}
+                color="custodios"
+              />
+            </>
+          ) : null}
         </div>
       </div>
       <div className="row d-flex justify-content-center">
