@@ -1,22 +1,17 @@
-import React, { useState } from 'react';
-import { useContext } from 'react';
-import AlertaContext from '../context/alertas/alertaContext';
-import AuthContext from '../context/autentication/authContext';
-import { useForm } from '../hooks/useForm';
+import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import logo from '../assets/logo.jpg';
-import { useEffect } from 'react';
 import { publicRoutes } from '../routers/routes';
+import { muestraMensaje } from '../helpers/muestraMensaje';
+import { useForm } from '../hooks/useForm';
+import AuthContext from '../context/autentication/authContext';
+import logo from '../assets/logo.jpg';
 
 export const Login = () => {
   const history = useNavigate();
 
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const authContext = useContext(AuthContext);
-  const { message, login, autenticate } = authContext;
+  const { message, login, autenticate, resetMessage, resetMessageNow } =
+    authContext;
 
   // En caso de que el password o usuario no exista
   useEffect(() => {
@@ -24,7 +19,12 @@ export const Login = () => {
       history('/homeApp');
     }
     if (message) {
-      mostrarAlerta(message.msg, message.categoria);
+      if (message.type !== 'unseen') {
+        muestraMensaje(message.msg, message.type);
+        resetMessage();
+      } else {
+        resetMessageNow();
+      }
     }
   }, [message, autenticate, history]);
 
@@ -51,11 +51,6 @@ export const Login = () => {
       <div className="row align-items-stretch">
         <div className="col bg d-none d-lg-block col-md-5 col-lg-5 col-xl-6 rounded-start"></div>
         <div className="col bg-white p-5 rounded-end">
-          {alerta ? (
-            <div className={`alert alert-${alerta.categoria}`} role="alert">
-              {alerta.msg}
-            </div>
-          ) : null}
           <div className="text-center">
             <img src={logo} alt="logo" className="logo-institucion" />
           </div>

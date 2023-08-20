@@ -1,22 +1,19 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useContext } from 'react';
-import AlertaContext from '../../context/alertas/alertaContext';
 import UserContext from '../../context/users/userContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 import { useForm } from '../../hooks/useForm';
 import { Modal } from './Modal';
 
 export const ModalUserRegister = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const userContext = useContext(UserContext);
   const { message, addUser } = userContext;
 
   useEffect(() => {
     if (message) {
-      mostrarAlerta(message.msg, message.categoria);
+      muestraMensaje(message.msg, message.type);
     }
   }, [message]);
 
@@ -42,12 +39,12 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
       email.trim() === '' ||
       password.trim() === ''
     ) {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error');
       return;
     }
     // Password minimo de 6 caracteres
     if (password.length < 6) {
-      mostrarAlerta('El password debe ser de al menos 6 caracteres', 'danger');
+      muestraMensaje('El password debe ser de al menos 6 caracteres', 'error');
       return;
     }
     if (!telefono) {
@@ -66,11 +63,6 @@ export const ModalUserRegister = ({ stateModal, setStateModal }) => {
       size="50"
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form className="row g-2" onSubmit={handleCreateUser}>
             <div className=" col-12">

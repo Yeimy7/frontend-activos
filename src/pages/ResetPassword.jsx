@@ -1,42 +1,30 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from '../hooks/useForm';
+import { publicRoutes } from '../routers/routes';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 import Swal from 'sweetalert2';
 import logo from '../assets/logo.png';
 import AuthContext from '../context/autentication/authContext';
-import { useForm } from '../hooks/useForm';
-import { publicRoutes } from '../routers/routes';
 
 export const ResetPassword = () => {
   const history = useNavigate();
 
   const authContext = useContext(AuthContext);
-  const { message, recuperarPassword } = authContext;
+  const { message, recuperarPassword, resetMessageNow } = authContext;
 
   useEffect(() => {
     if (message) {
-      Swal.close()
-      if (message.categoria === 'danger') {
-        Swal.fire({
-          icon: 'error',
-          html: `
-          <p>${message.msg}</p>
-            `,
-          showConfirmButton: false,
-          timer: 2500,
-        });
-      } else {
-        Swal.fire({
-          icon: 'success',
-          html: `
-          <p>${message.msg}</p>
-          <p><b>Por favor revise su email</b></p>
-            `,
-          showConfirmButton: false,
-          timer: 3900,
-        });
-        setTimeout(() => {
-          history('/homeApp');
-        }, 4100);
+      if (message.type !== 'unseen') {
+        Swal.close();
+        muestraMensaje(message.msg, message.type);
+        if (message.type === 'success') {
+          muestraMensaje(message.msg, message.type);
+          setTimeout(() => {
+            history('/homeApp');
+          }, 4100);
+        }
+        resetMessageNow();
       }
     }
   }, [message]);
@@ -54,13 +42,12 @@ export const ResetPassword = () => {
     if (email.trim() === '') return;
     //Pasarlo al action
     recuperarPassword({ email });
-    let timerInterval;
     Swal.fire({
       title: 'Enviando email',
       timer: 2000,
       timerProgressBar: true,
       didOpen: () => {
-        Swal.showLoading()
+        Swal.showLoading();
       },
     });
   };

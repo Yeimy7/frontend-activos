@@ -2,16 +2,11 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useContext } from 'react';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import AuthContext from '../context/autentication/authContext';
-import AlertaContext from '../context/alertas/alertaContext';
 
 export const CardEditDataUser = () => {
   const authContext = useContext(AuthContext);
-  const { edit, user, editUser } = authContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta } = alertaContext;
+  const { edit, user, editUser, resetMessage } = authContext;
 
   const [form, setForm] = useState({
     telefono: '',
@@ -28,7 +23,6 @@ export const CardEditDataUser = () => {
       });
       setDisabled(false);
     }
-
   }, [edit]);
 
   const handleInputChange = ({ target }) => {
@@ -46,6 +40,7 @@ export const CardEditDataUser = () => {
     editUser(form);
     reset();
     setDisabled(true);
+    resetMessage();
   };
   return (
     <div className="card card-success">
@@ -53,16 +48,6 @@ export const CardEditDataUser = () => {
         <h3 className="card-title">Editar datos personales</h3>
       </div>
       <div className="card-body">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria} text-center`}>
-            <span>
-              <i className="me-1">
-                {alerta.categoria === 'success' ? <FaCheck /> : <FaTimes />}
-              </i>
-              {alerta.msg}
-            </span>
-          </div>
-        ) : null}
         <form onSubmit={handleSubmit} className="form-horizontal">
           <div className="form-group row py-2">
             <label htmlFor="telefono" className="col-sm-2 col-form-label">

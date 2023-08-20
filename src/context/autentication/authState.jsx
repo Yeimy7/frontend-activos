@@ -16,6 +16,8 @@ import {
   RECUPERAR_PASS,
   RESET_MESSAGE,
   NUEVO_PASSWORD,
+  RESET_MESSAGE_NOW,
+  LIMPIAR_USUARIO,
 } from '../../types';
 
 const AuthState = (props) => {
@@ -45,6 +47,7 @@ const AuthState = (props) => {
     } catch (error) {
       dispatch({
         type: LOGIN_ERROR,
+        payload: error.response.data,
       });
     }
   };
@@ -60,14 +63,9 @@ const AuthState = (props) => {
       // Obtener al usuario
       loggedIn();
     } catch (error) {
-      console.log(error.response.data.msg);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LOGIN_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -90,21 +88,16 @@ const AuthState = (props) => {
       loggedIn();
       const alerta = {
         msg: 'Datos de usuario actualizados correctamente',
-        categoria: 'success',
+        type: 'success',
       };
       dispatch({
         type: EDITAR_USUARIO,
         payload: alerta,
       });
     } catch (error) {
-      console.log(error.response.data.msg);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIT_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -112,20 +105,14 @@ const AuthState = (props) => {
   const editPassword = async (data) => {
     try {
       const respuesta = await clienteAxios.put(`/api/auth/profile/pwd`, data);
-      console.log(respuesta);
       dispatch({
         type: CAMBIAR_PASSWORD,
         payload: respuesta.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIT_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -141,14 +128,9 @@ const AuthState = (props) => {
       });
       resetMessage();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIT_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
     resetMessage();
@@ -169,6 +151,7 @@ const AuthState = (props) => {
     } catch (error) {
       dispatch({
         type: EDIT_ERROR,
+        payload: error.response.data,
       });
     }
     resetMessage();
@@ -180,17 +163,12 @@ const AuthState = (props) => {
       loggedIn();
       dispatch({
         type: CAMBIAR_IMAGEN_PERFIL,
-        payload: respuesta.data,
+        payload: respuesta.data
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIT_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -201,6 +179,16 @@ const AuthState = (props) => {
         type: RESET_MESSAGE,
       });
     }, 4000);
+  };
+  const resetMessageNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE_NOW,
+    });
+  };
+  const limpiarUsuario = () => {
+    dispatch({
+      type: LIMPIAR_USUARIO,
+    });
   };
 
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -222,7 +210,9 @@ const AuthState = (props) => {
         recuperarPassword,
         uploadProfileImage,
         resetMessage,
+        resetMessageNow,
         nuevoPassword,
+        limpiarUsuario,
       }}
     >
       {props.children}

@@ -5,19 +5,16 @@ import { CardEditDataUser } from '../components/CardEditDataUser';
 import { CardProfile } from '../components/CardProfile';
 import { ModalChangeAvatar } from '../components/modals/ModalChangeAvatar';
 import { ModalChangePassword } from '../components/modals/ModalChangePassword';
-import AlertaContext from '../context/alertas/alertaContext';
 import AuthContext from '../context/autentication/authContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const PersonalData = () => {
   const authContext = useContext(AuthContext);
   const { message, loggedIn } = authContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { mostrarAlerta } = alertaContext;
-
   useEffect(() => {
     if (message) {
-      mostrarAlerta(message.msg, message.categoria);
+      muestraMensaje(message.msg, message.type)
     }
     loggedIn();
   }, [message]);

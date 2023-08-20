@@ -5,7 +5,6 @@ import { privateRoutes } from '../routes';
 import { Navbar } from '../../components/ui/Navbar';
 import { PageContainer } from '../../components/ui/PageContainer';
 import { Sidebar } from '../../components/ui/Sidebar';
-import { Configurations } from '../../pages/Configurations';
 import { HomeApp } from '../../pages/HomeApp';
 import { PersonalData } from '../../pages/PersonalData';
 import { UserManagment } from '../../pages/UserManagment';
@@ -90,10 +89,6 @@ export const AppRoutes = () => {
           <Route
             path={privateRoutes.ESCANER_CODIGO_BARRA}
             element={<EscanerCodigoBarra />}
-          />
-          <Route
-            path={privateRoutes.CONFIGURATIONS}
-            element={<Configurations />}
           />
         </NotFoundComponent>
       </PageContainer>

@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import AmbienteContext from '../context/ambientes/ambienteContext';
 import PisoContext from '../context/pisos/pisoContext';
 import { ColumnAdmAmbiente } from './tabla/columns/ColumnAdmAmbiente';
-import { ColumnAdmArea } from './tabla/columns/ColumnAdmArea';
 
 export const TablaAmbientes = () => {
 

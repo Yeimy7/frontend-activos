@@ -95,7 +95,7 @@ export const CardActivo = ({ activo }) => {
                   <span className="me-2">
                     <FaTruck />
                   </span>
-                  Proveedor: {activo['proveedor.razon_social']}
+                  Entidad: {activo['proveedor.razon_social']}
                 </li>
               </ul>
             </div>

@@ -4,13 +4,13 @@ import userContext from './userContext';
 import { userReducer } from './userReducer';
 import {
   AGREGAR_USUARIO,
-  EDITAR_USUARIO,
   ELIMINAR_USUARIO,
   USUARIO_ERROR,
   USUARIO_ACTUAL,
   OBTENER_USUARIOS,
   ASCENDER_USUARIO,
   DESCENDER_USUARIO,
+  RESET_MESSAGE,
 } from '../../types';
 
 const userState = (props) => {
@@ -32,14 +32,9 @@ const userState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: USUARIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -53,20 +48,17 @@ const userState = (props) => {
         type: AGREGAR_USUARIO,
         payload: resultado.data,
       });
+      resetMessage();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: USUARIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMessage();
     }
   };
 
-  // Selecciona el proyecto que el usuario dio click
+  // Selecciona el usuario que el usuario dio click
 
   const currentUser = (userId) => {
     dispatch({
@@ -86,18 +78,15 @@ const userState = (props) => {
       };
       dispatch({
         type: ASCENDER_USUARIO,
-        payload: {userId, alerta},
+        payload: { userId, resp: resultado.data },
       });
+      resetMessage();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: USUARIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMessage();
     }
   };
 
@@ -106,24 +95,17 @@ const userState = (props) => {
     try {
       const resultado = await clienteAxios.put(`/api/users/down/${userId}`);
       //insertar el proyecto en el state
-      const alerta = {
-        msg: resultado.data.msg,
-        categoria: 'success',
-      };
       dispatch({
         type: DESCENDER_USUARIO,
-        payload: {userId, alerta},
+        payload: { userId, resp: resultado.data },
       });
+      resetMessage();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: USUARIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMessage();
     }
   };
 
@@ -131,21 +113,26 @@ const userState = (props) => {
 
   const deleteUser = async (userId) => {
     try {
-      await clienteAxios.delete(`/api/users/${userId}`);
+      const resultado = await clienteAxios.delete(`/api/users/${userId}`);
       dispatch({
         type: ELIMINAR_USUARIO,
-        payload: userId,
+        payload: { userId, resp: resultado.data },
       });
+      resetMessage()
     } catch (error) {
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: USUARIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMessage();
     }
+  };
+  const resetMessage = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
   };
   return (
     <userContext.Provider
@@ -159,6 +146,7 @@ const userState = (props) => {
         ascendUser,
         descendUser,
         deleteUser,
+        resetMessage,
       }}
     >
       {props.children}

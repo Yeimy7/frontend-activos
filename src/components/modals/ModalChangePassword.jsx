@@ -1,20 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import { FaCheck, FaTimes } from 'react-icons/fa';
-import AlertaContext from '../../context/alertas/alertaContext';
+import React, { useContext } from 'react';
 import AuthContext from '../../context/autentication/authContext';
 import { useForm } from '../../hooks/useForm';
 import { Modal } from './Modal';
 import Swal from 'sweetalert2';
-
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalChangePassword = ({ stateModal, setStateModal }) => {
   const authContext = useContext(AuthContext);
   const { editPassword } = authContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
-  // State para registrar usuario
   const initialForm = {
     password: '',
     newPassword: '',
@@ -24,7 +18,7 @@ export const ModalChangePassword = ({ stateModal, setStateModal }) => {
 
   const handleSubmit = () => {
     if (password.length < 6 || newPassword.length < 6) {
-      mostrarAlerta('El password debe ser de al menos 6 caracteres', 'danger');
+      muestraMensaje('El password debe ser de al menos 6 caracteres', 'error');
       return;
     }
     Swal.fire({
@@ -52,16 +46,6 @@ export const ModalChangePassword = ({ stateModal, setStateModal }) => {
     >
       <div className="container my-3">
         <div className="container-fluid">
-          {alerta ? (
-            <div className={`alert alert-${alerta.categoria} text-center`}>
-              <span>
-                <i className="me-1">
-                  {alerta.categoria === 'success' ? <FaCheck /> : <FaTimes />}
-                </i>
-                {alerta.msg}
-              </span>
-            </div>
-          ) : null}
           <div className="row g-3">
             <div className="col-12">
               <label htmlFor="currentPassword" className="form-label">

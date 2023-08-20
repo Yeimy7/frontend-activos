@@ -13,7 +13,6 @@ export const GraficoPastel = () => {
     obtenerTotalGrupos();
   }, []);
 
-  // console.log(totalGrupos);
   const labs = totalGrupos.map((grupo) => {
     return grupo.descripcion_g
   });

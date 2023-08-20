@@ -1,12 +1,12 @@
 import {
   AGREGAR_USUARIO,
   OBTENER_USUARIOS,
-  EDITAR_USUARIO,
   ELIMINAR_USUARIO,
   USUARIO_ERROR,
   USUARIO_ACTUAL,
   ASCENDER_USUARIO,
   DESCENDER_USUARIO,
+  RESET_MESSAGE,
 } from '../../types';
 export const userReducer = (state = {}, action) => {
   switch (action.type) {
@@ -25,11 +25,6 @@ export const userReducer = (state = {}, action) => {
         users: [...state.users, action.payload],
         message: alerta,
       };
-    // case VALIDAR_FORMULARIO:
-    //   return {
-    //     ...state,
-    //     errorFormulario: true,
-    //   };
     case USUARIO_ACTUAL:
       return {
         ...state,
@@ -44,7 +39,7 @@ export const userReducer = (state = {}, action) => {
           }
           return user;
         }),
-        message: action.payload.alerta,
+        message: action.payload.resp,
       };
     case DESCENDER_USUARIO:
       return {
@@ -55,20 +50,26 @@ export const userReducer = (state = {}, action) => {
           }
           return user;
         }),
-        message: action.payload.alerta,
+        message: action.payload.resp,
       };
     case ELIMINAR_USUARIO:
       return {
         ...state,
-        users: state.users.filter((user) => user.id_persona !== action.payload),
-        user: null,
+        users: state.users.filter(
+          (user) => user.id_persona !== action.payload.userId
+        ),
+        message: action.payload.resp,
       };
     case USUARIO_ERROR:
       return {
         ...state,
         message: action.payload,
       };
-
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        message: null,
+      };
     default:
       return state;
   }

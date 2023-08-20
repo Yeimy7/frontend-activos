@@ -1,10 +1,8 @@
 import React, { useContext } from 'react';
-import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
-import Swal from 'sweetalert2';
+import { FaTrashAlt } from 'react-icons/fa';
 import ActivoContext from '../context/activos/activoContext';
 
 export const CodigoActivo = ({ activo }) => {
-
   // //Obtener la funcion del context de activo
   const activoContext = useContext(ActivoContext);
   const { eliminarCodigoActivo } = activoContext;
@@ -13,7 +11,6 @@ export const CodigoActivo = ({ activo }) => {
   const handleEliminarCodigo = (activo) => {
     eliminarCodigoActivo(activo);
   };
-
 
   return (
     <div className="container my-2">

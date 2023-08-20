@@ -25,5 +25,4 @@ export const privateRoutes = {
     ADM_CODIGO: 'admCodigo',
     ESCANER_CODIGO_BARRA: 'escanerCodigoBarra',
     LISTA_ACTIVOS: 'listaActivos',
-    CONFIGURATIONS: 'configApp',
 }

@@ -13,6 +13,8 @@ import {
   RECUPERAR_PASS,
   RESET_MESSAGE,
   NUEVO_PASSWORD,
+  RESET_MESSAGE_NOW,
+  LIMPIAR_USUARIO,
 } from '../../types';
 
 export const authReducer = (state = {}, action) => {
@@ -45,13 +47,28 @@ export const authReducer = (state = {}, action) => {
         edit: false,
         message: action.payload,
       };
-    case CAMBIAR_IMAGEN_PERFIL:
     case CAMBIAR_PASSWORD:
     case RECUPERAR_PASS:
     case NUEVO_PASSWORD:
+    case RESET_MESSAGE_NOW:
       return {
         ...state,
         message: action.payload,
+      };
+    case CAMBIAR_IMAGEN_PERFIL:
+      console.log(action.payload.avatar);
+      return {
+        ...state,
+        message: { msg: 'Imagen actualizada exitosamente', type: 'success' },
+        user: {
+          ...state.user,
+          usuario: [
+            {
+              ...state.user.usuario[0],
+              avatar: action.payload.avatar,
+            },
+          ],
+        },
       };
     case EDIT_ERROR:
       return {
@@ -59,6 +76,16 @@ export const authReducer = (state = {}, action) => {
         message: action.payload,
       };
     case CERRAR_SESION:
+      localStorage.removeItem('token');
+      return {
+        ...state,
+        token: null,
+        user: null,
+        autenticate: false,
+        message: null,
+        loading: false,
+        edit: false,
+      };
     case LOGIN_ERROR:
     case REGISTRO_ERROR:
       localStorage.removeItem('token');
@@ -74,6 +101,12 @@ export const authReducer = (state = {}, action) => {
     case RESET_MESSAGE:
       return {
         ...state,
+        message: null,
+      };
+    case LIMPIAR_USUARIO:
+      return {
+        ...state,
+        user: null,
         message: null,
       };
     default:

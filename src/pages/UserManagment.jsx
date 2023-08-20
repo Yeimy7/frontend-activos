@@ -3,20 +3,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { CardUser } from '../components/CardUser';
 import { ModalUserRegister } from '../components/modals/ModalUserRegister';
-import AlertaContext from '../context/alertas/alertaContext';
 import UserContext from '../context/users/userContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const UserManagment = () => {
   const userContext = useContext(UserContext);
   const { users, message, getUsers } = userContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   useEffect(() => {
-    // Si hay un error
     if (message) {
-      mostrarAlerta(message.msg, message.categoria);
+      muestraMensaje(message.msg, message.type);
     }
     getUsers();
   }, [message]);
@@ -35,11 +31,6 @@ export const UserManagment = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">
@@ -91,7 +82,8 @@ export const UserManagment = () => {
             </div>
             <div className="card-body">
               <div id="usuarios" className="row d-flex align-items-stretch">
-                {users?.filter((user) =>
+                {users
+                  ?.filter((user) =>
                     user.nombres
                       .toLowerCase()
                       .includes(searchUser.toLowerCase())

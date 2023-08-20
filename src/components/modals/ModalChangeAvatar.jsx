@@ -1,20 +1,27 @@
-import React, { useContext } from 'react';
-import imageUser from '../../assets/user.jpg';
-import AlertaContext from '../../context/alertas/alertaContext';
+import React, { useContext, useEffect } from 'react';
 import AuthContext from '../../context/autentication/authContext';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import { Modal } from './Modal';
 import { useState } from 'react';
+import imageAsset from '../../assets/not_image.jpg';
 import { formatImageFromDB } from '../../helpers/formatImage';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalChangeAvatar = ({ stateModal, setStateModal }) => {
   const authContext = useContext(AuthContext);
-  const { user, uploadProfileImage } = authContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { user, uploadProfileImage, resetMessage, message } = authContext;
 
   const [imageFile, setImageFile] = useState(null);
+  const [preImage, setPreImage] = useState(imageAsset);
+
+  useEffect(() => {
+    if (message) {
+      muestraMensaje(message.msg, message.type);
+      resetMessage();
+    }
+    if (user && user.usuario[0].avatar !== null) {
+      setPreImage(formatImageFromDB(user.usuario[0].avatar));
+    }
+  }, [message, user]);
 
   const handleSubmit = () => {
     const formData = new FormData();
@@ -29,14 +36,19 @@ export const ModalChangeAvatar = ({ stateModal, setStateModal }) => {
     if (file) {
       if (file.type.includes('image/')) {
         setImageFile(file);
+        setPreImage(URL.createObjectURL(file));
       } else {
         setImageFile(null);
-        mostrarAlerta(
+        muestraMensaje(
           'El archivo no es una imagen, por favor seleccione una imagen...',
-          'danger'
+          'error'
         );
       }
     }
+  };
+  const handleClose = () => {
+    setStateModal(false);
+    setImageFile(null);
   };
 
   return (
@@ -45,27 +57,14 @@ export const ModalChangeAvatar = ({ stateModal, setStateModal }) => {
       setStateModal={setStateModal}
       title="Cambiar avatar"
       size="50"
+      btnClose={false}
     >
       <div className="container">
         <div className="container-fluid">
-          {alerta ? (
-            <div className={`alert alert-${alerta.categoria} text-center`}>
-              <span>
-                <i className="me-1">
-                  {alerta.categoria === 'success' ? <FaCheck /> : <FaTimes />}
-                </i>
-                {alerta.msg}
-              </span>
-            </div>
-          ) : null}
           <div className="row my-3">
             <div className="mb-3 text-center">
               <img
-                src={
-                  user?.usuario[0]?.avatar
-                    ? formatImageFromDB(user?.usuario[0].avatar)
-                    : imageUser
-                }
+                src={preImage}
                 id="avatar2"
                 className="img-fluid img-thumbnail mw-50"
                 style={{ width: '180px' }}
@@ -74,7 +73,7 @@ export const ModalChangeAvatar = ({ stateModal, setStateModal }) => {
             </div>
             <div className="mb-3">
               <label htmlFor="formFile" className="form-label">
-                Default file input example
+                Seleccione la imagen del perfil:
               </label>
               <input
                 className="form-control"
@@ -86,10 +85,7 @@ export const ModalChangeAvatar = ({ stateModal, setStateModal }) => {
               />
             </div>
             <div className="col text-end">
-              <button
-                className="btn btn-secondary"
-                onClick={() => setStateModal(false)}
-              >
+              <button className="btn btn-secondary" onClick={handleClose}>
                 Cerrar
               </button>
               <button

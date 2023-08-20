@@ -28,19 +28,6 @@ export const Tabla = ({ title, columns, data }) => {
     },
   };
 
-  // const subHeaderComponentMemo = useMemo(() => {
-  //     const handleClear = () => {
-  //         if (filterText) {
-  //             setResetPaginationToggle(!resetPaginationToggle);
-  //             setFilterText('');
-  //         }
-  //     };
-
-  //     return (
-  //         <FilterComponent  onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
-  //     );
-  // }, [filterText, resetPaginationToggle, setFilterText]);
-
   return (
     <div className="table table-responsive">
       <DataTable

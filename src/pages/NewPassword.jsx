@@ -1,42 +1,29 @@
 import React, { useContext, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
+import { publicRoutes } from '../routers/routes';
+import { useForm } from '../hooks/useForm';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 import logo from '../assets/logo.png';
 import AuthContext from '../context/autentication/authContext';
-import { useForm } from '../hooks/useForm';
-import { publicRoutes } from '../routers/routes';
 
 export const NewPassword = () => {
   const history = useNavigate();
   const { token } = useParams();
 
   const authContext = useContext(AuthContext);
-  const { message, nuevoPassword } = authContext;
+  const { message, nuevoPassword, resetMessageNow } = authContext;
 
   useEffect(() => {
-    console.log(message)
     if (message) {
-      if (message.categoria === 'danger') {
-        Swal.fire({
-          icon: 'error',
-          html: `
-            <p>${message.msg}</p>
-              `,
-          showConfirmButton: false,
-          timer: 3000,
-        });
+      if (message.type !== 'unseen') {
+        muestraMensaje(message.msg, message.type);
+        if (message.categoria !== 'danger') {
+          setTimeout(() => {
+            history('/homeApp');
+          }, 4000);
+        }
       } else {
-        Swal.fire({
-          icon: 'success',
-          html: `
-            <p>${message.msg}</p>
-              `,
-          showConfirmButton: false,
-          timer: 3000,
-        });
-        setTimeout(() => {
-          history('/homeApp');
-        }, 4000);
+        resetMessageNow();
       }
     }
   }, [message]);
@@ -51,30 +38,23 @@ export const NewPassword = () => {
     e.preventDefault();
     //Validar que no haya campos vacios
     if (newPassword.trim() === '' || confirmNewPassword.trim() === '') {
-      Swal.fire({
-        icon: 'error',
-        html: `
-        <h1>Los campos son obligatorios</h1>
-          `,
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      muestraMensaje('<h1>Los campos son obligatorios</h1>', 'error');
+      reset();
+      return;
+    }
+    if (newPassword.length < 6 || confirmNewPassword.length < 6) {
+      muestraMensaje('La contraseña debe tener al menos 6 caracteres', 'error');
       reset();
       return;
     }
     if (newPassword !== confirmNewPassword) {
-      Swal.fire({
-        icon: 'error',
-        html: `
-        <h1>Los campos no coinciden</h1>
-        <p>Por favor intente nuevamente...</p>
-          `,
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      muestraMensaje(
+        '<h1>Los campos no coinciden</h1><p>Por favor intente nuevamente...</p>',
+        'error'
+      );
       reset();
       return;
-    }else{
+    } else {
       nuevoPassword({ newPassword, token });
     }
   };
