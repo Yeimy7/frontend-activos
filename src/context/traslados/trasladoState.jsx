@@ -8,13 +8,14 @@ import {
   OBTENER_TRASLADOS,
   TRASLADO_ACTUAL,
   LIMPIAR_TRASLADO,
+  RESET_MESSAGE,
 } from '../../types';
 
 const trasladoState = (props) => {
   const initialState = {
     traslados: [],
     traslado: null,
-    mensaje: null,
+    mensaje_traslado: null,
   };
 
   const [state, dispatch] = useReducer(trasladoReducer, initialState);
@@ -27,15 +28,11 @@ const trasladoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: TRASLADO_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeTraslado()
     }
   };
   // Obtener traslados
@@ -72,16 +69,31 @@ const trasladoState = (props) => {
     });
   };
 
+  const resetMensajeTraslado = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeTrasladoNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
+  };
+
   return (
     <trasladoContext.Provider
       value={{
         traslados: state.traslados,
         traslado: state.traslado,
-        mensaje: state.mensaje,
+        mensaje_traslado: state.mensaje_traslado,
         registrarTraslado,
         obtenerTraslados,
         seleccionarTraslado,
         limpiarTraslado,
+        resetMensajeTraslado,
+        resetMensajeTrasladoNow
       }}
     >
       {props.children}

@@ -8,6 +8,7 @@ import {
   ACTUALIZAR_AMBIENTE,
   FORMULARIO_AMBIENTE,
   OBTENER_TODOS_AMBIENTES,
+  RESET_MESSAGE,
 } from '../../types';
 export const ambienteReducer = (state = {}, action) => {
   switch (action.type) {
@@ -29,7 +30,7 @@ export const ambienteReducer = (state = {}, action) => {
       return {
         ...state,
         ambientes: [action.payload, ...state.ambientes],
-        mensaje: alerta,
+        mensaje_ambiente: alerta,
         formulario: false,
       };
     case ACTUALIZAR_AMBIENTE:
@@ -41,7 +42,10 @@ export const ambienteReducer = (state = {}, action) => {
             : ambiente
         ),
         ambienteSeleccionado: null,
-        mensaje: null,
+        mensaje_ambiente: {
+          msg: 'Ambiente actualizado exitosamente',
+          type: 'success',
+        },
       };
     case AMBIENTE_ACTUAL:
       return {
@@ -49,7 +53,7 @@ export const ambienteReducer = (state = {}, action) => {
         ambienteSeleccionado: state.ambientes.filter(
           (ambiente) => ambiente.id_ambiente === action.payload
         ),
-        mensaje: null,
+        mensaje_ambiente: null,
       };
     case BAJA_AMBIENTE:
       return {
@@ -57,23 +61,32 @@ export const ambienteReducer = (state = {}, action) => {
         ambientes: state.ambientes.filter(
           (ambiente) => ambiente.id_ambiente !== action.payload
         ),
+        mensaje_ambiente: {
+          msg: 'Ambiente eliminado exitosamente',
+          type: 'success',
+        },
       };
     case AMBIENTE_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_ambiente: action.payload,
       };
     case LIMPIAR_AMBIENTE:
       return {
         ...state,
         ambienteSeleccionado: null,
-        mensaje: null,
+        mensaje_ambiente: null,
         formulario: false,
       };
     case FORMULARIO_AMBIENTE:
       return {
         ...state,
         formulario: true,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_ambiente: null,
       };
     default:
       return state;

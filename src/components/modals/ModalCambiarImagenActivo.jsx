@@ -1,19 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import imageAsset from '../../assets/not_image.jpg';
-import Swal from 'sweetalert2';
-import AlertaContext from '../../context/alertas/alertaContext';
-import { FaCheck, FaTimes } from 'react-icons/fa';
 import { Modal } from './Modal';
 import { useState } from 'react';
 import { formatImageFromDB } from '../../helpers/formatImage';
 import ActivoContext from '../../context/activos/activoContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalCambiarImagenActivo = ({ stateModal, setStateModal }) => {
   const activoContext = useContext(ActivoContext);
-  const { activo, actualizarImagenActivo, limpiarActivo } = activoContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { activo, actualizarImagenActivo, limpiarActivo } =
+    activoContext;
 
   const [imageFile, setImageFile] = useState(null);
   const [preImage, setPreImage] = useState(imageAsset);
@@ -31,12 +27,6 @@ export const ModalCambiarImagenActivo = ({ stateModal, setStateModal }) => {
       id_activo: activo[0].id_activo,
       img_activo: formData,
     });
-    Swal.fire({
-      icon: 'success',
-      title: 'Imagen actualizada',
-      showConfirmButton: false,
-      timer: 1000,
-    });
     setImageFile(null);
   };
 
@@ -49,9 +39,9 @@ export const ModalCambiarImagenActivo = ({ stateModal, setStateModal }) => {
         setPreImage(URL.createObjectURL(file));
       } else {
         setImageFile(null);
-        mostrarAlerta(
+        muestraMensaje(
           'El archivo no es una imagen, por favor seleccione una imagen...',
-          'danger'
+          'error'
         );
       }
     }
@@ -59,7 +49,7 @@ export const ModalCambiarImagenActivo = ({ stateModal, setStateModal }) => {
   const handleClose = () => {
     setStateModal(false);
     setImageFile(null);
-    setPreImage(imageAsset)
+    setPreImage(imageAsset);
     if (activo) limpiarActivo();
   };
 
@@ -73,16 +63,6 @@ export const ModalCambiarImagenActivo = ({ stateModal, setStateModal }) => {
     >
       <div className="container">
         <div className="container-fluid">
-          {alerta ? (
-            <div className={`alert alert-${alerta.categoria} text-center`}>
-              <span>
-                <i className="me-1">
-                  {alerta.categoria === 'success' ? <FaCheck /> : <FaTimes />}
-                </i>
-                {alerta.msg}
-              </span>
-            </div>
-          ) : null}
           <div className="row my-3">
             <div className="mb-3 text-center">
               <img

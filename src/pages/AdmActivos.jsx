@@ -3,7 +3,6 @@ import { FaFileExcel, FaFilePdf, FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { ModalRegistrarEditarActivo } from '../components/modals/ModalRegistrarEditarActivo';
 import { activoColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import { useLayoutEffect } from 'react';
 import { ModalCambiarImagenActivo } from '../components/modals/ModalCambiarImagenActivo';
@@ -12,6 +11,7 @@ import { ModalRegistrarTrasladoActivo } from '../components/modals/ModalRegistra
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
 import AuthContext from '../context/autentication/authContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmActivo = () => {
   const authContext = useContext(AuthContext);
@@ -28,9 +28,6 @@ export const AdmActivo = () => {
     obtenerActivos,
   } = activoContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const [modalCrearActivo, setModalCrearActivo] = useState(false);
   const [modalCambiarImagen, setModalCambiarImagen] = useState(false);
   const [modalRegistrarBaja, setModalRegistrarBaja] = useState(false);
@@ -41,13 +38,7 @@ export const AdmActivo = () => {
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      // mostrarAlerta(mensaje.msg, mensaje.categoria);
-      Swal.fire({
-        icon: mensaje.categoria,
-        title: mensaje.msg,
-        showConfirmButton: false,
-        timer: 2500,
-      });
+      muestraMensaje(mensaje.msg, mensaje.type);
     }
     if (activo && !imagenActivo) {
       setModalCrearActivo(true);
@@ -104,7 +95,6 @@ export const AdmActivo = () => {
       window.open(fileURL, '_blank');
       Swal.close();
     } catch (error) {
-      console.log(error);
       Swal.close();
     }
   };
@@ -139,7 +129,6 @@ export const AdmActivo = () => {
       URL.revokeObjectURL(url);
       Swal.close();
     } catch (error) {
-      console.log(error);
       Swal.close();
     }
   };
@@ -147,11 +136,6 @@ export const AdmActivo = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {/* {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null} */}
         <div className="container-fluid">
           <div className="row mb-5">
             <div className="col">

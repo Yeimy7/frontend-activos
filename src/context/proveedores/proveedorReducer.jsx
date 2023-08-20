@@ -6,6 +6,7 @@ import {
   PROVEEDOR_ACTUAL,
   LIMPIAR_PROVEEDOR,
   ACTUALIZAR_PROVEEDOR,
+  RESET_MESSAGE,
 } from '../../types';
 export const proveedorReducer = (state = {}, action) => {
   switch (action.type) {
@@ -16,13 +17,13 @@ export const proveedorReducer = (state = {}, action) => {
       };
     case AGREGAR_PROVEEDOR:
       const alerta = {
-        msg: 'Proveedor creado exitosamente',
+        msg: 'Entidad creada exitosamente',
         categoria: 'success',
       };
       return {
         ...state,
         proveedores: [...state.proveedores, action.payload],
-        mensaje: alerta,
+        mensaje_proveedor: alerta,
       };
     case ACTUALIZAR_PROVEEDOR:
       return {
@@ -33,7 +34,7 @@ export const proveedorReducer = (state = {}, action) => {
             : proveedor
         ),
         proveedor: null,
-        mensaje: null,
+        mensaje_proveedor: {msg:'Entidad actualizada exitosamente', type:'success'},
       };
     case PROVEEDOR_ACTUAL:
       return {
@@ -41,7 +42,7 @@ export const proveedorReducer = (state = {}, action) => {
         proveedor: state.proveedores.filter(
           (proveedor) => proveedor.id_proveedor === action.payload
         ),
-        mensaje: null,
+        mensaje_proveedor: null,
       };
     case BAJA_PROVEEDOR:
       return {
@@ -49,17 +50,23 @@ export const proveedorReducer = (state = {}, action) => {
         proveedores: state.proveedores.filter(
           (proveedor) => proveedor.id_proveedor !== action.payload
         ),
+        mensaje_proveedor:{msg:'Entidad eliminada exitosamente', type:'success'}
       };
     case PROVEEDOR_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_proveedor: action.payload,
       };
     case LIMPIAR_PROVEEDOR:
       return {
         ...state,
         proveedor: null,
-        mensaje: null
+        mensaje_proveedor: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_proveedor: null,
       };
     default:
       return state;

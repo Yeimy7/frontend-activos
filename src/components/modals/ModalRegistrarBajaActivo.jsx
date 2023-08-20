@@ -1,33 +1,30 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ActivoContext from '../../context/activos/activoContext';
 import BajaContext from '../../context/bajas/bajaContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarBajaActivo = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const activoContext = useContext(ActivoContext);
-  const { activoBaja, mensaje, limpiarActivoBaja, eliminarActivo } =
+  const { activoBaja, limpiarActivoBaja, eliminarActivo } =
     activoContext;
 
   const bajaContext = useContext(BajaContext);
-  const { registrarBaja } = bajaContext;
+  const { registrarBaja, mensaje_baja } = bajaContext;
 
   const [descripcion_activo, setDescripcion_activo] = useState('');
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_baja) {
+      muestraMensaje(mensaje_baja.msg, mensaje_baja.type)
     }
     if (activoBaja) {
       setDescripcion_activo(activoBaja[0].descripcion_activo);
     }
-  }, [mensaje, activoBaja]);
+  }, [ activoBaja]);
 
   const initialForm = {
     motivo_baja: '',
@@ -43,12 +40,12 @@ export const ModalRegistrarBajaActivo = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (motivo_baja.trim() === '') {
-      mostrarAlerta('El campo motivo es obligatorio', 'danger');
+      muestraMensaje('El campo motivo es obligatorio', 'error')
       return;
     }
 
     if (motivo_baja.length < 5) {
-      mostrarAlerta('Introduzca motivo válido', 'danger');
+      muestraMensaje('Introduzca motivo válido', 'error')
       return;
     }
 
@@ -76,12 +73,6 @@ export const ModalRegistrarBajaActivo = ({ stateModal, setStateModal }) => {
             id_activo: activoBaja[0].id_activo,
           });
           eliminarActivo(activoBaja[0].id_activo);
-          Swal.fire({
-            icon: 'success',
-            title: 'Baja realizada exitosamente',
-            showConfirmButton: false,
-            timer: 1500,
-          });
         }
       }
     });
@@ -103,11 +94,6 @@ export const ModalRegistrarBajaActivo = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form className="row g-2" onSubmit={handleRegistrarBaja}>
             {activoBaja ? (

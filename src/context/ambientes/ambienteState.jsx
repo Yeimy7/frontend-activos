@@ -12,15 +12,16 @@ import {
   ACTUALIZAR_AMBIENTE,
   FORMULARIO_AMBIENTE,
   OBTENER_TODOS_AMBIENTES,
+  RESET_MESSAGE,
 } from '../../types';
 
 const ambienteState = (props) => {
   const initialState = {
     ambientes: [],
-    todosAmbientes:[],
+    todosAmbientes: [],
     ambienteSeleccionado: null,
     formulario: false,
-    mensaje: null,
+    mensaje_ambiente: null,
   };
 
   const [state, dispatch] = useReducer(ambienteReducer, initialState);
@@ -32,16 +33,13 @@ const ambienteState = (props) => {
         type: AGREGAR_AMBIENTE,
         payload: resultado.data,
       });
+      resetMensajeAmbiente()
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AMBIENTE_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeAmbiente()
     }
   };
   // Obtener ambientes
@@ -55,15 +53,11 @@ const ambienteState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AMBIENTE_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeAmbiente()
     }
   };
 
@@ -71,23 +65,17 @@ const ambienteState = (props) => {
 
   const obtenerTodosAmbientes = async () => {
     try {
-      const resultado = await clienteAxios.get(
-        `/api/ambientes/`
-      );
+      const resultado = await clienteAxios.get(`/api/ambientes/`);
       dispatch({
         type: OBTENER_TODOS_AMBIENTES,
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AMBIENTE_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeAmbiente()
     }
   };
   // Actualizar ambiente
@@ -101,16 +89,13 @@ const ambienteState = (props) => {
         type: ACTUALIZAR_AMBIENTE,
         payload: resultado.data,
       });
+      resetMensajeAmbiente()
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AMBIENTE_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeAmbiente()
     }
   };
 
@@ -120,12 +105,12 @@ const ambienteState = (props) => {
       payload: id_ambiente,
     });
   };
-  
+
   const mostrarFormulario = () => {
     dispatch({
-        type: FORMULARIO_AMBIENTE
-    })
-}
+      type: FORMULARIO_AMBIENTE,
+    });
+  };
   const limpiarAmbiente = () => {
     dispatch({
       type: LIMPIAR_AMBIENTE,
@@ -139,27 +124,36 @@ const ambienteState = (props) => {
         type: BAJA_AMBIENTE,
         payload: id_ambiente,
       });
+      resetMensajeAmbiente()
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AMBIENTE_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeAmbiente()
     }
+  };
+  const resetMensajeAmbiente = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeAmbienteNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
   };
 
   return (
     <ambienteContext.Provider
       value={{
         ambientes: state.ambientes,
-        todosAmbientes:state.todosAmbientes,
+        todosAmbientes: state.todosAmbientes,
         ambienteSeleccionado: state.ambienteSeleccionado,
         formulario: state.formulario,
-        mensaje: state.mensaje,
+        mensaje_ambiente: state.mensaje_ambiente,
         registrarAmbiente,
         obtenerAmbientes,
         obtenerTodosAmbientes,
@@ -168,6 +162,8 @@ const ambienteState = (props) => {
         seleccionarAmbiente,
         mostrarFormulario,
         limpiarAmbiente,
+        resetMensajeAmbiente,
+        resetMensajeAmbienteNow,
       }}
     >
       {props.children}

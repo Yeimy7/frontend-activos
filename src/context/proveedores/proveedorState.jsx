@@ -10,13 +10,14 @@ import {
   PROVEEDOR_ACTUAL,
   LIMPIAR_PROVEEDOR,
   ACTUALIZAR_PROVEEDOR,
+  RESET_MESSAGE,
 } from '../../types';
 
 const proveedorState = (props) => {
   const initialState = {
     proveedores: [],
     proveedor: null,
-    mensaje: null,
+    mensaje_proveedor: null,
   };
 
   const [state, dispatch] = useReducer(proveedorReducer, initialState);
@@ -28,16 +29,13 @@ const proveedorState = (props) => {
         type: AGREGAR_PROVEEDOR,
         payload: resultado.data,
       });
+      resetMensajeProveedor();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PROVEEDOR_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeProveedor();
     }
   };
   // Obtener proveedores
@@ -49,15 +47,11 @@ const proveedorState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PROVEEDOR_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeProveedor();
     }
   };
   // Actualizar proveedor
@@ -71,16 +65,13 @@ const proveedorState = (props) => {
         type: ACTUALIZAR_PROVEEDOR,
         payload: resultado.data,
       });
+      resetMensajeProveedor();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PROVEEDOR_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeProveedor();
     }
   };
 
@@ -103,31 +94,41 @@ const proveedorState = (props) => {
         type: BAJA_PROVEEDOR,
         payload: id_proveedor,
       });
+      resetMensajeProveedor();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PROVEEDOR_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
 
+  const resetMensajeProveedor = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeProveedorNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
+  };
   return (
     <proveedorContext.Provider
       value={{
         proveedores: state.proveedores,
         proveedor: state.proveedor,
-        mensaje: state.mensaje,
+        mensaje_proveedor: state.mensaje_proveedor,
         registrarProveedor,
         obtenerProveedores,
         actualizarProveedor,
         eliminarProveedor,
         seleccionarProveedor,
         limpiarProveedor,
+        resetMensajeProveedor,
+        resetMensajeProveedorNow,
       }}
     >
       {props.children}

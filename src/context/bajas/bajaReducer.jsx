@@ -5,6 +5,7 @@ import {
   BAJA_ERROR,
   LIMPIAR_BAJA,
   OBTENER_TOTAL_BAJAS,
+  RESET_MESSAGE,
 } from '../../types';
 export const bajaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -19,10 +20,6 @@ export const bajaReducer = (state = {}, action) => {
         totalBajas: action.payload,
       };
     case REGISTRAR_BAJA:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
       return {
         ...state,
         bajas: [...state.bajas, action.payload],
@@ -44,6 +41,11 @@ export const bajaReducer = (state = {}, action) => {
       return {
         ...state,
         baja: null,
+        mensaje_baja: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
         mensaje_baja: null,
       };
     default:

@@ -9,6 +9,7 @@ import {
   BAJA_ACTUAL,
   LIMPIAR_BAJA,
   OBTENER_TOTAL_BAJAS,
+  RESET_MESSAGE,
 } from '../../types';
 
 const bajaState = (props) => {
@@ -29,15 +30,11 @@ const bajaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: BAJA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeBaja()
     }
   };
   // Obtener bajas
@@ -49,15 +46,11 @@ const bajaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: BAJA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeBaja()
     }
   };
   const obtenerTotalBajas = async () => {
@@ -68,15 +61,11 @@ const bajaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: BAJA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeBaja()
     }
   };
   // Actualizar baja
@@ -93,6 +82,18 @@ const bajaState = (props) => {
     });
   };
 
+  const resetMensajeBaja = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeBajaNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
+  };
   return (
     <bajaContext.Provider
       value={{
@@ -105,6 +106,8 @@ const bajaState = (props) => {
         obtenerTotalBajas,
         seleccionarBaja,
         limpiarBaja,
+        resetMensajeBaja,
+        resetMensajeBajaNow
       }}
     >
       {props.children}

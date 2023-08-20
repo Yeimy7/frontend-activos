@@ -1,42 +1,37 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
-import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ActivoContext from '../../context/activos/activoContext';
 import TrasladoContext from '../../context/traslados/trasladoContext';
 import AmbienteContext from '../../context/ambientes/ambienteContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const ambientesContext = useContext(AmbienteContext);
-  const { todosAmbientes, obtenerTodosAmbientes } = ambientesContext;
+  const { todosAmbientes, obtenerTodosAmbientes, mensaje_ambiente } =
+    ambientesContext;
 
   const activoContext = useContext(ActivoContext);
-  const {
-    activoTraslado,
-    mensaje,
-    limpiarActivoTraslado,
-    trasladarActivo,
-  } = activoContext;
+  const { activoTraslado, limpiarActivoTraslado, trasladarActivo } =
+    activoContext;
 
   const trasladoContext = useContext(TrasladoContext);
-  const { registrarTraslado } = trasladoContext;
+  const { registrarTraslado, mensaje_traslado } = trasladoContext;
 
   const [descripcion_activo, setDescripcion_activo] = useState('');
   const [id_ambiente, setId_ambiente] = useState('');
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_ambiente) {
+      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type);
+    }
+    if (mensaje_traslado) {
+      muestraMensaje(mensaje_traslado.msg, mensaje_traslado.type);
     }
     if (activoTraslado) {
       setDescripcion_activo(activoTraslado[0].descripcion_activo);
     }
     obtenerTodosAmbientes();
-  }, [mensaje, activoTraslado]);
+  }, [mensaje_ambiente, activoTraslado, mensaje_traslado]);
 
   const initialForm = {
     motivo_traslado: '',
@@ -53,12 +48,12 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (motivo_traslado.trim() === '' || id_ambiente.trim() === '') {
-      mostrarAlerta('Ambos campos son obligatorios', 'danger');
+      muestraMensaje('Ambos campos son obligatorios', 'error')
       return;
     }
 
     if (motivo_traslado.length < 5) {
-      mostrarAlerta('Introduzca motivo válido', 'danger');
+      muestraMensaje('Introduzca motivo válido', 'error')
       return;
     }
     registrarTraslado({
@@ -70,13 +65,6 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
     trasladarActivo({
       id_activo: activoTraslado[0].id_activo,
       id_ambiente: id_ambiente,
-    });
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Traslado realizado exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
     });
     handleClose();
   };
@@ -96,11 +84,6 @@ export const ModalRegistrarTrasladoActivo = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form className="row g-2" onSubmit={handleRegistrarTraslado}>
             {activoTraslado ? (

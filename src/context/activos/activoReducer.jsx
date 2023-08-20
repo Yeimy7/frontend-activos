@@ -27,6 +27,7 @@ import {
   AGREGAR_CODIGO_ACTIVOS,
   ELIMINAR_CODIGO_ACTIVO,
   LIMPIAR_CODIGO_ACTIVOS,
+  RESET_MESSAGE,
 } from '../../types';
 export const activoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -73,7 +74,7 @@ export const activoReducer = (state = {}, action) => {
     case AGREGAR_ACTIVO:
       const alertaCreado = {
         msg: 'Activo creado exitosamente',
-        categoria: 'success',
+        type: 'success',
       };
       return {
         ...state,
@@ -111,7 +112,6 @@ export const activoReducer = (state = {}, action) => {
         activo: null,
       };
     case ACTUALIZAR_IMAGEN_ACTIVO:
-      console.log(action.payload);
       return {
         ...state,
         activos: state.activos.map((activo) => {
@@ -126,7 +126,7 @@ export const activoReducer = (state = {}, action) => {
         }),
         activo: null,
         imagenActivo: false,
-        mensaje: null,
+        mensaje: { msg: 'Imagen actualizada exitosamente', type: 'success' },
       };
     case EDITAR_IMAGEN_ACTIVO:
       return {
@@ -170,11 +170,16 @@ export const activoReducer = (state = {}, action) => {
         mensaje: null,
       };
     case BAJA_ACTIVO:
+      const alertaBaja = {
+        msg: 'Activo dado de baja exitosamente',
+        type: 'success',
+      };
       return {
         ...state,
         activos: state.activos.filter(
           (activo) => activo.id_activo !== action.payload
         ),
+        mensaje: alertaBaja,
       };
     case ACTIVO_ERROR:
       return {
@@ -238,7 +243,7 @@ export const activoReducer = (state = {}, action) => {
           return activo;
         }),
         activoTraslado: null,
-        mensaje: null,
+        mensaje: { msg: 'Activo trasladado exitosamente', type: 'success' },
       };
     case AGREGAR_CODIGO_ACTIVOS:
       return {
@@ -260,6 +265,11 @@ export const activoReducer = (state = {}, action) => {
       return {
         ...state,
         codigoActivos: [],
+        mensaje: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
         mensaje: null,
       };
     default:

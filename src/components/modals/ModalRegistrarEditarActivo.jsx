@@ -1,26 +1,21 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import ActivoContext from '../../context/activos/activoContext';
-import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ProveedorContext from '../../context/proveedores/proveedorContext';
 import AmbienteContext from '../../context/ambientes/ambienteContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const proveedorContext = useContext(ProveedorContext);
-  const { obtenerProveedores, proveedores } = proveedorContext;
+  const { obtenerProveedores, proveedores, mensaje_proveedor } = proveedorContext;
 
   const ambientesContext = useContext(AmbienteContext);
-  const { todosAmbientes, obtenerTodosAmbientes } = ambientesContext;
+  const { todosAmbientes, obtenerTodosAmbientes, mensaje_ambiente } = ambientesContext;
 
   const activoContext = useContext(ActivoContext);
   const {
-    mensaje,
     activo,
     registrarActivo,
     limpiarActivo,
@@ -40,8 +35,11 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   const [razon_social, setRazon_social] = useState('');
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_ambiente) {
+      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type)
+    }
+    if (mensaje_proveedor) {
+      muestraMensaje(mensaje_proveedor.msg, mensaje_proveedor.type)
     }
     if (activo) {
       setFecha_ingreso(activo[0].fecha_ingreso);
@@ -54,7 +52,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       obtenerGrupos();
       obtenerProveedores();
     }
-  }, [mensaje, activo]);
+  }, [mensaje_ambiente, activo, mensaje_proveedor]);
 
   const initialForm = {
     costo: '',
@@ -100,12 +98,12 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       descripcion_g.trim() === '' ||
       razon_social.trim() === ''
     ) {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error')
       return;
     }
 
     if (codigo_activo.length < 2 || costo < 5) {
-      mostrarAlerta('Introduzca datos válidos', 'danger');
+      muestraMensaje('Introduzca datos válidos', 'error')
       return;
     }
 
@@ -128,15 +126,15 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   const handleEditarActivo = (e) => {
     e.preventDefault();
     if (fecha_ingreso && fecha_ingreso.length < 10) {
-      mostrarAlerta('Introduzca una fecha válida', 'danger');
+      muestraMensaje('Introduzca una fecha válida', 'error')
       return;
     }
     if (codigo_activo && codigo_activo.length < 2) {
-      mostrarAlerta('Introduzca una código de activo válido', 'danger');
+      muestraMensaje('Introduzca una código de activo válido', 'error')
       return;
     }
     if (descripcion_activo && descripcion_activo.length < 3) {
-      mostrarAlerta('Introduzca una descripción válida', 'danger');
+      muestraMensaje('Introduzca una descripción válida', 'error')
       return;
     }
     if (
@@ -170,11 +168,6 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form
             className="row g-2"

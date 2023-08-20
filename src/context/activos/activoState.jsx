@@ -31,6 +31,8 @@ import {
   AGREGAR_CODIGO_ACTIVOS,
   ELIMINAR_CODIGO_ACTIVO,
   LIMPIAR_CODIGO_ACTIVOS,
+  RESET_MESSAGE,
+  RESET_MESSAGE_NOW,
 } from '../../types';
 
 const activoState = (props) => {
@@ -62,16 +64,13 @@ const activoState = (props) => {
         type: AGREGAR_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'error',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Obtener activos
@@ -83,15 +82,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   const obtenerTotalActivos = async () => {
@@ -102,15 +97,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -122,15 +113,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -142,15 +129,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -162,15 +145,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -185,21 +164,17 @@ const activoState = (props) => {
         type: ACTUALIZAR_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'error',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
   const actualizarImagenActivo = async (activo) => {
-    console.log(activo);
     try {
       const resultado = await clienteAxios.put(
         `/api/activos/img/${activo.id_activo}`,
@@ -209,16 +184,13 @@ const activoState = (props) => {
         type: ACTUALIZAR_IMAGEN_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -247,16 +219,13 @@ const activoState = (props) => {
         type: BAJA_ACTIVO,
         payload: id_activo,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   const seleccionarActivoBaja = (id_activo) => {
@@ -278,15 +247,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   const obtenerActivosAsignados = async () => {
@@ -297,15 +262,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -317,15 +278,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   const asignarActivo = async (data) => {
@@ -336,15 +293,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -359,15 +312,11 @@ const activoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -386,21 +335,17 @@ const activoState = (props) => {
   const trasladarActivo = async (data) => {
     try {
       const resultado = await clienteAxios.put(`/api/trasladar`, data);
-      console.log(resultado);
       dispatch({
         type: TRASLADO_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje()
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: ACTIVO_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensaje()
     }
   };
   const seleccionarActivoTraslado = (id_activo) => {
@@ -430,6 +375,18 @@ const activoState = (props) => {
   const limpiarCodigoActivos = () => {
     dispatch({
       type: LIMPIAR_CODIGO_ACTIVOS,
+    });
+  };
+  const resetMensaje = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE_NOW,
     });
   };
 
@@ -478,6 +435,8 @@ const activoState = (props) => {
         agregarCodigoActivos,
         eliminarCodigoActivo,
         limpiarCodigoActivos,
+        resetMensajeNow,
+        resetMensaje,
       }}
     >
       {props.children}
