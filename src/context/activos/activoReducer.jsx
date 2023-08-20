@@ -78,7 +78,7 @@ export const activoReducer = (state = {}, action) => {
       };
       return {
         ...state,
-        activos: [...state.activos, action.payload],
+        activos: [action.payload, ...state.activos],
         mensaje: alertaCreado,
       };
     case ACTUALIZAR_ACTIVO:

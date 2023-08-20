@@ -7,12 +7,13 @@ import AmbienteContext from '../../context/ambientes/ambienteContext';
 import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
-
   const proveedorContext = useContext(ProveedorContext);
-  const { obtenerProveedores, proveedores, mensaje_proveedor } = proveedorContext;
+  const { obtenerProveedores, proveedores, mensaje_proveedor } =
+    proveedorContext;
 
   const ambientesContext = useContext(AmbienteContext);
-  const { todosAmbientes, obtenerTodosAmbientes, mensaje_ambiente } = ambientesContext;
+  const { todosAmbientes, obtenerTodosAmbientes, mensaje_ambiente } =
+    ambientesContext;
 
   const activoContext = useContext(ActivoContext);
   const {
@@ -36,10 +37,10 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
 
   useEffect(() => {
     if (mensaje_ambiente) {
-      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type)
+      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type);
     }
     if (mensaje_proveedor) {
-      muestraMensaje(mensaje_proveedor.msg, mensaje_proveedor.type)
+      muestraMensaje(mensaje_proveedor.msg, mensaje_proveedor.type);
     }
     if (activo) {
       setFecha_ingreso(activo[0].fecha_ingreso);
@@ -56,12 +57,11 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
 
   const initialForm = {
     costo: '',
-    dep_acumulada: '',
-    valor_residual: '',
+    // valor_residual: '',
     indice_ufv: '',
   };
   const [formValues, handleInputChange, reset] = useForm(initialForm);
-  const { costo, dep_acumulada, valor_residual, indice_ufv } = formValues;
+  const { costo, indice_ufv } = formValues;
 
   const handleInputChangeFecha = ({ target }) => {
     setFecha_ingreso(target.value);
@@ -89,8 +89,6 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       codigo_activo.trim() === '' ||
       fecha_ingreso.trim() === '' ||
       costo.trim() === '' ||
-      dep_acumulada.trim() === '' ||
-      valor_residual.trim() === '' ||
       indice_ufv.trim() === '' ||
       descripcion_activo.trim() === '' ||
       codigo_ambiente.trim() === '' ||
@@ -98,12 +96,12 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       descripcion_g.trim() === '' ||
       razon_social.trim() === ''
     ) {
-      muestraMensaje('Los campos * son obligatorios', 'error')
+      muestraMensaje('Los campos * son obligatorios', 'error');
       return;
     }
 
     if (codigo_activo.length < 2 || costo < 5) {
-      muestraMensaje('Introduzca datos válidos', 'error')
+      muestraMensaje('Introduzca datos válidos', 'error');
       return;
     }
 
@@ -112,8 +110,7 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
       fecha_ingreso,
       descripcion_activo,
       costo,
-      dep_acumulada,
-      valor_residual,
+      valor_residual: costo,
       indice_ufv,
       codigo_ambiente,
       descripcion_aux,
@@ -126,15 +123,15 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
   const handleEditarActivo = (e) => {
     e.preventDefault();
     if (fecha_ingreso && fecha_ingreso.length < 10) {
-      muestraMensaje('Introduzca una fecha válida', 'error')
+      muestraMensaje('Introduzca una fecha válida', 'error');
       return;
     }
     if (codigo_activo && codigo_activo.length < 2) {
-      muestraMensaje('Introduzca una código de activo válido', 'error')
+      muestraMensaje('Introduzca una código de activo válido', 'error');
       return;
     }
     if (descripcion_activo && descripcion_activo.length < 3) {
-      muestraMensaje('Introduzca una descripción válida', 'error')
+      muestraMensaje('Introduzca una descripción válida', 'error');
       return;
     }
     if (
@@ -341,34 +338,19 @@ export const ModalRegistrarEditarActivo = ({ stateModal, setStateModal }) => {
             {!activo ? (
               <div className="row mb-3">
                 <div className="col">
-                  <label htmlFor="dep_acumulada" className="form-label">
-                    Depreciación acumulada:
-                    <span className="text-danger">*</span>
-                  </label>
-                  <input
-                    type="number"
-                    className="form-control"
-                    id="dep_acumulada"
-                    name="dep_acumulada"
-                    placeholder="Ingrese la dep acumulada"
-                    autoComplete="off"
-                    value={dep_acumulada}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="col">
                   <label htmlFor="valor_residual" className="form-label">
                     Valor residual : <span className="text-danger">*</span>
                   </label>
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control text-muted"
                     id="valor_residual"
-                    name="valor_residual"
+                    name="costo"
                     placeholder="Ingrese el valor residual"
                     autoComplete="off"
-                    value={valor_residual}
+                    value={costo}
                     onChange={handleInputChange}
+                    disabled
                   />
                 </div>
                 <div className="col">
