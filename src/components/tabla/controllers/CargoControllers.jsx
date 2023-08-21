@@ -24,12 +24,6 @@ export const CargoControllers = ({ datosCargo }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarCargo(id_cargo);
-        Swal.fire({
-          icon: 'success',
-          title: 'Cargo eliminada',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

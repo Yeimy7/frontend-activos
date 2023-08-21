@@ -9,6 +9,7 @@ import {
   FORMULARIO_PISO,
   AMBIENTES_PISO,
   LIMPIAR_AMBIENTES_PISO,
+  RESET_MESSAGE,
 } from '../../types';
 export const pisoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -20,12 +21,12 @@ export const pisoReducer = (state = {}, action) => {
     case AGREGAR_PISO:
       const alerta = {
         msg: 'Piso creado exitosamente',
-        categoria: 'success',
+        type: 'success',
       };
       return {
         ...state,
         pisos: [action.payload, ...state.pisos],
-        mensaje: alerta,
+        mensaje_piso: alerta,
         formulario: false,
       };
     case ACTUALIZAR_PISO:
@@ -35,7 +36,7 @@ export const pisoReducer = (state = {}, action) => {
           piso.id_piso === action.payload.id_piso ? action.payload : piso
         ),
         pisoSeleccionado: null,
-        mensaje: null,
+        mensaje_piso: { msg: 'Piso editado exitosamente', type: 'success' },
       };
     case PISO_ACTUAL:
       return {
@@ -43,7 +44,7 @@ export const pisoReducer = (state = {}, action) => {
         pisoSeleccionado: state.pisos.filter(
           (piso) => piso.id_piso === action.payload
         ),
-        mensaje: null,
+        mensaje_piso: null,
       };
     case AMBIENTES_PISO:
       return {
@@ -51,35 +52,41 @@ export const pisoReducer = (state = {}, action) => {
         ambientesPiso: state.pisos.filter(
           (piso) => piso.id_piso === action.payload
         ),
-        mensaje: null,
+        mensaje_piso: null,
       };
     case BAJA_PISO:
       return {
         ...state,
         pisos: state.pisos.filter((piso) => piso.id_piso !== action.payload),
+        mensaje_piso: { msg: 'Piso eliminado exitosamente', type: 'success' },
       };
     case PISO_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_piso: action.payload,
       };
     case LIMPIAR_PISO:
       return {
         ...state,
         pisoSeleccionado: null,
-        mensaje: null,
+        mensaje_piso: null,
         formulario: false,
       };
-      case LIMPIAR_AMBIENTES_PISO:
-        return {
-          ...state,
-          ambientesPiso: null,
-          formulario:false
-        };
+    case LIMPIAR_AMBIENTES_PISO:
+      return {
+        ...state,
+        ambientesPiso: null,
+        formulario: false,
+      };
     case FORMULARIO_PISO:
       return {
         ...state,
         formulario: true,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_piso: null,
       };
     default:
       return state;

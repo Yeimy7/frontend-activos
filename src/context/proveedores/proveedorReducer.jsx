@@ -18,7 +18,7 @@ export const proveedorReducer = (state = {}, action) => {
     case AGREGAR_PROVEEDOR:
       const alerta = {
         msg: 'Entidad creada exitosamente',
-        categoria: 'success',
+        type: 'success',
       };
       return {
         ...state,

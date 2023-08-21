@@ -13,6 +13,7 @@ import {
   FORMULARIO_PISO,
   AMBIENTES_PISO,
   LIMPIAR_AMBIENTES_PISO,
+  RESET_MESSAGE,
 } from '../../types';
 
 const pisoState = (props) => {
@@ -21,29 +22,25 @@ const pisoState = (props) => {
     pisoSeleccionado: null,
     ambientesPiso: null,
     formulario: false,
-    mensaje: null,
+    mensaje_piso: null,
   };
 
   const [state, dispatch] = useReducer(pisoReducer, initialState);
   // Registrar piso
   const registrarPiso = async (piso) => {
-    console.log(piso);
     try {
       const resultado = await clienteAxios.post('/api/pisos', piso);
       dispatch({
         type: AGREGAR_PISO,
         payload: resultado.data,
       });
+      resetMensajePiso();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PISO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajePiso();
     }
   };
   // Obtener pisos
@@ -57,14 +54,9 @@ const pisoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PISO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
@@ -79,16 +71,13 @@ const pisoState = (props) => {
         type: ACTUALIZAR_PISO,
         payload: resultado.data,
       });
+      resetMensajePiso();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PISO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajePiso();
     }
   };
 
@@ -128,19 +117,22 @@ const pisoState = (props) => {
         type: BAJA_PISO,
         payload: id_piso,
       });
+      resetMensajePiso();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: PISO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajePiso();
     }
   };
-
+  const resetMensajePiso = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
   return (
     <pisoContext.Provider
       value={{
@@ -148,7 +140,7 @@ const pisoState = (props) => {
         pisoSeleccionado: state.pisoSeleccionado,
         ambientesPiso: state.ambientesPiso,
         formulario: state.formulario,
-        mensaje: state.mensaje,
+        mensaje_piso: state.mensaje_piso,
         registrarPiso,
         obtenerPisos,
         actualizarPiso,
@@ -157,7 +149,8 @@ const pisoState = (props) => {
         seleccionarAmbientesPiso,
         mostrarFormulario,
         limpiarPiso,
-        limpiarAmbientesPiso
+        limpiarAmbientesPiso,
+        resetMensajePiso,
       }}
     >
       {props.children}

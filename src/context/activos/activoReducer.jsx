@@ -218,6 +218,7 @@ export const activoReducer = (state = {}, action) => {
         activosNoAsignados: state.activosNoAsignados.filter(
           (activo) => activo.id_activo !== action.payload.id_activo
         ),
+        mensaje:{msg:'Asignación realizada exitosamente', type: 'success'}
       };
     case DESVINCULAR_ACTIVO:
       return {
@@ -226,6 +227,7 @@ export const activoReducer = (state = {}, action) => {
         activosAsignados: state.activosAsignados.filter(
           (activo) => activo.id_activo !== action.payload.id_activo
         ),
+        mensaje:{msg:'Desvinculación realizada exitosamente', type: 'success'}
       };
     case TRASLADO_ACTIVO:
       return {

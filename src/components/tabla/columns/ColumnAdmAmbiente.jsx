@@ -25,12 +25,6 @@ export const ColumnAdmAmbiente = ({ datosAmbiente }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarAmbiente(datosAmbiente.id_ambiente);
-        Swal.fire({
-          icon: 'success',
-          title: 'Ambiente eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

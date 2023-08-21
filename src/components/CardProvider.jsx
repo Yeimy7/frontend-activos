@@ -25,12 +25,6 @@ export const CardProvider = ({ providerData }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarProveedor(providerData.id_proveedor);
-        Swal.fire({
-          icon: 'success',
-          title: 'Entidad eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

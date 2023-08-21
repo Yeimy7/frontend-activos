@@ -24,12 +24,6 @@ export const ColumnAdmArea = ({ datosArea }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarArea(datosArea.id_area);
-        Swal.fire({
-          icon: 'success',
-          title: 'Área eliminada',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

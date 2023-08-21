@@ -7,6 +7,7 @@ import {
   LIMPIAR_EMPLEADO,
   ACTUALIZAR_EMPLEADO,
   OBTENER_TOTAL_EMPLEADOS,
+  RESET_MESSAGE,
 } from '../../types';
 export const empleadoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -21,17 +22,16 @@ export const empleadoReducer = (state = {}, action) => {
         totalEmpleados: action.payload,
       };
     case AGREGAR_EMPLEADO:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
+      const alerta = {
+        msg: 'Empleado registrado exitosamente',
+        type: 'success',
+      };
       return {
         ...state,
         empleados: [...state.empleados, action.payload],
-        // mensaje: alerta,
+        mensaje_empleado: alerta,
       };
     case ACTUALIZAR_EMPLEADO:
-      console.log(action.payload['cargo.descripcion_cargo']);
       return {
         ...state,
         empleados: state.empleados.map((empleado) => {
@@ -52,7 +52,7 @@ export const empleadoReducer = (state = {}, action) => {
           return empleado;
         }),
         empleado: null,
-        mensaje: null,
+        mensaje_empleado: {msg:'Empleado editado exitosamente', type:'success'},
       };
     case EMPLEADO_ACTUAL:
       return {
@@ -60,7 +60,7 @@ export const empleadoReducer = (state = {}, action) => {
         empleado: state.empleados.filter(
           (empleado) => empleado.id_persona === action.payload
         ),
-        mensaje: null,
+        mensaje_empleado: null,
       };
     case BAJA_EMPLEADO:
       return {
@@ -68,17 +68,23 @@ export const empleadoReducer = (state = {}, action) => {
         empleados: state.empleados.filter(
           (empleado) => empleado.id_persona !== action.payload
         ),
+        mensaje_empleado: {msg:'Empleado eliminado exitosamente', type:'success'},
       };
     case EMPLEADO_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_empleado: action.payload,
       };
     case LIMPIAR_EMPLEADO:
       return {
         ...state,
         empleado: null,
-        mensaje: null,
+        mensaje_empleado: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_empleado: null,
       };
     default:
       return state;

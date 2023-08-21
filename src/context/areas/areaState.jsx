@@ -10,6 +10,7 @@ import {
   AREA_ACTUAL,
   LIMPIAR_AREA,
   ACTUALIZAR_AREA,
+  RESET_MESSAGE,
 } from '../../types';
 
 const areaState = (props) => {
@@ -28,16 +29,13 @@ const areaState = (props) => {
         type: AGREGAR_AREA,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AREA_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Obtener areas
@@ -49,15 +47,11 @@ const areaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AREA_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Actualizar area
@@ -71,16 +65,13 @@ const areaState = (props) => {
         type: ACTUALIZAR_AREA,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AREA_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -103,19 +94,27 @@ const areaState = (props) => {
         type: BAJA_AREA,
         payload: id_area,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: AREA_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
-
+  const resetMensaje = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
+  };
   return (
     <areaContext.Provider
       value={{
@@ -128,6 +127,8 @@ const areaState = (props) => {
         eliminarArea,
         seleccionarArea,
         limpiarArea,
+        resetMensaje,
+        resetMensajeNow,
       }}
     >
       {props.children}

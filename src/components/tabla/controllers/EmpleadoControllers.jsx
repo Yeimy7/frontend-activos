@@ -24,12 +24,6 @@ export const EmpleadoControllers = ({ datosEmpleado }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarEmpleado(id_persona);
-        Swal.fire({
-          icon: 'success',
-          title: 'Empleado eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

@@ -6,6 +6,7 @@ import {
   CARGO_ACTUAL,
   LIMPIAR_CARGO,
   ACTUALIZAR_CARGO,
+  RESET_MESSAGE,
 } from '../../types';
 export const cargoReducer = (state = {}, action) => {
   switch (action.type) {
@@ -15,14 +16,14 @@ export const cargoReducer = (state = {}, action) => {
         cargos: action.payload,
       };
     case AGREGAR_CARGO:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
+      const alerta = {
+        msg: 'Cargo creado exitosamente',
+        type: 'success',
+      };
       return {
         ...state,
         cargos: [...state.cargos, action.payload],
-        // mensaje: alerta,
+        mensaje_cargo: alerta,
       };
     case ACTUALIZAR_CARGO:
       console.log(action.payload);
@@ -33,14 +34,14 @@ export const cargoReducer = (state = {}, action) => {
             const updCargo = {
               id_cargo: cargo.id_cargo,
               descripcion_cargo: action.payload.descripcion_cargo,
-              'area.nombre_area': cargo["area.nombre_area"],
+              'area.nombre_area': cargo['area.nombre_area'],
             };
             return updCargo;
           }
           return cargo;
         }),
         cargo: null,
-        mensaje: null,
+        mensaje_cargo: { msg: 'Cargo editado exitosamente', type: 'success' },
       };
     case CARGO_ACTUAL:
       return {
@@ -48,7 +49,7 @@ export const cargoReducer = (state = {}, action) => {
         cargo: state.cargos.filter(
           (cargo) => cargo.id_cargo === action.payload
         ),
-        mensaje: null,
+        mensaje_cargo: null,
       };
     case BAJA_CARGO:
       return {
@@ -56,17 +57,23 @@ export const cargoReducer = (state = {}, action) => {
         cargos: state.cargos.filter(
           (cargo) => cargo.id_cargo !== action.payload
         ),
+        mensaje_cargo: { msg: 'Cargo eliminado exitosamente', type: 'success' },
       };
     case CARGO_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_cargo: action.payload,
       };
     case LIMPIAR_CARGO:
       return {
         ...state,
         cargo: null,
-        mensaje: null,
+        mensaje_cargo: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_cargo: null,
       };
     default:
       return state;

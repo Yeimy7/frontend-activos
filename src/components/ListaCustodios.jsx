@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import AlertaContext from '../context/alertas/alertaContext';
 import ListaContext from '../context/listas/listaContext';
 import { Tabla } from '../components/tabla/Tabla';
 import { porCustodios } from '../components/tabla/columns/Columns';
@@ -11,26 +10,17 @@ export const ListaCustodios = () => {
     custodios,
     obtenerPorCustodio,
     listaCustodios,
-    mensaje,
     limpiarListaCustodios,
     custodio,
     establecerCustodio,
   } = listaContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
-  // const [id_custodio, setId_custodio] = useState('');
-
   const [listaDatos, setListaDatos] = useState([]);
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
-    }
     obtenerCustodios();
     obtenerPorCustodio(custodio);
-  }, [mensaje, custodio]);
+  }, [custodio]);
 
   useLayoutEffect(() => {
     setListaDatos(listaCustodios);

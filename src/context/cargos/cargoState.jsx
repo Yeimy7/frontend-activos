@@ -10,13 +10,14 @@ import {
   CARGO_ACTUAL,
   LIMPIAR_CARGO,
   ACTUALIZAR_CARGO,
+  RESET_MESSAGE,
 } from '../../types';
 
 const cargoState = (props) => {
   const initialState = {
     cargos: [],
     cargo: null,
-    mensaje: null,
+    mensaje_cargo: null,
   };
 
   const [state, dispatch] = useReducer(cargoReducer, initialState);
@@ -28,16 +29,13 @@ const cargoState = (props) => {
         type: AGREGAR_CARGO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: CARGO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Obtener cargos
@@ -49,15 +47,11 @@ const cargoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: CARGO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Actualizar cargo
@@ -71,16 +65,13 @@ const cargoState = (props) => {
         type: ACTUALIZAR_CARGO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: CARGO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -103,17 +94,26 @@ const cargoState = (props) => {
         type: BAJA_CARGO,
         payload: id_cargo,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: CARGO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
+  };
+  const resetMensaje = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
   };
 
   return (
@@ -121,13 +121,15 @@ const cargoState = (props) => {
       value={{
         cargos: state.cargos,
         cargo: state.cargo,
-        mensaje: state.mensaje,
+        mensaje_cargo: state.mensaje_cargo,
         registrarCargo,
         obtenerCargos,
         actualizarCargo,
         eliminarCargo,
         seleccionarCargo,
         limpiarCargo,
+        resetMensaje,
+        resetMensajeNow,
       }}
     >
       {props.children}

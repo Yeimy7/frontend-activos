@@ -12,6 +12,7 @@ import {
   ESTABLECER_CUSTODIO,
   ESTABLECER_ENTIDAD,
   ESTABLECER_GRUPO,
+  RESET_MESSAGE,
 } from '../../types';
 export const listaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -84,6 +85,11 @@ export const listaReducer = (state = {}, action) => {
       return {
         ...state,
         grupo: action.payload,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_lista: null,
       };
     default:
       return state;

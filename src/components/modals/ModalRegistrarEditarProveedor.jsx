@@ -1,20 +1,15 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import ProveedorContext from '../../context/proveedores/proveedorContext';
-import Swal from 'sweetalert2';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarProveedor = ({
   stateModal,
   setStateModal,
 }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const proveedorContext = useContext(ProveedorContext);
   const {
-    mensaje,
     proveedor,
     registrarProveedor,
     limpiarProveedor,
@@ -28,9 +23,6 @@ export const ModalRegistrarEditarProveedor = ({
   });
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
-    }
     if (proveedor) {
       setForm({
         razon_social: proveedor[0].razon_social,
@@ -38,7 +30,7 @@ export const ModalRegistrarEditarProveedor = ({
         telefono: proveedor[0].telefono,
       });
     }
-  }, [mensaje, proveedor]);
+  }, [ proveedor]);
 
   const handleInputChange = ({ target }) => {
     setForm({
@@ -55,19 +47,19 @@ export const ModalRegistrarEditarProveedor = ({
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (form.razon_social.trim() === '' || form.encargado.trim() === '') {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error')
       return;
     }
     if (form.razon_social.length < 2) {
-      mostrarAlerta('Introduzca datos validos', 'danger');
+      muestraMensaje('Introduzca datos validos', 'error')
       return;
     }
     if (form.encargado.length < 3) {
-      mostrarAlerta('Introduzca datos validos', 'danger');
+      muestraMensaje('Introduzca datos validos', 'error');
       return;
     }
     if (form.telefono && form.telefono.length < 7) {
-      mostrarAlerta('Introduzca número de teléfono valido', 'danger');
+      muestraMensaje('Introduzca número de teléfono valido', 'error');
       return;
     }
     registrarProveedor({
@@ -80,11 +72,11 @@ export const ModalRegistrarEditarProveedor = ({
   const handleEditProvider = (e) => {
     e.preventDefault();
     if (form.encargado && form.encargado.length < 2) {
-      mostrarAlerta('Introduzca datos validos', 'danger');
+      muestraMensaje('Introduzca datos validos', 'error');
       return;
     }
     if (form.telefono && form.telefono.length < 7) {
-      mostrarAlerta('Introduzca número de teléfono valido', 'danger');
+     muestraMensaje('Introduzca número de teléfono valido', 'error');
       return;
     }
     if (
@@ -95,12 +87,6 @@ export const ModalRegistrarEditarProveedor = ({
         id_proveedor: proveedor[0].id_proveedor,
         encargado: form.encargado,
         telefono: form.telefono || 0,
-      });
-      Swal.fire({
-        icon: 'success',
-        title: 'Proveedor editado correctamente',
-        showConfirmButton: false,
-        timer: 1500,
       });
     }
     handleClose();
@@ -119,11 +105,6 @@ export const ModalRegistrarEditarProveedor = ({
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form
             className="row g-2"

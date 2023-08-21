@@ -3,31 +3,27 @@ import { FaSearch } from 'react-icons/fa';
 import { ModalRegistrarEditarCargo } from '../components/modals/ModalRegistrarEditarCargo';
 import { Tabla } from '../components/tabla/Tabla';
 import { cargoColumns } from '../components/tabla/columns/Columns';
-// import { ColumnAdmCargo } from '../components/tabla/columns/ColumnAdmCargo';
-import AlertaContext from '../context/alertas/alertaContext';
 import CargoContext from '../context/cargos/cargoContext';
 import { useLayoutEffect } from 'react';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmCargo = () => {
   const cargoContext = useContext(CargoContext);
-  const { cargos, cargo, mensaje, obtenerCargos } = cargoContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { cargos, cargo, mensaje_cargo, obtenerCargos } = cargoContext;
 
   const [modalCrearCargo, setModalCrearCargo] = useState(false);
   const [itemsCargo, setItemsCargo] = useState([]);
 
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_cargo) {
+      muestraMensaje(mensaje_cargo.msg, mensaje_cargo.type)
     }
     if (cargo) {
       setModalCrearCargo(true);
     }
     obtenerCargos();
-  }, [mensaje, cargo]);
+  }, [mensaje_cargo, cargo]);
 
   useLayoutEffect(() => {
     setItemsCargo(cargos);
@@ -52,11 +48,6 @@ export const AdmCargo = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

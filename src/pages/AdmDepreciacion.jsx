@@ -1,46 +1,37 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
 import { FaFileExcel, FaFilePdf } from 'react-icons/fa';
-import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import DepreciacionContext from '../context/depreciacion/depreciacionContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmDepreciacion = () => {
   const activoContext = useContext(ActivoContext);
   const { mensaje, obtenerGrupos, grupos } = activoContext;
 
   const depreciacionContext = useContext(DepreciacionContext);
-  const { obtenerGestiones, gestiones } = depreciacionContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { obtenerGestiones, gestiones, mensaje_depreciacion } =
+    depreciacionContext;
 
   const [gestion, setGestion] = useState('');
   const [id_grupo, setId_grupo] = useState('');
   useEffect(() => {
     // Si hay un error
+    if (mensaje_depreciacion) {
+      muestraMensaje(mensaje_depreciacion.msg, mensaje_depreciacion.type);
+    }
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type);
     }
     obtenerGrupos();
     obtenerGestiones();
-  }, [mensaje]);
+  }, [mensaje_depreciacion, mensaje]);
 
-  const msj = (msj) => {
-    Swal.fire({
-      icon: 'error',
-      html: `
-      <p>${msj}</p>
-        `,
-      showConfirmButton: false,
-      timer: 3000,
-    });
-  };
   const handleGenerarPdf = async (e) => {
     e.preventDefault();
     if (!id_grupo || !gestion) {
-      msj('Todos los campos son obligatorios');
+      muestraMensaje('Todos los campos son obligatorios', 'error');
       return;
     }
     Swal.fire({
@@ -74,7 +65,7 @@ export const AdmDepreciacion = () => {
   const handleGenerarExcel = async (e) => {
     e.preventDefault();
     if (!id_grupo || !gestion) {
-      msj('Todos los campos son obligatorios');
+      muestraMensaje('Todos los campos son obligatorios', 'error');
       return;
     }
     Swal.fire({

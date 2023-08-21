@@ -18,7 +18,7 @@ export const AdmEstructura = () => {
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      muestraMensaje(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type);
     }
     if (edificio) {
       setModalCreateEdificio(true);

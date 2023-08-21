@@ -4,20 +4,36 @@ import { FaPencilAlt, FaTrashAlt } from 'react-icons/fa';
 import EdificioContext from '../context/edificios/edificioContext';
 import PisoContext from '../context/pisos/pisoContext';
 import AmbienteContext from '../context/ambientes/ambienteContext';
+import { useEffect } from 'react';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const CardEdificio = ({ edificioData }) => {
   const edificioContext = useContext(EdificioContext);
-  const { eliminarEdificio, seleccionarEdificio, seleccionarPisosEdificio } =
-    edificioContext;
+  const {
+    eliminarEdificio,
+    seleccionarEdificio,
+    seleccionarPisosEdificio,
+    limpiarPisosEdificio,
+  } = edificioContext;
 
   //Obtener la funcion del context de tarea
   const pisosContext = useContext(PisoContext);
-  const { obtenerPisos, limpiarPiso, limpiarAmbientesPiso } = pisosContext;
+  const { obtenerPisos, limpiarPiso, limpiarAmbientesPiso, mensaje_piso } =
+    pisosContext;
 
   const ambientesContext = useContext(AmbienteContext);
-  const { limpiarAmbiente } = ambientesContext;
+  const { limpiarAmbiente, mensaje_ambiente } = ambientesContext;
 
   const { nombre_edificio } = edificioData;
+
+  useEffect(() => {
+    if (mensaje_piso) {
+      muestraMensaje(mensaje_piso.msg, mensaje_piso.type);
+    }
+    if (mensaje_ambiente) {
+      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type);
+    }
+  }, [mensaje_piso, mensaje_ambiente]);
 
   const handleUpdateEdificio = () => {
     seleccionarEdificio(edificioData.id_edificio);
@@ -35,12 +51,10 @@ export const CardEdificio = ({ edificioData }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarEdificio(edificioData.id_edificio);
-        Swal.fire({
-          icon: 'success',
-          title: 'Edificio eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
+        limpiarPiso();
+        limpiarAmbientesPiso();
+        limpiarAmbiente();
+        limpiarPisosEdificio();
       }
     });
   };

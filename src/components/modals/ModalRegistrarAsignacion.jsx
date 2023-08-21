@@ -1,22 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
-import Swal from 'sweetalert2';
 import EmpleadoContext from '../../context/empleados/empleadoContext';
 import ActivoContext from '../../context/activos/activoContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarAsignacion = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const empleadoContext = useContext(EmpleadoContext);
-  const { obtenerEmpleados, empleados } = empleadoContext;
+  const { obtenerEmpleados, empleados, mensaje_empleado } = empleadoContext;
 
   const activoContext = useContext(ActivoContext);
   const {
     activosNoAsignados,
-    mensaje,
     obtenerActivosNoAsignados,
     asignarActivo,
   } = activoContext;
@@ -25,12 +19,12 @@ export const ModalRegistrarAsignacion = ({ stateModal, setStateModal }) => {
   const [id_persona, setId_persona] = useState('');
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_empleado) {
+      muestraMensaje(mensaje_empleado.msg, mensaje_empleado.type)
     }
     obtenerActivosNoAsignados();
     obtenerEmpleados();
-  }, [mensaje]);
+  }, [mensaje_empleado]);
   const reset = () => {
     setId_activo('');
     setId_persona('');
@@ -40,18 +34,12 @@ export const ModalRegistrarAsignacion = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (id_activo.trim() === '' || id_persona.trim() === '') {
-      mostrarAlerta('Ambos campos son obligatorios', 'danger');
+      muestraMensaje('Ambos campos son obligatorios', 'error')
       return;
     }
     asignarActivo({
       id_activo,
       id_persona,
-    });
-    Swal.fire({
-      icon: 'success',
-      title: 'Asignacion realizada exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
     });
     reset();
     handleClose();
@@ -71,11 +59,6 @@ export const ModalRegistrarAsignacion = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form className="row g-2" onSubmit={handleCrearAsignacion}>
             {activosNoAsignados ? (

@@ -1,28 +1,29 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import CargoContext from '../../context/cargos/cargoContext';
-import Swal from 'sweetalert2';
 import AreaContext from '../../context/areas/areaContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarCargo = ({ stateModal, setStateModal }) => {
   // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const areaContext = useContext(AreaContext);
-  const { obtenerAreas, areas } = areaContext;
+  const { obtenerAreas, areas, mensaje } = areaContext;
 
   const cargoContext = useContext(CargoContext);
-  const { mensaje, cargo, registrarCargo, limpiarCargo, actualizarCargo } =
-    cargoContext;
+  const {
+    cargo,
+    registrarCargo,
+    limpiarCargo,
+    actualizarCargo,
+  } = cargoContext;
 
   const [descripcion_cargo, setDescripcion_cargo] = useState('');
   const [nombre_area, setNombre_area] = useState('');
 
   useEffect(() => {
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type)
     }
     if (cargo) {
       setDescripcion_cargo(cargo[0].descripcion_cargo);
@@ -46,50 +47,32 @@ export const ModalRegistrarEditarCargo = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (nombre_area.trim() === '' || descripcion_cargo.trim() === '') {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error')
       return;
     }
 
     if (descripcion_cargo.length < 3) {
-      mostrarAlerta('Introduzca un cargo válido', 'danger');
+      muestraMensaje('Introduzca un cargo válido', 'error')
       return;
     }
-    // const nCargo = {
-    //   descripcion_cargo: descripcion_cargo,
-    //   nombre_area: nombre_area,
-    // };
-    // console.log(nCargo);
     registrarCargo({
       descripcion_cargo,
       nombre_area,
     });
-    Swal.fire({
-      icon: 'success',
-      title: 'Cargo creado exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
-    });
     reset();
-    handleClose()
+    handleClose();
   };
 
   const handleEditarCargo = (e) => {
     e.preventDefault();
     if (descripcion_cargo && descripcion_cargo.length < 3) {
-      mostrarAlerta('Introduzca cargo válido', 'danger');
+      muestraMensaje('Introduzca cargo válido', 'error')
       return;
     }
     if (cargo[0].descripcion_cargo !== descripcion_cargo) {
       actualizarCargo({
         id_cargo: cargo[0].id_cargo,
         descripcion_cargo: descripcion_cargo,
-      });
-
-      Swal.fire({
-        icon: 'success',
-        title: 'Cargo editado correctamente',
-        showConfirmButton: false,
-        timer: 1500,
       });
       handleClose();
     }
@@ -109,11 +92,6 @@ export const ModalRegistrarEditarCargo = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form
             className="row g-2"

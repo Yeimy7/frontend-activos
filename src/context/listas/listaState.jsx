@@ -15,6 +15,7 @@ import {
   ESTABLECER_CUSTODIO,
   ESTABLECER_ENTIDAD,
   ESTABLECER_GRUPO,
+  RESET_MESSAGE,
 } from '../../types';
 
 const listaState = (props) => {
@@ -41,15 +42,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
   const obtenerGrupos = async () => {
@@ -60,15 +57,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
   const obtenerEntidades = async () => {
@@ -79,15 +72,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
 
@@ -101,15 +90,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
 
@@ -123,15 +108,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
 
@@ -145,15 +126,11 @@ const listaState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: LISTA_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeLista()
     }
   };
   const limpiarListaCustodios = () => {
@@ -190,7 +167,13 @@ const listaState = (props) => {
       payload: id_grupo,
     });
   };
-
+  const resetMensajeLista = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
   return (
     <listaContext.Provider
       value={{
@@ -215,6 +198,7 @@ const listaState = (props) => {
         establecerCustodio,
         establecerEntidad,
         establecerGrupo,
+        resetMensajeLista
       }}
     >
       {props.children}

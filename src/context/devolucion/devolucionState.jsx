@@ -8,34 +8,35 @@ import {
   OBTENER_DEVOLUCIONES,
   DEVOLUCION_ACTUAL,
   LIMPIAR_DEVOLUCION,
+  RESET_MESSAGE,
 } from '../../types';
 
 const devolucionState = (props) => {
   const initialState = {
     devoluciones: [],
     devolucion: null,
-    mensaje: null,
+    mensaje_devolucion: null,
   };
 
   const [state, dispatch] = useReducer(devolucionReducer, initialState);
   // Registrar devolucion
   const registrarDevolucion = async (devolucion) => {
     try {
-      const resultado = await clienteAxios.post('/api/devoluciones', devolucion);
+      const resultado = await clienteAxios.post(
+        '/api/devoluciones',
+        devolucion
+      );
       dispatch({
         type: REGISTRAR_DEVOLUCION,
         payload: resultado.data,
       });
+      resetMensajeDevolucion();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: DEVOLUCION_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeDevolucion();
     }
   };
   // Obtener devoluciones
@@ -47,15 +48,11 @@ const devolucionState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: DEVOLUCION_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeDevolucion();
     }
   };
   // Actualizar devolucion
@@ -71,17 +68,24 @@ const devolucionState = (props) => {
       type: LIMPIAR_DEVOLUCION,
     });
   };
-
+  const resetMensajeDevolucion = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
   return (
     <devolucionContext.Provider
       value={{
         devoluciones: state.devoluciones,
         devolucion: state.devolucion,
-        mensaje: state.mensaje,
+        mensaje_devolucion: state.mensaje_devolucion,
         registrarDevolucion,
         obtenerDevoluciones,
         seleccionarDevolucion,
         limpiarDevolucion,
+        resetMensajeDevolucion,
       }}
     >
       {props.children}

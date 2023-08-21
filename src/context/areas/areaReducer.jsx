@@ -6,6 +6,7 @@ import {
   AREA_ACTUAL,
   LIMPIAR_AREA,
   ACTUALIZAR_AREA,
+  RESET_MESSAGE,
 } from '../../types';
 export const areaReducer = (state = {}, action) => {
   switch (action.type) {
@@ -15,40 +16,35 @@ export const areaReducer = (state = {}, action) => {
         areas: action.payload,
       };
     case AGREGAR_AREA:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
+      const alerta = {
+        msg: 'Área creada exitosamente',
+        type: 'success',
+      };
       return {
         ...state,
         areas: [...state.areas, action.payload],
-        // mensaje: alerta,
+        mensaje: alerta,
       };
     case ACTUALIZAR_AREA:
       return {
         ...state,
         areas: state.areas.map((area) =>
-          area.id_area === action.payload.id_area
-            ? action.payload
-            : area
+          area.id_area === action.payload.id_area ? action.payload : area
         ),
         area: null,
-        mensaje: null,
+        mensaje: { msg: 'Área editada exitosamente', type: 'success' },
       };
     case AREA_ACTUAL:
       return {
         ...state,
-        area: state.areas.filter(
-          (area) => area.id_area === action.payload
-        ),
+        area: state.areas.filter((area) => area.id_area === action.payload),
         mensaje: null,
       };
     case BAJA_AREA:
       return {
         ...state,
-        areas: state.areas.filter(
-          (area) => area.id_area !== action.payload
-        ),
+        areas: state.areas.filter((area) => area.id_area !== action.payload),
+        mensaje: { msg: 'Área eliminada exitosamente', type: 'success' },
       };
     case AREA_ERROR:
       return {
@@ -59,7 +55,12 @@ export const areaReducer = (state = {}, action) => {
       return {
         ...state,
         area: null,
-        mensaje: null
+        mensaje: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje: null,
       };
     default:
       return state;

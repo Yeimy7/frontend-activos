@@ -15,6 +15,7 @@ export const FormPiso = () => {
     limpiarPiso,
     mostrarFormulario,
     formulario,
+    mensaje_piso,
   } = pisosContext;
   //State para Piso
   const [piso, setPiso] = useState({
@@ -22,6 +23,9 @@ export const FormPiso = () => {
   });
 
   useEffect(() => {
+    if (mensaje_piso) {
+      muestraMensaje(mensaje_piso.msg, mensaje_piso.type);
+    }
     if (pisoSeleccionado !== null) {
       setPiso(pisoSeleccionado[0]);
       mostrarFormulario();
@@ -30,10 +34,10 @@ export const FormPiso = () => {
         codigo_piso: '',
       });
     }
-    if(formulario){
-      mostrarFormulario()
+    if (formulario) {
+      mostrarFormulario();
     }
-  }, [pisoSeleccionado, formulario]);
+  }, [pisoSeleccionado, formulario, mensaje_piso]);
 
   const { codigo_piso } = piso;
 
@@ -55,11 +59,9 @@ export const FormPiso = () => {
     if (pisoSeleccionado === null) {
       //Agregar al state
       registrarPiso({ ...piso, id_edificio: pisosEdificio[0].id_edificio });
-      muestraMensaje('Piso creado exitosamente');
     } else {
       //Actualizar piso existente
       actualizarPiso(piso);
-      muestraMensaje('Piso editado exitosamente');
       //Elimina piso seleccionado del state
       limpiarPiso();
     }

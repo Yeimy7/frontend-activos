@@ -2,22 +2,19 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { ModalRegistrarEditarArea } from '../components/modals/ModalRegistrarEditarArea';
 import { ColumnAdmArea } from '../components/tabla/columns/ColumnAdmArea';
-import AlertaContext from '../context/alertas/alertaContext';
 import AreaContext from '../context/areas/areaContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmArea = () => {
   const areaContext = useContext(AreaContext);
   const { areas, area, mensaje, obtenerAreas } =
     areaContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const [modalCrearArea, setModalCrearArea] = useState(false);
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type)
     }
     if (area) {
       setModalCrearArea(true);
@@ -34,11 +31,6 @@ export const AdmArea = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

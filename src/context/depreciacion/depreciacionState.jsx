@@ -15,7 +15,7 @@ const depreciacionState = (props) => {
   const initialState = {
     gestiones: [],
     gestion: null,
-    mensaje: null,
+    mensaje_depreciacion: null,
   };
 
   const [state, dispatch] = useReducer(depreciacionReducer, initialState);
@@ -32,6 +32,7 @@ const depreciacionState = (props) => {
         type: DEPRECIACION_ERROR,
         payload: error.response.data,
       });
+      resetMensajeDepreciacion();
     }
   };
 
@@ -47,6 +48,7 @@ const depreciacionState = (props) => {
         type: DEPRECIACION_ERROR,
         payload: error.response.data,
       });
+      resetMensajeDepreciacion();
     }
   };
 
@@ -63,7 +65,7 @@ const depreciacionState = (props) => {
           gestion: depreciacion.gestion,
         }
       );
-
+      resetMensajeDepreciacion();
       dispatch({
         type: REALIZAR_DEPRECIACION,
         payload: resultado.data.msj,
@@ -73,26 +75,34 @@ const depreciacionState = (props) => {
         type: DEPRECIACION_ERROR,
         payload: error.response.data.msj,
       });
+      resetMensajeDepreciacion();
     }
   };
 
-  const limpiarMensaje = () => {
+  const resetMensajeDepreciacion = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: LIMPIAR_MENSAJE_DEPRECIACION,
+      });
+    }, 4000);
+  };
+  const resetMensajeDepreciacionNow = async () => {
     dispatch({
       type: LIMPIAR_MENSAJE_DEPRECIACION,
     });
   };
-  
 
   return (
     <depreciacionContext.Provider
       value={{
         gestiones: state.gestiones,
         gestion: state.gestion,
-        mensaje: state.mensaje,
+        mensaje_depreciacion: state.mensaje_depreciacion,
         obtenerGestion,
         obtenerGestiones,
         realizarDepreciacion,
-        limpiarMensaje
+        resetMensajeDepreciacion,
+        resetMensajeDepreciacionNow,
       }}
     >
       {props.children}

@@ -11,6 +11,8 @@ import {
   LIMPIAR_EDIFICIO,
   ACTUALIZAR_EDIFICIO,
   PISOS_EDIFICIO,
+  RESET_MESSAGE,
+  LIMPIAR_PISOS_EDIFICIO,
 } from '../../types';
 
 const edificioState = (props) => {
@@ -30,16 +32,13 @@ const edificioState = (props) => {
         type: AGREGAR_EDIFICIO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIFICIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Obtener edificios
@@ -51,15 +50,11 @@ const edificioState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIFICIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
   // Actualizar edificio
@@ -73,16 +68,13 @@ const edificioState = (props) => {
         type: ACTUALIZAR_EDIFICIO,
         payload: resultado.data,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIFICIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
 
@@ -103,6 +95,11 @@ const edificioState = (props) => {
       type: LIMPIAR_EDIFICIO,
     });
   };
+  const limpiarPisosEdificio = () => {
+    dispatch({
+      type: LIMPIAR_PISOS_EDIFICIO,
+    });
+  };
   // Eliminar edificio
   const eliminarEdificio = async (id_edificio) => {
     try {
@@ -111,19 +108,22 @@ const edificioState = (props) => {
         type: BAJA_EDIFICIO,
         payload: id_edificio,
       });
+      resetMensaje();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EDIFICIO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensaje();
     }
   };
-
+  const resetMensaje = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
   return (
     <edificioContext.Provider
       value={{
@@ -138,6 +138,8 @@ const edificioState = (props) => {
         seleccionarEdificio,
         seleccionarPisosEdificio,
         limpiarEdificio,
+        limpiarPisosEdificio,
+        resetMensaje,
       }}
     >
       {props.children}

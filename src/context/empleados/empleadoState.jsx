@@ -11,14 +11,15 @@ import {
   LIMPIAR_EMPLEADO,
   ACTUALIZAR_EMPLEADO,
   OBTENER_TOTAL_EMPLEADOS,
+  RESET_MESSAGE,
 } from '../../types';
 
 const empleadoState = (props) => {
   const initialState = {
     empleados: [],
-    totalEmpleados:null,
+    totalEmpleados: null,
     empleado: null,
-    mensaje: null,
+    mensaje_empleado: null,
   };
 
   const [state, dispatch] = useReducer(empleadoReducer, initialState);
@@ -30,16 +31,13 @@ const empleadoState = (props) => {
         type: AGREGAR_EMPLEADO,
         payload: resultado.data,
       });
+      resetMensajeEmpleado();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EMPLEADO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeEmpleado();
     }
   };
   // Obtener empleados
@@ -51,15 +49,11 @@ const empleadoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EMPLEADO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeEmpleado();
     }
   };
 
@@ -71,15 +65,11 @@ const empleadoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EMPLEADO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeEmpleado();
     }
   };
   // Actualizar empleado
@@ -93,16 +83,13 @@ const empleadoState = (props) => {
         type: ACTUALIZAR_EMPLEADO,
         payload: resultado.data,
       });
+      resetMensajeEmpleado();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EMPLEADO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
+      resetMensajeEmpleado();
     }
   };
 
@@ -125,26 +112,33 @@ const empleadoState = (props) => {
         type: BAJA_EMPLEADO,
         payload: id_persona,
       });
+      resetMensajeEmpleado();
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: EMPLEADO_ERROR,
-        payload: alerta,
+        payload: error.response.data,
       });
     }
   };
-
+  const resetMensajeEmpleado = async () => {
+    setTimeout(() => {
+      dispatch({
+        type: RESET_MESSAGE,
+      });
+    }, 4000);
+  };
+  const resetMensajeEmpleadoNow = async () => {
+    dispatch({
+      type: RESET_MESSAGE,
+    });
+  };
   return (
     <empleadoContext.Provider
       value={{
         empleados: state.empleados,
-        totalEmpleados:state.totalEmpleados,
+        totalEmpleados: state.totalEmpleados,
         empleado: state.empleado,
-        mensaje: state.mensaje,
+        mensaje_empleado: state.mensaje_empleado,
         registrarEmpleado,
         obtenerEmpleados,
         obtenerTotalEmpleados,
@@ -152,6 +146,8 @@ const empleadoState = (props) => {
         eliminarEmpleado,
         seleccionarEmpleado,
         limpiarEmpleado,
+        resetMensajeEmpleado,
+        resetMensajeEmpleadoNow,
       }}
     >
       {props.children}

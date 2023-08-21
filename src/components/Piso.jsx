@@ -28,12 +28,6 @@ export const Piso = ({ piso }) => {
     }).then((result) => {
       if (result.isConfirmed) {
         eliminarPiso(id);
-        Swal.fire({
-          icon: 'success',
-          title: 'Piso eliminado',
-          showConfirmButton: false,
-          timer: 1000,
-        });
       }
     });
   };

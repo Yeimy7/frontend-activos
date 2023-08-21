@@ -25,7 +25,7 @@ export const ambienteReducer = (state = {}, action) => {
     case AGREGAR_AMBIENTE:
       const alerta = {
         msg: 'Ambiente creado exitosamente',
-        categoria: 'success',
+        type: 'success',
       };
       return {
         ...state,

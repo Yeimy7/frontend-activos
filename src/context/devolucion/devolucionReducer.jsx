@@ -4,6 +4,7 @@ import {
   DEVOLUCION_ACTUAL,
   DEVOLUCION_ERROR,
   LIMPIAR_DEVOLUCION,
+  RESET_MESSAGE,
 } from '../../types';
 export const devolucionReducer = (state = {}, action) => {
   switch (action.type) {
@@ -13,14 +14,14 @@ export const devolucionReducer = (state = {}, action) => {
         devoluciones: action.payload,
       };
     case REGISTRAR_DEVOLUCION:
-      // const alerta = {
-      //   msg: 'Área creada exitosamente',
-      //   categoria: 'success',
-      // };
+      const alerta = {
+        msg: 'Devolución registrada exitosamente',
+        type: 'success',
+      };
       return {
         ...state,
         devoluciones: [...state.devoluciones, action.payload],
-        // mensaje: alerta,
+        mensaje_devolucion: alerta,
       };
     case DEVOLUCION_ACTUAL:
       return {
@@ -28,19 +29,24 @@ export const devolucionReducer = (state = {}, action) => {
         devolucion: state.devoluciones.filter(
           (devolucion) => devolucion.id_devolucion === action.payload
         ),
-        mensaje: null,
+        mensaje_devolucion: null,
       };
 
     case DEVOLUCION_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_devolucion: action.payload,
       };
     case LIMPIAR_DEVOLUCION:
       return {
         ...state,
         devolucion: null,
-        mensaje: null,
+        mensaje_devolucion: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
+        mensaje_devolucion: null,
       };
     default:
       return state;

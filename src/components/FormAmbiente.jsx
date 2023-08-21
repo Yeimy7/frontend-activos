@@ -15,6 +15,7 @@ export const FormAmbiente = () => {
     limpiarAmbiente,
     mostrarFormulario,
     formulario,
+    mensaje_ambiente,
   } = ambientesContext;
 
   //State para Ambiente
@@ -22,10 +23,12 @@ export const FormAmbiente = () => {
     codigo_ambiente: '',
     tipo_ambiente: '',
   });
-  // const [id_ambiente, setId_ambiente] = useState('');
   const { codigo_ambiente } = ambiente;
 
   useEffect(() => {
+    if (mensaje_ambiente) {
+      muestraMensaje(mensaje_ambiente.msg, mensaje_ambiente.type);
+    }
     if (ambienteSeleccionado !== null) {
       setAmbiente(ambienteSeleccionado[0]);
       mostrarFormulario();
@@ -38,7 +41,7 @@ export const FormAmbiente = () => {
     if (formulario) {
       mostrarFormulario();
     }
-  }, [ambienteSeleccionado, formulario]);
+  }, [ambienteSeleccionado, formulario, mensaje_ambiente]);
 
   const onChangeAmbiente = (e) => {
     setAmbiente({
@@ -58,11 +61,9 @@ export const FormAmbiente = () => {
     if (ambienteSeleccionado === null) {
       //Agregar al state
       registrarAmbiente({ ...ambiente, id_piso: ambientesPiso[0].id_piso });
-      muestraMensaje('Ambiente creado exitosamente');
     } else {
       //Actualizar ambiente existente
       actualizarAmbiente(ambiente);
-      muestraMensaje('Ambiente editado exitosamente');
       //Elimina ambiente seleccionado del state
       limpiarAmbiente();
     }
@@ -92,7 +93,10 @@ export const FormAmbiente = () => {
       <div className="card-header border-bottom-0 text-bg-light my-2">
         <div className="row d-flex justify-content-md-evenly">
           <div className="col col-md-auto">
-            <h4 className="text-center">Ambientes</h4>
+            <h4 className="">Ambientes </h4>
+            {ambientesPiso ? (
+              <h6>Piso: {ambientesPiso[0]?.codigo_piso}</h6>
+            ) : null}
           </div>
           <div className="col col-md-auto">
             {ambientesPiso ? (

@@ -1,35 +1,24 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
-// import EmpleadoContext from '../../context/empleados/empleadoContext';
-import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import ActivoContext from '../../context/activos/activoContext';
 import DevolucionContext from '../../context/devolucion/devolucionContext';
-// import CargoContext from '../../context/cargos/cargoContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarDevolucion = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const activoContext = useContext(ActivoContext);
-  const {
-    activoADevolver,
-    mensaje,
-    limpiarActivoADevolver,
-    desvincularActivo,
-  } = activoContext;
+  const { activoADevolver, limpiarActivoADevolver, desvincularActivo } =
+    activoContext;
 
   const devolucionContext = useContext(DevolucionContext);
-  const { registrarDevolucion } = devolucionContext;
+  const { registrarDevolucion, mensaje_devolucion } = devolucionContext;
 
   const [descripcion_activo, setDescripcion_activo] = useState('');
   const [empleado, setEmpleado] = useState('');
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_devolucion) {
+      muestraMensaje(mensaje_devolucion.msg, mensaje_devolucion.type);
     }
     if (activoADevolver) {
       setDescripcion_activo(activoADevolver[0].descripcion_activo);
@@ -37,7 +26,7 @@ export const ModalRegistrarDevolucion = ({ stateModal, setStateModal }) => {
         `${activoADevolver[0].nombres} ${activoADevolver[0].apellidos}`
       );
     }
-  }, [mensaje, activoADevolver]);
+  }, [mensaje_devolucion, activoADevolver]);
 
   const initialForm = {
     motivo_devolucion: '',
@@ -54,12 +43,12 @@ export const ModalRegistrarDevolucion = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (motivo_devolucion.trim() === '') {
-      mostrarAlerta('El campo motivo es obligatorio', 'danger');
+      muestraMensaje('El campo motivo es obligatorio', 'error');
       return;
     }
 
     if (motivo_devolucion.length < 5) {
-      mostrarAlerta('Introduzca motivo válido', 'danger');
+      muestraMensaje('Introduzca motivo válido', 'error');
       return;
     }
 
@@ -70,12 +59,6 @@ export const ModalRegistrarDevolucion = ({ stateModal, setStateModal }) => {
       id_persona: activoADevolver[0].id_persona,
     });
     desvincularActivo({ id_activo: activoADevolver[0].id_activo });
-    Swal.fire({
-      icon: 'success',
-      title: 'Devolucion realizada exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
-    });
     handleClose();
   };
   const handleClose = () => {
@@ -94,11 +77,6 @@ export const ModalRegistrarDevolucion = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form className="row g-2" onSubmit={handleRegistrarDevolucion}>
             {activoADevolver ? (

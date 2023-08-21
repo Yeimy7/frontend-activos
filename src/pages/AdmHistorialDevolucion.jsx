@@ -2,26 +2,23 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { historialDevolucionColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import { useLayoutEffect } from 'react';
 import DevolucionContext from '../context/devolucion/devolucionContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmHistorialDevolucion = () => {
   const devolucionContext = useContext(DevolucionContext);
-  const { devoluciones, mensaje, obtenerDevoluciones} = devolucionContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { devoluciones, mensaje_devolucion, obtenerDevoluciones} = devolucionContext;
 
   const [itemsHistorialDevolucion, setItemsHistorialDevolucion] = useState([]);
 
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_devolucion) {
+      muestraMensaje(mensaje_devolucion.msg, mensaje_devolucion.type)
     }
     obtenerDevoluciones();
-  }, [mensaje]);
+  }, [mensaje_devolucion]);
 
   useLayoutEffect(() => {
     setItemsHistorialDevolucion(devoluciones);
@@ -44,11 +41,6 @@ export const AdmHistorialDevolucion = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import AlertaContext from '../context/alertas/alertaContext';
 import ListaContext from '../context/listas/listaContext';
 import { Tabla } from '../components/tabla/Tabla';
 import { porCustodios } from '../components/tabla/columns/Columns';
@@ -11,26 +10,17 @@ export const ListaGrupos = () => {
     grupos,
     obtenerPorGrupo,
     listaGrupos,
-    mensaje,
     limpiarListaGrupos,
     grupo,
     establecerGrupo,
   } = listaContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
-  // const [id_grupo, setId_grupo] = useState('');
-
   const [listaDatos, setListaDatos] = useState([]);
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
-    }
     obtenerGrupos();
     obtenerPorGrupo(grupo);
-  }, [mensaje, grupo]);
+  }, [grupo]);
 
   useLayoutEffect(() => {
     setListaDatos(listaGrupos);

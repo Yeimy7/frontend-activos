@@ -292,6 +292,7 @@ const activoState = (props) => {
         type: ASIGNAR_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje()
     } catch (error) {
       dispatch({
         type: ACTIVO_ERROR,
@@ -311,6 +312,7 @@ const activoState = (props) => {
         type: DESVINCULAR_ACTIVO,
         payload: resultado.data,
       });
+      resetMensaje()
     } catch (error) {
       dispatch({
         type: ACTIVO_ERROR,

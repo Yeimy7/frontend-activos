@@ -1,6 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { privateRoutes } from '../routers/routes';
 import {
   BsJournalCheck,
   BsJournalText,
@@ -13,6 +11,7 @@ import ActivoContext from '../context/activos/activoContext';
 import BajaContext from '../context/bajas/bajaContext';
 import EmpleadoContext from '../context/empleados/empleadoContext';
 import AuthContext from '../context/autentication/authContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const HomeApp = () => {
   const authContext = useContext(AuthContext);
@@ -24,22 +23,33 @@ export const HomeApp = () => {
     obtenerTotalAsignados,
     totalActivos,
     totalActivosAsignados,
+    mensaje,
   } = activoContext;
 
   const bajaContext = useContext(BajaContext);
-  const { obtenerTotalBajas, totalBajas } = bajaContext;
+  const { obtenerTotalBajas, totalBajas, mensaje_baja } = bajaContext;
 
   const empleadoContext = useContext(EmpleadoContext);
-  const { obtenerTotalEmpleados, totalEmpleados } = empleadoContext;
+  const { obtenerTotalEmpleados, totalEmpleados, mensaje_empleado } =
+    empleadoContext;
 
   useEffect(() => {
+    if (mensaje) {
+      muestraMensaje(mensaje.msg, mensaje.type);
+    }
+    if (mensaje_baja) {
+      muestraMensaje(mensaje_baja.msg, mensaje_baja.type);
+    }
+    if (mensaje_empleado) {
+      muestraMensaje(mensaje_empleado.msg, mensaje_empleado.type);
+    }
     if (user?.usuario[0].rol.nombre_rol !== 'Custodio') {
       obtenerTotalBajas();
       obtenerTotalEmpleados();
       obtenerTotalAsignados();
     }
     obtenerTotalActivos();
-  }, []);
+  }, [mensaje, mensaje_baja, mensaje_empleado]);
 
   return (
     <div className="container container-fluid">

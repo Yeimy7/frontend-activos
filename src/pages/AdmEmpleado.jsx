@@ -3,30 +3,28 @@ import { FaSearch } from 'react-icons/fa';
 import { ModalRegistrarEditarEmpleado } from '../components/modals/ModalRegistrarEditarEmpleado';
 import { Tabla } from '../components/tabla/Tabla';
 import { empleadoColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import EmpleadoContext from '../context/empleados/empleadoContext';
 import { useLayoutEffect } from 'react';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmEmpleado = () => {
   const empleadoContext = useContext(EmpleadoContext);
-  const { empleados, empleado, mensaje, obtenerEmpleados } = empleadoContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { empleados, empleado, mensaje_empleado, obtenerEmpleados } =
+    empleadoContext;
 
   const [modalCrearEmpleado, setModalCrearEmpleado] = useState(false);
   const [itemsEmpleado, setItemsEmpleado] = useState([]);
 
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_empleado) {
+      muestraMensaje(mensaje_empleado.msg, mensaje_empleado.type);
     }
     if (empleado) {
       setModalCrearEmpleado(true);
     }
     obtenerEmpleados();
-  }, [mensaje,empleado]);
+  }, [mensaje_empleado, empleado]);
 
   useLayoutEffect(() => {
     setItemsEmpleado(empleados);
@@ -49,11 +47,6 @@ export const AdmEmpleado = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

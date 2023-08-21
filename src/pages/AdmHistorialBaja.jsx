@@ -3,25 +3,22 @@ import { useLayoutEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { historialBajaColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import BajaContext from '../context/bajas/bajaContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmHistorialBaja = () => {
   const bajaContext = useContext(BajaContext);
-  const { bajas, mensaje, obtenerBajas} = bajaContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { bajas, mensaje_baja, obtenerBajas} = bajaContext;
 
   const [itemsHistorialBaja, setItemsHistorialBaja] = useState([]);
 
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_baja) {
+      muestraMensaje(mensaje_baja.msg, mensaje_baja.type)
     }
     obtenerBajas();
-  }, [mensaje]);
+  }, [mensaje_baja]);
 
   useLayoutEffect(() => {
     setItemsHistorialBaja(bajas);
@@ -44,11 +41,6 @@ export const AdmHistorialBaja = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

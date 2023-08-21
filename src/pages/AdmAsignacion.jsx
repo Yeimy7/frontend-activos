@@ -3,16 +3,13 @@ import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { asignacionColumns } from '../components/tabla/columns/Columns';
 import { ModalRegistrarAsignacion } from '../components/modals/ModalRegistrarAsignacion';
-import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import { useLayoutEffect } from 'react';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmAsignacion = () => {
   const activoContext = useContext(ActivoContext);
   const { activosAsignados, mensaje, obtenerActivosAsignados } = activoContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const [modalCrearAsignacion, setModalCrearAsignacion] = useState(false);
   const [itemsAsignacion, setItemsAsignacion] = useState([]);
@@ -20,7 +17,7 @@ export const AdmAsignacion = () => {
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type)
     }
     obtenerActivosAsignados();
   }, [mensaje]);
@@ -46,11 +43,6 @@ export const AdmAsignacion = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

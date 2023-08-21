@@ -1,12 +1,17 @@
 import React, { useContext, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import DepreciacionContext from '../context/depreciacion/depreciacionContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 import { useForm } from '../hooks/useForm';
 
 export const AdmDepreciar = () => {
   const depreciacionContext = useContext(DepreciacionContext);
-  const { gestion, obtenerGestion, realizarDepreciacion, mensaje } =
-    depreciacionContext;
+  const {
+    gestion,
+    obtenerGestion,
+    realizarDepreciacion,
+    mensaje_depreciacion,
+  } = depreciacionContext;
 
   const initialForm = {
     ufv_actual: '',
@@ -14,28 +19,17 @@ export const AdmDepreciar = () => {
   const [formValues, handleInputChange, reset] = useForm(initialForm);
   const { ufv_actual } = formValues;
 
-  const msj = (msj, icon = 'success') => {
-    Swal.fire({
-      icon,
-      html: `
-      <p>${msj}</p>
-        `,
-      showConfirmButton: false,
-      timer: 3000,
-    });
-  };
-
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      msj(mensaje);
+    if (mensaje_depreciacion) {
+      muestraMensaje(mensaje_depreciacion.msg, mensaje_depreciacion.type);
     }
     obtenerGestion();
-  }, [mensaje]);
+  }, [mensaje_depreciacion]);
 
   const handleDepreciar = async () => {
     if (!ufv_actual) {
-      msj('Debe introducir el valor UFV actual', 'error');
+      muestraMensaje('Debe introducir el valor UFV actual', 'error');
       return;
     }
     try {
@@ -57,9 +51,8 @@ export const AdmDepreciar = () => {
         reset();
       });
     } catch (error) {
-      console.log(error);
       reset();
-      msj('Error, vuelva a intentarlo por favor', 'error');
+      muestraMensaje('Error, vuelva a intentarlo por favor', 'error');
       return;
     }
   };
@@ -77,8 +70,7 @@ export const AdmDepreciar = () => {
       realizarDepreciacion({ ufv_actual, gestion });
       reset();
     } catch (error) {
-      console.log(error);
-      msj(error, 'error');
+      muestraMensaje(error, 'error');
       Swal.close();
     }
   };

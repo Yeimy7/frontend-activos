@@ -4,7 +4,7 @@ import {
   REALIZAR_DEPRECIACION,
   REGISTRAR_VALOR,
   DEPRECIACION_ERROR,
-  LIMPIAR_MENSAJE_DEPRECIACION
+  LIMPIAR_MENSAJE_DEPRECIACION,
 } from '../../types';
 export const depreciacionReducer = (state = {}, action) => {
   switch (action.type) {
@@ -21,18 +21,18 @@ export const depreciacionReducer = (state = {}, action) => {
     case REALIZAR_DEPRECIACION:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_depreciacion: action.payload,
       };
 
     case DEPRECIACION_ERROR:
       return {
         ...state,
-        mensaje: action.payload,
+        mensaje_depreciacion: action.payload,
       };
     case LIMPIAR_MENSAJE_DEPRECIACION:
       return {
         ...state,
-        mensaje: null,
+        mensaje_depreciacion: null,
       };
     default:
       return state;

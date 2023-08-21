@@ -8,28 +8,20 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
   // Extraer los valores del context
 
   const edificioContext = useContext(EdificioContext);
-  const {
-    mensaje,
-    edificio,
-    registrarEdificio,
-    limpiarEdificio,
-    actualizarEdificio,
-  } = edificioContext;
+  const { edificio, registrarEdificio, limpiarEdificio, actualizarEdificio } =
+    edificioContext;
 
   const [form, setForm] = useState({
     nombre_edificio: '',
   });
 
   useEffect(() => {
-    if (mensaje) {
-      muestraMensaje(mensaje.msg, mensaje.categoria)
-    }
     if (edificio) {
       setForm({
         nombre_edificio: edificio[0].nombre_edificio,
       });
     }
-  }, [mensaje, edificio]);
+  }, [edificio]);
 
   const handleInputChange = ({ target }) => {
     setForm({
@@ -46,11 +38,11 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (form.nombre_edificio.trim() === '') {
-      muestraMensaje('Los campos * son obligatorios', 'error')
+      muestraMensaje('Los campos * son obligatorios', 'error');
       return;
     }
     if (form.nombre_edificio && form.nombre_edificio.length < 3) {
-      muestraMensaje('Introduzca un nombre válido', 'error')
+      muestraMensaje('Introduzca un nombre válido', 'error');
       return;
     }
     registrarEdificio({
@@ -69,12 +61,6 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
         id_edificio: edificio[0].id_edificio,
         nombre_edificio: form.nombre_edificio,
       });
-      Swal.fire({
-        icon: 'success',
-        title: 'Edificio editado correctamente',
-        showConfirmButton: false,
-        timer: 1500,
-      });
     }
     handleClose();
   };
@@ -92,7 +78,6 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-
         <div className="container-fluid my-3">
           <form
             className="row g-2"

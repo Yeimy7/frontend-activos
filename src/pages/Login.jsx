@@ -40,7 +40,7 @@ export const Login = () => {
     e.preventDefault();
     //Validar que no haya campos vacios
     if (email.trim() === '' || password.trim() === '') {
-      mostrarAlerta('Todos los campos son obligatorios', 'danger');
+      muestraMensaje('Todos los campos son obligatorios', 'error')
       return;
     }
     //Pasarlo al action

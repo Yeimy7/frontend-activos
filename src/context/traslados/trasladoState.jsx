@@ -44,15 +44,11 @@ const trasladoState = (props) => {
         payload: resultado.data,
       });
     } catch (error) {
-      console.log(error);
-      const alerta = {
-        msg: error.response.data.msg,
-        categoria: 'danger',
-      };
       dispatch({
         type: TRASLADO_ERROR,
-        payload: alerta,
+        payload: error.response.data
       });
+      resetMensajeTraslado()
     }
   };
   // Actualizar traslado

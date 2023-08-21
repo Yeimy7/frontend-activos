@@ -3,25 +3,22 @@ import { useLayoutEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { historialTrasladoColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import TrasladoContext from '../context/traslados/trasladoContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmHistorialTraslado = () => {
   const trasladoContext = useContext(TrasladoContext);
-  const { traslados, mensaje, obtenerTraslados} = trasladoContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
+  const { traslados, mensaje_traslado, obtenerTraslados} = trasladoContext;
 
   const [itemsHistorialTraslado, setItemsHistorialTraslado] = useState([]);
 
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_traslado) {
+      muestraMensaje(mensaje_traslado.msg, mensaje_traslado.type)
     }
     obtenerTraslados();
-  }, [mensaje]);
+  }, [mensaje_traslado]);
 
   useLayoutEffect(() => {
     setItemsHistorialTraslado(traslados);
@@ -46,11 +43,6 @@ export const AdmHistorialTraslado = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

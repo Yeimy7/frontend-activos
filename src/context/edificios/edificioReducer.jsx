@@ -7,6 +7,8 @@ import {
   LIMPIAR_EDIFICIO,
   ACTUALIZAR_EDIFICIO,
   PISOS_EDIFICIO,
+  RESET_MESSAGE,
+  LIMPIAR_PISOS_EDIFICIO,
 } from '../../types';
 export const edificioReducer = (state = {}, action) => {
   switch (action.type) {
@@ -18,7 +20,7 @@ export const edificioReducer = (state = {}, action) => {
     case AGREGAR_EDIFICIO:
       const alerta = {
         msg: 'Edificio creado exitosamente',
-        categoria: 'success',
+        type: 'success',
       };
       return {
         ...state,
@@ -34,7 +36,7 @@ export const edificioReducer = (state = {}, action) => {
             : edificio
         ),
         edificio: null,
-        mensaje: null,
+        mensaje: { msg: 'Edificio editado exitosamente', type: 'success' },
       };
     case EDIFICIO_ACTUAL:
       return {
@@ -52,12 +54,19 @@ export const edificioReducer = (state = {}, action) => {
         ),
         mensaje: null,
       };
+    case LIMPIAR_PISOS_EDIFICIO:
+      return {
+        ...state,
+        pisosEdificio: null,
+        formulario: false,
+      };
     case BAJA_EDIFICIO:
       return {
         ...state,
         edificios: state.edificios.filter(
           (edificio) => edificio.id_edificio !== action.payload
         ),
+        mensaje: { msg: 'Edificio eliminado exitosamente', type: 'success' },
       };
     case EDIFICIO_ERROR:
       return {
@@ -68,6 +77,11 @@ export const edificioReducer = (state = {}, action) => {
       return {
         ...state,
         edificio: null,
+        mensaje: null,
+      };
+    case RESET_MESSAGE:
+      return {
+        ...state,
         mensaje: null,
       };
     default:

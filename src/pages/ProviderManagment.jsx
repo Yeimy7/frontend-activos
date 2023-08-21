@@ -2,28 +2,25 @@ import React, { useContext, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import { CardProvider } from '../components/CardProvider';
 import { ModalRegistrarEditarProveedor } from '../components/modals/ModalRegistrarEditarProveedor';
-import AlertaContext from '../context/alertas/alertaContext';
 import ProveedorContext from '../context/proveedores/proveedorContext';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const ProviderManagment = () => {
   const proveedorContext = useContext(ProveedorContext);
-  const { proveedores, proveedor, mensaje, obtenerProveedores } =
+  const { proveedores, proveedor, mensaje_proveedor, obtenerProveedores } =
     proveedorContext;
-
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const [modalCreateProvider, setModalCreateProvider] = useState(false);
   useEffect(() => {
     // Si hay un error
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_proveedor) {
+      muestraMensaje(mensaje_proveedor.msg, mensaje_proveedor.type)
     }
     if (proveedor) {
       setModalCreateProvider(true);
     }
     obtenerProveedores();
-  }, [mensaje, proveedor]);
+  }, [mensaje_proveedor, proveedor]);
 
   //State para Proyecto
   const [searchProvider, setSearchProvider] = useState('');
@@ -35,11 +32,6 @@ export const ProviderManagment = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">

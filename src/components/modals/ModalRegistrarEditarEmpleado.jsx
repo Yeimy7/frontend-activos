@@ -1,22 +1,17 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import EmpleadoContext from '../../context/empleados/empleadoContext';
-import Swal from 'sweetalert2';
 import { useForm } from '../../hooks/useForm';
 import CargoContext from '../../context/cargos/cargoContext';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
-  // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
 
   const cargoContext = useContext(CargoContext);
-  const { obtenerCargos, cargos } = cargoContext;
+  const { obtenerCargos, cargos, mensaje_cargo } = cargoContext;
 
   const empleadoContext = useContext(EmpleadoContext);
   const {
-    mensaje,
     empleado,
     registrarEmpleado,
     limpiarEmpleado,
@@ -27,8 +22,8 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
   const [descripcion_cargo, setDescripcion_cargo] = useState('');
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+    if (mensaje_cargo) {
+      muestraMensaje(mensaje_cargo.msg, mensaje_cargo.type)
     }
     if (empleado) {
       setFecha_incorporacion(empleado[0].fecha_incorporacion);
@@ -37,7 +32,7 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
     if (!empleado) {
       obtenerCargos();
     }
-  }, [mensaje, empleado]);
+  }, [mensaje_cargo, empleado]);
 
   const initialForm = {
     nombres: '',
@@ -65,7 +60,7 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
       ci.trim() === '' ||
       descripcion_cargo.trim() === ''
     ) {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error')
       return;
     }
 
@@ -76,29 +71,15 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
       (fecha_incorporacion && fecha_incorporacion.length < 8) ||
       descripcion_cargo.length < 2
     ) {
-      mostrarAlerta('Introduzca datos válidos', 'danger');
+      muestraMensaje('Introduzca datos válidos', 'error');
       return;
     }
-    // console.log({
-    //   nombres,
-    //   apellidos,
-    //   ci,
-    //   fecha_incorporacion,
-    //   descripcion_cargo,
-    // });
-
     registrarEmpleado({
       nombres,
       apellidos,
       ci,
       fecha_incorporacion,
       descripcion_cargo,
-    });
-    Swal.fire({
-      icon: 'success',
-      title: 'Empleado creado exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
     });
     resetForm();
     reset();
@@ -108,31 +89,19 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
   const handleEditarEmpleado = (e) => {
     e.preventDefault();
     if (fecha_incorporacion && fecha_incorporacion.length < 8) {
-      mostrarAlerta('Introduzca una fecha válida', 'danger');
+      muestraMensaje('Introduzca una fecha válida', 'error');
       return;
     }
     if (
       fecha_incorporacion !== empleado.fecha_incorporacion ||
       descripcion_cargo !== empleado['cargo.descripcion_cargo']
     ) {
-      // console.log({
-      //   id_persona: empleado.id_persona,
-      //   fecha_incorporacion: fecha_incorporacion,
-      //   descripcion_cargo: descripcion_cargo,
-      // });
       actualizarEmpleado({
         id_persona: empleado[0].id_persona,
         fecha_incorporacion: fecha_incorporacion,
         descripcion_cargo: descripcion_cargo,
       });
     }
-
-    Swal.fire({
-      icon: 'success',
-      title: 'Empleado editado correctamente',
-      showConfirmButton: false,
-      timer: 1500,
-    });
     handleClose();
   };
   const handleClose = () => {
@@ -151,11 +120,6 @@ export const ModalRegistrarEditarEmpleado = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form
             className="row g-2"

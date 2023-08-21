@@ -3,9 +3,9 @@ import { FaSearch } from 'react-icons/fa';
 import { Tabla } from '../components/tabla/Tabla';
 import { ModalRegistrarDevolucion } from '../components/modals/ModalRegistrarDevolucion';
 import { devolucionColumns } from '../components/tabla/columns/Columns';
-import AlertaContext from '../context/alertas/alertaContext';
 import ActivoContext from '../context/activos/activoContext';
 import { useLayoutEffect } from 'react';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const AdmDevolucion = () => {
   const activoContext = useContext(ActivoContext);
@@ -16,16 +16,13 @@ export const AdmDevolucion = () => {
     activoADevolver,
   } = activoContext;
 
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const [modalCrearDevolucion, setModalCrearDevolucion] = useState(false);
   const [itemsAsignacion, setItemsAsignacion] = useState([]);
 
   useEffect(() => {
     // Si hay un error
     if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
+      muestraMensaje(mensaje.msg, mensaje.type);
     }
     if (activoADevolver) {
       setModalCrearDevolucion(true);
@@ -54,17 +51,10 @@ export const AdmDevolucion = () => {
   return (
     <div className="content-wrapper">
       <section className="content-header">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid">
           <div className="row mb-2">
             <div className="col">
-              <h1>
-                Devolución de activos
-              </h1>
+              <h1>Devolución de activos</h1>
             </div>
           </div>
         </div>

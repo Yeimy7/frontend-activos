@@ -1,16 +1,12 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Modal } from './Modal';
-import AlertaContext from '../../context/alertas/alertaContext';
 import AreaContext from '../../context/areas/areaContext';
-import Swal from 'sweetalert2';
+import { muestraMensaje } from '../../helpers/muestraMensaje';
 
 export const ModalRegistrarEditarArea = ({ stateModal, setStateModal }) => {
   // Extraer los valores del context
-  const alertaContext = useContext(AlertaContext);
-  const { alerta, mostrarAlerta } = alertaContext;
-
   const areaContext = useContext(AreaContext);
-  const { mensaje, area, registrarArea, limpiarArea, actualizarArea } =
+  const { area, registrarArea, limpiarArea, actualizarArea } =
     areaContext;
 
   const [form, setForm] = useState({
@@ -19,16 +15,13 @@ export const ModalRegistrarEditarArea = ({ stateModal, setStateModal }) => {
   });
 
   useEffect(() => {
-    if (mensaje) {
-      mostrarAlerta(mensaje.msg, mensaje.categoria);
-    }
     if (area) {
       setForm({
         nombre_area: area[0].nombre_area,
         codigo_area: area[0].codigo_area,
       });
     }
-  }, [mensaje, area]);
+  }, [area]);
 
   const handleInputChange = ({ target }) => {
     setForm({
@@ -45,37 +38,31 @@ export const ModalRegistrarEditarArea = ({ stateModal, setStateModal }) => {
     e.preventDefault();
     // Validar que no hayan campos vacios
     if (form.nombre_area.trim() === '' || form.codigo_area.trim() === '') {
-      mostrarAlerta('Los campos * son obligatorios', 'danger');
+      muestraMensaje('Los campos * son obligatorios', 'error')
       return;
     }
     if (form.nombre_area.length < 3) {
-      mostrarAlerta('Introduzca nombre de área válido', 'danger');
+      muestraMensaje('Introduzca nombre de área válido', 'error')
       return;
     }
     if (form.codigo_area.length < 2) {
-      mostrarAlerta('Introduzca un código de área válido', 'danger');
+      muestraMensaje('Introduzca un código de área válido', 'error')
       return;
     }
     registrarArea({
       nombre_area: form.nombre_area,
       codigo_area: form.codigo_area,
     });
-    Swal.fire({
-      icon: 'success',
-      title: 'Área creada exitosamente',
-      showConfirmButton: false,
-      timer: 1500,
-    });
     reset();
   };
   const handleEditarArea = (e) => {
     e.preventDefault();
     if (form.nombre_area && form.nombre_area.length < 3) {
-      mostrarAlerta('Introduzca nombre de área válido', 'danger');
+      muestraMensaje('Introduzca nombre de área válido', 'error')
       return;
     }
     if (form.codigo_area && form.codigo_area.length < 2) {
-      mostrarAlerta('Introduzca código válido', 'danger');
+      muestraMensaje('Introduzca código válido', 'error')
       return;
     }
     if (
@@ -86,12 +73,6 @@ export const ModalRegistrarEditarArea = ({ stateModal, setStateModal }) => {
         id_area: area[0].id_area,
         nombre_area: form.nombre_area,
         codigo_area: form.codigo_area,
-      });
-      Swal.fire({
-        icon: 'success',
-        title: 'Área editada correctamente',
-        showConfirmButton: false,
-        timer: 1500,
       });
     }
     handleClose();
@@ -110,11 +91,6 @@ export const ModalRegistrarEditarArea = ({ stateModal, setStateModal }) => {
       btnClose={false}
     >
       <div className="container">
-        {alerta ? (
-          <div className={`alert alert-${alerta.categoria}`} role="alert">
-            {alerta.msg}
-          </div>
-        ) : null}
         <div className="container-fluid my-3">
           <form
             className="row g-2"

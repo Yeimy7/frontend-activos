@@ -1,23 +1,24 @@
-import React, { useContext, useEffect, useLayoutEffect, useState } from 'react';
-import AlertaContext from '../context/alertas/alertaContext';
+import React, { useContext, useEffect, useState } from 'react';
 import ListaContext from '../context/listas/listaContext';
-import { Tabla } from '../components/tabla/Tabla';
-import { porCustodios } from '../components/tabla/columns/Columns';
 import { ListaCustodios } from '../components/ListaCustodios';
 import { ListaGrupos } from '../components/ListaGrupos';
 import { ListaEntidades } from '../components/ListaEntidades';
 import Swal from 'sweetalert2';
 import clienteAxios from '../config/axios';
 import { FaFilePdf } from 'react-icons/fa';
+import { muestraMensaje } from '../helpers/muestraMensaje';
 
 export const ListarActivos = () => {
   const listaContext = useContext(ListaContext);
-  const { entidad, custodio, grupo } = listaContext;
-
-  // const alertaContext = useContext(AlertaContext);
-  // const { alerta, mostrarAlerta } = alertaContext;
+  const { entidad, custodio, grupo, mensaje_lista } = listaContext;
 
   const [tabla, setTabla] = useState(1);
+
+  useEffect(() => {
+    if (mensaje_lista) {
+      muestraMensaje(mensaje_lista.msg, mensaje_lista.type);
+    }
+  }, [mensaje_lista]);
 
   const handleOne = () => {
     setTabla(1);
@@ -75,7 +76,6 @@ export const ListarActivos = () => {
       },
     });
     try {
-      console.log(url);
       const response = await clienteAxios.post(
         url,
         {},
@@ -95,20 +95,6 @@ export const ListarActivos = () => {
 
   return (
     <div>
-      {/* <div>
-        <button onClick={handleOne}>Tabla 1</button>
-        <button onClick={handleTwo}>Tabla 2</button>
-        <button onClick={handleThree}>Tabla 3</button>
-      </div>
-      <div>
-        {tabla === 1 ? (
-          <ListaCustodios />
-        ) : tabla === 2 ? (
-          <ListaGrupos />
-        ) : (
-          <ListaEntidades />
-        )}
-      </div> */}
       <div className="content-wrapper">
         <section className="content-header">
           <div className="container-fluid">
