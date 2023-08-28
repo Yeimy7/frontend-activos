@@ -74,7 +74,7 @@ export const CardEdificio = ({ edificioData }) => {
           className="card-header text-muted border-bottom-0 text-bg-light cursor"
           onClick={handleObtenerPisos}
         >
-          <span className="badge text-bg-secondary">Edificio</span>
+          <span className="badge text-bg-secondary">Bloque</span>
         </div>
         <div className="card-body pt-0 cursor" onClick={handleObtenerPisos}>
           <div className="row">

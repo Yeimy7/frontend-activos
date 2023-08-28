@@ -149,14 +149,14 @@ export const Sidebar = () => {
                       <span>Lista de traslados</span>
                     </Link>
                   </li>
-                  <li>
-                    <Link to={`/${privateRoutes.LISTA_ACTIVOS}`}>
-                      <FaListAlt />
-                      <span>Listas filtradas</span>
-                    </Link>
-                  </li>
                 </>
               ) : null}
+              <li>
+                <Link to={`/${privateRoutes.LISTA_ACTIVOS}`}>
+                  <FaListAlt />
+                  <span>Listas filtradas</span>
+                </Link>
+              </li>
             </ul>
           </li>
 
@@ -280,7 +280,7 @@ export const Sidebar = () => {
                   <li>
                     <Link to={`/${privateRoutes.ADM_ESTRUCTURA}`}>
                       <FaBuilding />
-                      <span>Estructura</span>
+                      <span>Infraestructura</span>
                     </Link>
                   </li>
                   <li>

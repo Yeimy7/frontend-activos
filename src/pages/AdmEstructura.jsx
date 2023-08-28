@@ -33,13 +33,13 @@ export const AdmEstructura = () => {
           <div className="row mb-2">
             <div className="col">
               <h1>
-                Gestión estructura
+                Gestión infraestructura
                 <button
                   type="button"
                   className="btn btn-primary mx-4"
                   onClick={() => setModalCreateEdificio(true)}
                 >
-                  Crear edificio
+                  Crear bloque
                 </button>
               </h1>
             </div>
@@ -61,7 +61,7 @@ export const AdmEstructura = () => {
               >
                 {!edificios || edificios.length === 0 ? (
                   <p className="text-center fs-6 text-muted">
-                    No existen edificios registrados
+                    No existen bloques registrados
                   </p>
                 ) : (
                   edificios.map((item) => (
@@ -77,7 +77,7 @@ export const AdmEstructura = () => {
         <div className="card p-3">
           {pisosEdificio ? (
             <div className="card-header border-bottom-0 text-bg-light">
-              <h4 className="text-center">{`Edificio: ${pisosEdificio[0].nombre_edificio}`}</h4>
+              <h4 className="text-center">{`Bloque: ${pisosEdificio[0].nombre_edificio}`}</h4>
             </div>
           ) : null}
           <div className="card-body">

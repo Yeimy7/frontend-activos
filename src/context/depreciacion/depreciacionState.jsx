@@ -68,12 +68,12 @@ const depreciacionState = (props) => {
       resetMensajeDepreciacion();
       dispatch({
         type: REALIZAR_DEPRECIACION,
-        payload: resultado.data.msj,
+        payload: resultado.data,
       });
     } catch (error) {
       dispatch({
         type: DEPRECIACION_ERROR,
-        payload: error.response.data.msj,
+        payload: error.response.data,
       });
       resetMensajeDepreciacion();
     }

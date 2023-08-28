@@ -12,7 +12,7 @@ export const ListaPisos = () => {
   const { pisos } = pisosContext;
   
   //Si no hay edificio seleccionado
-  if (!pisosEdificio) return <h5 className='text-center fs-6 text-muted'>Seleccione un edificio</h5>;
+  if (!pisosEdificio) return <h5 className='text-center fs-6 text-muted'>Seleccione un bloque</h5>;
 
 
   return (

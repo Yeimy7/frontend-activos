@@ -73,7 +73,7 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
     <Modal
       stateModal={stateModal}
       setStateModal={setStateModal}
-      title={`${edificio ? 'Editar edificio' : 'Registrar edificio'}`}
+      title={`${edificio ? 'Editar bloque' : 'Registrar bloque'}`}
       size="50"
       btnClose={false}
     >
@@ -92,7 +92,7 @@ export const ModalRegistrarEditarEdificio = ({ stateModal, setStateModal }) => {
                 className="form-control"
                 id="nombre_edificio"
                 name="nombre_edificio"
-                placeholder="Ingrese el nombre del edificio"
+                placeholder="Ingrese el nombre del bloque"
                 autoComplete="off"
                 value={form.nombre_edificio}
                 onChange={handleInputChange}
