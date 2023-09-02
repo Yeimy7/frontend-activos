@@ -3,7 +3,7 @@ import { CardEdificio } from '../components/CardEdificio';
 import { FormAmbiente } from '../components/FormAmbiente';
 import { FormPiso } from '../components/FormPiso';
 import { ListaPisos } from '../components/ListaPisos';
-import { TablaAmbientes } from '../components/tablaAmbientes';
+import { TablaAmbientes } from '../components/TablaAmbientes';
 import { ModalRegistrarEditarEdificio } from '../components/modals/ModalRegistrarEditarEdificio';
 import EdificioContext from '../context/edificios/edificioContext';
 import { muestraMensaje } from '../helpers/muestraMensaje';
